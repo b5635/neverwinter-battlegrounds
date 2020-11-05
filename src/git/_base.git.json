@@ -3160,7 +3160,7 @@
         },
         "Tag": {
           "type": "cexostring",
-          "value": "WP_START"
+          "value": "WP_START_NONE"
         },
         "TemplateResRef": {
           "type": "resref",
@@ -3172,7 +3172,7 @@
         },
         "XPosition": {
           "type": "float",
-          "value": 14.9181
+          "value": 15.0173
         },
         "YOrientation": {
           "type": "float",
@@ -3180,7 +3180,7 @@
         },
         "YPosition": {
           "type": "float",
-          "value": 35.2882
+          "value": 35.3025
         },
         "ZPosition": {
           "type": "float",

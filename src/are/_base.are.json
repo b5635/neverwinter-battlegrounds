@@ -148,7 +148,7 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "_base"
+    "value": "_BASE"
   },
   "Tile_List": {
     "type": "list",
