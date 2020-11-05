@@ -11,21 +11,17 @@
         "__struct_id": 6,
         "Area_Name": {
           "type": "resref",
-          "value": "_base"
+          "value": "_choice"
         }
       },
       {
         "__struct_id": 6,
         "Area_Name": {
           "type": "resref",
-          "value": "_welcome"
+          "value": "_base"
         }
       }
     ]
-  },
-  "Mod_CacheNSSList": {
-    "type": "list",
-    "value": []
   },
   "Mod_Creator_ID": {
     "type": "int",
@@ -45,7 +41,9 @@
   },
   "Mod_Description": {
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": ""
+    }
   },
   "Mod_DuskHour": {
     "type": "byte",
@@ -53,23 +51,23 @@
   },
   "Mod_Entry_Area": {
     "type": "resref",
-    "value": "_welcome"
+    "value": "_choice"
   },
   "Mod_Entry_Dir_X": {
     "type": "float",
-    "value": 0.0
+    "value": 0.0245
   },
   "Mod_Entry_Dir_Y": {
     "type": "float",
-    "value": 1.0
+    "value": 0.9997
   },
   "Mod_Entry_X": {
     "type": "float",
-    "value": 24.8414
+    "value": 24.9801
   },
   "Mod_Entry_Y": {
     "type": "float",
-    "value": 14.977
+    "value": 15.033
   },
   "Mod_Entry_Z": {
     "type": "float",
@@ -93,7 +91,7 @@
   },
   "Mod_MinGameVer": {
     "type": "cexostring",
-    "value": "1.80"
+    "value": "1.81"
   },
   "Mod_MinPerHour": {
     "type": "byte",
@@ -102,20 +100,20 @@
   "Mod_Name": {
     "type": "cexolocstring",
     "value": {
-      "0": "Capture_the_Flag"
+      "0": "PvP"
     }
   },
   "Mod_OnAcquirItem": {
     "type": "resref",
-    "value": "x2_mod_def_aqu"
+    "value": ""
   },
   "Mod_OnActvtItem": {
     "type": "resref",
-    "value": "x2_mod_def_act"
+    "value": ""
   },
   "Mod_OnClientEntr": {
     "type": "resref",
-    "value": "x3_mod_def_enter"
+    "value": "on_pc_enter"
   },
   "Mod_OnClientLeav": {
     "type": "resref",
@@ -131,7 +129,7 @@
   },
   "Mod_OnModLoad": {
     "type": "resref",
-    "value": "x2_mod_def_load"
+    "value": "on_mod_load"
   },
   "Mod_OnModStart": {
     "type": "resref",
@@ -143,15 +141,15 @@
   },
   "Mod_OnPlrDeath": {
     "type": "resref",
-    "value": "nw_o0_death"
+    "value": ""
   },
   "Mod_OnPlrDying": {
     "type": "resref",
-    "value": "nw_o0_dying"
+    "value": ""
   },
   "Mod_OnPlrEqItm": {
     "type": "resref",
-    "value": "x2_mod_def_equ"
+    "value": ""
   },
   "Mod_OnPlrLvlUp": {
     "type": "resref",
@@ -159,19 +157,19 @@
   },
   "Mod_OnPlrRest": {
     "type": "resref",
-    "value": "x2_mod_def_rest"
+    "value": ""
   },
   "Mod_OnPlrUnEqItm": {
     "type": "resref",
-    "value": "x2_mod_def_unequ"
+    "value": ""
   },
   "Mod_OnSpawnBtnDn": {
     "type": "resref",
-    "value": "nw_o0_respawn"
+    "value": ""
   },
   "Mod_OnUnAqreItem": {
     "type": "resref",
-    "value": "x2_mod_def_unaqu"
+    "value": ""
   },
   "Mod_OnUsrDefined": {
     "type": "resref",
