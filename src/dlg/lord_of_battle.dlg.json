@@ -590,7 +590,7 @@
         },
         "Script": {
           "type": "resref",
-          "value": ""
+          "value": "lord_join_random"
         },
         "Sound": {
           "type": "resref",

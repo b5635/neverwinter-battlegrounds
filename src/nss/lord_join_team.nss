@@ -4,6 +4,11 @@ void main()
 {
     object oPC = GetPCSpeaker();
 
+    if (GetScriptParam("object_self") == "1") oPC = OBJECT_SELF;
+
+    if (!GetIsPC(oPC)) return;
+    if (GetIsDM(oPC)) return;
+
     string sTeam = GetScriptParam("team");
 
     struct Teams stTeam = GetData();
