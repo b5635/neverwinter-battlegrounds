@@ -1,0 +1,40 @@
+# Ignore everything
+*
+
+!.gitignore
+!.gitattributes
+
+# Whitelist devserver files
+!docker-compose.yml
+!config/common.env
+!config/nwserver.env
+!settings.tml
+!tools/
+!tools/**
+!config/
+!config/**
+
+# Whitelist the override folder but make sure these 2das never get committed
+!override/
+!override/**
+override/env.2da
+override/env_dm.2da
+
+# Keep this folder so install doesn't break
+!install/.keep
+
+# Whitelist sources and nasher files
+!nasher.cfg
+!src/
+!src/**
+!presets/
+!presets/**
+
+# Whitelist batch and readme files
+!*.bat
+!*.md
+
+# Never commit these file types
+*.mod
+*.ncs
+
