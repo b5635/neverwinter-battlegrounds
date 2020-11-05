@@ -96,7 +96,7 @@
   },
   "OnEnter": {
     "type": "resref",
-    "value": ""
+    "value": "enter_choice"
   },
   "OnExit": {
     "type": "resref",

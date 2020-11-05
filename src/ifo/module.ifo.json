@@ -55,23 +55,23 @@
   },
   "Mod_Entry_Dir_X": {
     "type": "float",
-    "value": 0.0245
+    "value": 0.0
   },
   "Mod_Entry_Dir_Y": {
     "type": "float",
-    "value": 0.9997
+    "value": 1.0
   },
   "Mod_Entry_X": {
     "type": "float",
-    "value": 24.0
+    "value": 24.9607
   },
   "Mod_Entry_Y": {
     "type": "float",
-    "value": 15.0
+    "value": 14.9463
   },
   "Mod_Entry_Z": {
     "type": "float",
-    "value": 0.0
+    "value": 0.6
   },
   "Mod_Expan_List": {
     "type": "list",
