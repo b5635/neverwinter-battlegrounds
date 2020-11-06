@@ -11,6 +11,13 @@
         "__struct_id": 6,
         "Area_Name": {
           "type": "resref",
+          "value": "_base"
+        }
+      },
+      {
+        "__struct_id": 6,
+        "Area_Name": {
+          "type": "resref",
           "value": "_choice"
         }
       },
@@ -18,7 +25,7 @@
         "__struct_id": 6,
         "Area_Name": {
           "type": "resref",
-          "value": "_base"
+          "value": "_seed"
         }
       }
     ]
@@ -63,11 +70,11 @@
   },
   "Mod_Entry_X": {
     "type": "float",
-    "value": 24.9607
+    "value": 24.9523
   },
   "Mod_Entry_Y": {
     "type": "float",
-    "value": 14.9463
+    "value": 14.9678
   },
   "Mod_Entry_Z": {
     "type": "float",

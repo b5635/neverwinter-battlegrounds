@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
     pvp-server:
-        hostname: pvp_server_
+        hostname: pvp_server
         container_name: pvp_server
         image:  nwnxee/unified:c64661b
         env_file:

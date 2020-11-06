@@ -1,6 +1,8 @@
 #include "x3_inc_string"
 #include "inc_constants"
 #include "nwnx_area"
+#include "nwnx_util"
+#include "nwnx_admin"
 
 void InitializeBase(string sTeam, int nColor)
 {
@@ -23,8 +25,15 @@ void InitializeBase(string sTeam, int nColor)
 
 void main()
 {
+// Set a very high instruction limit so we can run the initialization scripts without TMI
+    NWNX_Util_SetInstructionLimit(52428888);
+
+    ExecuteScript("generate_items");
+
     InitializeBase(TEAM_BLUE, FOG_COLOR_BLUE);
     InitializeBase(TEAM_RED, FOG_COLOR_RED);
 
     DestroyArea(GetObjectByTag("_BASE"));
+
+    NWNX_Util_SetInstructionLimit(-1);
 }

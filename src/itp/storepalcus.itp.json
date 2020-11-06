@@ -9,6 +9,22 @@
           "type": "byte",
           "value": 5
         },
+        "LIST": {
+          "type": "list",
+          "value": [
+            {
+              "__struct_id": 0,
+              "NAME": {
+                "type": "cexostring",
+                "value": "mer_template"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "mer_template"
+              }
+            }
+          ]
+        },
         "STRREF": {
           "type": "dword",
           "value": 6789

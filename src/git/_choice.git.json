@@ -138,7 +138,7 @@
         },
         "ChallengeRating": {
           "type": "float",
-          "value": 34.0
+          "value": 35.0
         },
         "ClassList": {
           "type": "list",
@@ -235,7 +235,7 @@
               },
               "Cost": {
                 "type": "dword",
-                "value": 17
+                "value": 40
               },
               "Cursed": {
                 "type": "byte",
@@ -455,7 +455,7 @@
               },
               "Cost": {
                 "type": "dword",
-                "value": 20948
+                "value": 46896
               },
               "Cursed": {
                 "type": "byte",
@@ -588,7 +588,7 @@
               },
               "Cost": {
                 "type": "dword",
-                "value": 48090
+                "value": 52976
               },
               "Cursed": {
                 "type": "byte",
@@ -717,7 +717,7 @@
               },
               "Cost": {
                 "type": "dword",
-                "value": 19498
+                "value": 39096
               },
               "Cursed": {
                 "type": "byte",
