@@ -25,6 +25,9 @@ void InitializeBase(string sTeam, int nColor)
 
 void main()
 {
+// No player should be able to login.
+    NWNX_Administration_SetPlayerPassword(GetRandomUUID());
+
 // Set a very high instruction limit so we can run the initialization scripts without TMI
     NWNX_Util_SetInstructionLimit(52428888);
 
@@ -36,4 +39,7 @@ void main()
     DestroyArea(GetObjectByTag("_BASE"));
 
     NWNX_Util_SetInstructionLimit(-1);
+
+// Now player should be able to login.
+    NWNX_Administration_ClearPlayerPassword();
 }
