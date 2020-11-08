@@ -1,4 +1,5 @@
 #include "x2_inc_itemprop"
+#include "inc_constants"
 
 const string TREASURE_MELEE_SEED_CHEST = "melee_seed";
 const string TREASURE_RANGE_SEED_CHEST = "range_seed";
@@ -24,8 +25,9 @@ void CopyItemToStore(object oItem, string sTag)
     object oStore = GetObjectByTag(sTag);
     if (!GetIsObjectValid(oStore)) oStore = CreateObject(OBJECT_TYPE_STORE, "mer_template", lStaging, FALSE, sTag);
 
-    SetTag(oItem, GetRandomUUID());
+    SetTag(oItem, GetName(oItem));
 
+    CopyItem(oItem, GetObjectByTag(ITEM_CHECK_TAG+IntToString(GetBaseItemType(oItem))));
     object oNewItem = CopyItem(oItem, oStore);
     SetInfiniteFlag(oNewItem, TRUE);
 }
@@ -310,6 +312,15 @@ void PopulateChestArmor(string sSeedChestTag, string sPrependName, string sAppen
 
 void main()
 {
+    location lSystem = Location(GetObjectByTag("_system"), Vector(), 0.0);
+
+    int i;
+    for (i = 0; i < 150; i++)
+    {
+        CreateObject(OBJECT_TYPE_CREATURE, ITEM_CHECK_TAG, lSystem, FALSE, ITEM_CHECK_TAG+IntToString(i));
+    }
+
+
 
 // ==============================================
 //  START TREASURE
@@ -368,6 +379,14 @@ void main()
    PopulateChestWeapon(TREASURE_RANGE_SEED_CHEST, "Composite ", " +3", sCompositeEnchanted, 2, 3, 4, 4, 4, 4, ItemPropertyAttackBonus(3), ItemPropertyMaxRangeStrengthMod(5), ItemPropertyNoDamage());
 
    WriteTimestampedLogEntry("Range weapons created");
+
+// delete creatures that do not have any items to check
+    object oItemCheck;
+    for (i = 0; i < 150; i++)
+    {
+        oItemCheck = GetObjectByTag(ITEM_CHECK_TAG+IntToString(i));
+        if (!GetIsObjectValid(GetFirstItemInInventory(oItemCheck))) DestroyObject(oItemCheck);
+    }
 
    WriteTimestampedLogEntry("Seed finished");
 }

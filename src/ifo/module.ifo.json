@@ -27,6 +27,13 @@
           "type": "resref",
           "value": "_seed"
         }
+      },
+      {
+        "__struct_id": 6,
+        "Area_Name": {
+          "type": "resref",
+          "value": "_system"
+        }
       }
     ]
   },
@@ -176,7 +183,7 @@
   },
   "Mod_OnUnAqreItem": {
     "type": "resref",
-    "value": ""
+    "value": "on_pc_unacquire"
   },
   "Mod_OnUsrDefined": {
     "type": "resref",

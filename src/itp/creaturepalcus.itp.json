@@ -691,6 +691,30 @@
           "type": "byte",
           "value": 46
         },
+        "LIST": {
+          "type": "list",
+          "value": [
+            {
+              "__struct_id": 0,
+              "CR": {
+                "type": "float",
+                "value": 1.0
+              },
+              "FACTION": {
+                "type": "cexostring",
+                "value": "Commoner"
+              },
+              "NAME": {
+                "type": "cexostring",
+                "value": "_item_check"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "_item_check"
+              }
+            }
+          ]
+        },
         "STRREF": {
           "type": "dword",
           "value": 6732
