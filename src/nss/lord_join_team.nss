@@ -1,4 +1,5 @@
 #include "inc_teams"
+#include "inc_sessions"
 
 void main()
 {
@@ -27,6 +28,7 @@ void main()
     if (nDifference < TEAM_MAX_DIFFERENCE)
     {
         SetLocalString(oPC, "team", sTeam);
+        StartSession();
 
         ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_FNF_STRIKE_HOLY), GetLocation(oPC));
         DelayCommand(1.0, AssignCommand(oPC, ActionJumpToLocation(GetLocation(GetObjectByTag("WP_START_"+GetStringUpperCase(sTeam))))));

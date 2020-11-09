@@ -4,6 +4,7 @@
 #include "nwnx_util"
 #include "nwnx_admin"
 #include "nwnx_events"
+#include "util_i_csvlists"
 
 void InitializeBase(string sTeam, int nColor)
 {
@@ -16,6 +17,7 @@ void InitializeBase(string sTeam, int nColor)
     {
         sTag = GetTag(oObject);
         if (sTag != "") SetTag(oObject, StringReplace(sTag, "NONE", GetStringUpperCase(sTeam)));
+        SetLocalString(oObject, "team", sTeam);
 
         oObject = GetNextObjectInArea(oArea);
     }
@@ -40,6 +42,31 @@ void main()
     DestroyArea(GetObjectByTag("_BASE"));
 
     NWNX_Util_SetInstructionLimit(-1);
+
+// Look through each of the areas and add to the respective list.
+    object oModule = GetModule();
+    object oArea = GetFirstArea();
+    string sTDM = "";
+    string sResRef, sResRef3;
+
+    while (GetIsObjectValid(oArea))
+    {
+        sResRef = GetResRef(oArea);
+        sResRef3 = GetStringLeft(sResRef, 3);
+
+        if (sResRef3 == "tdm")
+        {
+            sTDM = AddListItem(GetListItem(sTDM), sResRef, TRUE);
+        }
+
+        SetEventScript(oArea, EVENT_SCRIPT_AREA_ON_ENTER, "area_on_enter");
+
+        oArea = GetNextArea();
+    }
+
+    SetLocalString(oModule, "tdm_list", sTDM);
+    WriteTimestampedLogEntry("tdm_list: "+sTDM);
+
 
 // This script makes players always start at "The Choice"
     NWNX_Events_SubscribeEvent("NWNX_ON_ELC_VALIDATE_CHARACTER_BEFORE", "on_elc_validateb");
