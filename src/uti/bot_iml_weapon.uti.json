@@ -4,97 +4,13 @@
     "type": "dword",
     "value": 0
   },
-  "ArmorPart_Belt": {
-    "type": "byte",
-    "value": 0
-  },
-  "ArmorPart_LBicep": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_LFArm": {
-    "type": "byte",
-    "value": 8
-  },
-  "ArmorPart_LFoot": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_LHand": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_LShin": {
-    "type": "byte",
-    "value": 14
-  },
-  "ArmorPart_LShoul": {
-    "type": "byte",
-    "value": 18
-  },
-  "ArmorPart_LThigh": {
-    "type": "byte",
-    "value": 3
-  },
-  "ArmorPart_Neck": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_Pelvis": {
-    "type": "byte",
-    "value": 3
-  },
-  "ArmorPart_RBicep": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_RFArm": {
-    "type": "byte",
-    "value": 8
-  },
-  "ArmorPart_RFoot": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_RHand": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_Robe": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_RShin": {
-    "type": "byte",
-    "value": 14
-  },
-  "ArmorPart_RShoul": {
-    "type": "byte",
-    "value": 18
-  },
-  "ArmorPart_RThigh": {
-    "type": "byte",
-    "value": 3
-  },
-  "ArmorPart_Torso": {
-    "type": "byte",
-    "value": 19
-  },
   "BaseItem": {
     "type": "int",
-    "value": 16
+    "value": 8
   },
   "Charges": {
     "type": "byte",
     "value": 0
-  },
-  "Cloth1Color": {
-    "type": "byte",
-    "value": 23
-  },
-  "Cloth2Color": {
-    "type": "byte",
-    "value": 23
   },
   "Comment": {
     "type": "cexostring",
@@ -102,49 +18,51 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 18002
+    "value": 32780
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13855,
+    "id": 91153,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "This elegant bow quivers with magic when touched. Engraved, ancient elven runes tell the tale of the arcane archer Meadow Everleaf and how she found this bow growing in the forests of Cormanthor. She plucked this gentle weapon and carried it with her but could never find any material to string the bow with. One fateful evening trolls attacked her and she soon depleted her arrows. Tossing away her mundane bow she pulled out Forever...and saw a magical bow-string appear. Knocking an imaginary arrow she let loose and slew the trolls. The bow has been kept in her tomb since her death but rumors suggest that drow thieves may have taken it."
+    }
   },
   "Description": {
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": ""
+    }
   },
   "Identified": {
     "type": "byte",
     "value": 0
   },
-  "Leather1Color": {
-    "type": "byte",
-    "value": 23
-  },
-  "Leather2Color": {
-    "type": "byte",
-    "value": 22
-  },
   "LocalizedName": {
-    "id": 95115,
+    "id": 91152,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "Imloth's Bow"
+    }
   },
-  "Metal1Color": {
+  "ModelPart1": {
     "type": "byte",
-    "value": 3
+    "value": 24
   },
-  "Metal2Color": {
+  "ModelPart2": {
     "type": "byte",
-    "value": 3
+    "value": 44
+  },
+  "ModelPart3": {
+    "type": "byte",
+    "value": 12
   },
   "PaletteID": {
     "type": "byte",
-    "value": 5
+    "value": 59
   },
   "Plot": {
     "type": "byte",
@@ -161,7 +79,69 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 11
+          "value": 2
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 3
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 0
+        },
+        "PropertyName": {
+          "type": "word",
+          "value": 56
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
+          "value": 2
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 3
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 0
+        },
+        "PropertyName": {
+          "type": "word",
+          "value": 45
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
+          "value": 14
         },
         "CostValue": {
           "type": "word",
@@ -173,11 +153,11 @@
         },
         "Param1Value": {
           "type": "byte",
-          "value": 255
+          "value": 0
         },
         "PropertyName": {
           "type": "word",
-          "value": 39
+          "value": 61
         },
         "Subtype": {
           "type": "word",
@@ -204,38 +184,7 @@
         },
         "Param1Value": {
           "type": "byte",
-          "value": 255
-        },
-        "PropertyName": {
-          "type": "word",
-          "value": 62
-        },
-        "Subtype": {
-          "type": "word",
-          "value": 5
-        }
-      },
-      {
-        "__struct_id": 0,
-        "ChanceAppear": {
-          "type": "byte",
-          "value": 100
-        },
-        "CostTable": {
-          "type": "byte",
           "value": 0
-        },
-        "CostValue": {
-          "type": "word",
-          "value": 0
-        },
-        "Param1": {
-          "type": "byte",
-          "value": 255
-        },
-        "Param1Value": {
-          "type": "byte",
-          "value": 255
         },
         "PropertyName": {
           "type": "word",
@@ -243,38 +192,7 @@
         },
         "Subtype": {
           "type": "word",
-          "value": 9
-        }
-      },
-      {
-        "__struct_id": 0,
-        "ChanceAppear": {
-          "type": "byte",
-          "value": 100
-        },
-        "CostTable": {
-          "type": "byte",
-          "value": 0
-        },
-        "CostValue": {
-          "type": "word",
-          "value": 0
-        },
-        "Param1": {
-          "type": "byte",
-          "value": 255
-        },
-        "Param1Value": {
-          "type": "byte",
-          "value": 255
-        },
-        "PropertyName": {
-          "type": "word",
-          "value": 63
-        },
-        "Subtype": {
-          "type": "word",
-          "value": 10
+          "value": 29
         }
       }
     ]
@@ -289,10 +207,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "q2d_halrobe1"
+    "value": "X2_WBWMLN010"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_hal_armor"
+    "value": "bot_iml_weapon"
   }
 }

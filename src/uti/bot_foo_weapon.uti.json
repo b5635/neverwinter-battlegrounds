@@ -4,112 +4,28 @@
     "type": "dword",
     "value": 0
   },
-  "ArmorPart_Belt": {
-    "type": "byte",
-    "value": 0
-  },
-  "ArmorPart_LBicep": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_LFArm": {
-    "type": "byte",
-    "value": 8
-  },
-  "ArmorPart_LFoot": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_LHand": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_LShin": {
-    "type": "byte",
-    "value": 14
-  },
-  "ArmorPart_LShoul": {
-    "type": "byte",
-    "value": 18
-  },
-  "ArmorPart_LThigh": {
-    "type": "byte",
-    "value": 3
-  },
-  "ArmorPart_Neck": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_Pelvis": {
-    "type": "byte",
-    "value": 3
-  },
-  "ArmorPart_RBicep": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_RFArm": {
-    "type": "byte",
-    "value": 8
-  },
-  "ArmorPart_RFoot": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_RHand": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_Robe": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_RShin": {
-    "type": "byte",
-    "value": 14
-  },
-  "ArmorPart_RShoul": {
-    "type": "byte",
-    "value": 18
-  },
-  "ArmorPart_RThigh": {
-    "type": "byte",
-    "value": 3
-  },
-  "ArmorPart_Torso": {
-    "type": "byte",
-    "value": 19
-  },
   "BaseItem": {
     "type": "int",
-    "value": 16
+    "value": 11
   },
   "Charges": {
     "type": "byte",
     "value": 0
   },
-  "Cloth1Color": {
-    "type": "byte",
-    "value": 23
-  },
-  "Cloth2Color": {
-    "type": "byte",
-    "value": 23
-  },
   "Comment": {
     "type": "cexostring",
-    "value": ""
+    "value": "1"
   },
   "Cost": {
     "type": "dword",
-    "value": 18002
+    "value": 20066
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13855,
+    "id": 14060,
     "type": "cexolocstring",
     "value": {}
   },
@@ -121,30 +37,28 @@
     "type": "byte",
     "value": 0
   },
-  "Leather1Color": {
-    "type": "byte",
-    "value": 23
-  },
-  "Leather2Color": {
-    "type": "byte",
-    "value": 22
-  },
   "LocalizedName": {
-    "id": 95115,
+    "id": 14061,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "The Fool's Weapon"
+    }
   },
-  "Metal1Color": {
+  "ModelPart1": {
     "type": "byte",
-    "value": 3
+    "value": 31
   },
-  "Metal2Color": {
+  "ModelPart2": {
     "type": "byte",
-    "value": 3
+    "value": 11
+  },
+  "ModelPart3": {
+    "type": "byte",
+    "value": 21
   },
   "PaletteID": {
     "type": "byte",
-    "value": 5
+    "value": 59
   },
   "Plot": {
     "type": "byte",
@@ -161,7 +75,7 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 11
+          "value": 2
         },
         "CostValue": {
           "type": "word",
@@ -177,7 +91,7 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 39
+          "value": 56
         },
         "Subtype": {
           "type": "word",
@@ -192,11 +106,11 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 0
+          "value": 2
         },
         "CostValue": {
           "type": "word",
-          "value": 0
+          "value": 2
         },
         "Param1": {
           "type": "byte",
@@ -204,15 +118,15 @@
         },
         "Param1Value": {
           "type": "byte",
-          "value": 255
+          "value": 0
         },
         "PropertyName": {
           "type": "word",
-          "value": 62
+          "value": 45
         },
         "Subtype": {
           "type": "word",
-          "value": 5
+          "value": 0
         }
       },
       {
@@ -223,11 +137,11 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 0
+          "value": 14
         },
         "CostValue": {
           "type": "word",
-          "value": 0
+          "value": 4
         },
         "Param1": {
           "type": "byte",
@@ -239,42 +153,11 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 63
+          "value": 61
         },
         "Subtype": {
           "type": "word",
-          "value": 9
-        }
-      },
-      {
-        "__struct_id": 0,
-        "ChanceAppear": {
-          "type": "byte",
-          "value": 100
-        },
-        "CostTable": {
-          "type": "byte",
           "value": 0
-        },
-        "CostValue": {
-          "type": "word",
-          "value": 0
-        },
-        "Param1": {
-          "type": "byte",
-          "value": 255
-        },
-        "Param1Value": {
-          "type": "byte",
-          "value": 255
-        },
-        "PropertyName": {
-          "type": "word",
-          "value": 63
-        },
-        "Subtype": {
-          "type": "word",
-          "value": 10
         }
       }
     ]
@@ -289,10 +172,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "q2d_halrobe1"
+    "value": "WBWMSH005"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_hal_armor"
+    "value": "bot_foo_weapon"
   }
 }

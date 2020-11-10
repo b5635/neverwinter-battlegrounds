@@ -500,7 +500,9 @@
   "FirstName": {
     "id": 24556,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "Formosa"
+    }
   },
   "fortbonus": {
     "type": "short",
@@ -576,7 +578,7 @@
   },
   "PortraitId": {
     "type": "word",
-    "value": 18
+    "value": 20
   },
   "Race": {
     "type": "byte",

@@ -195,6 +195,17 @@
                   },
                   {
                     "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Shaori's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_sha_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
                       "value": "bot_whi_armor"
@@ -213,17 +224,6 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 47617
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_sha_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 108112
                     }
                   }
                 ]
@@ -295,17 +295,6 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 13763
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "NAME": {
-                      "type": "cexostring",
-                      "value": "Half Plate (Mischa L1)"
-                    },
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_mis_armor"
                     }
                   },
                   {
@@ -1078,13 +1067,13 @@
                   },
                   {
                     "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Ferron's Armor"
+                    },
                     "RESREF": {
                       "type": "resref",
                       "value": "bot_fer_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 107954
                     }
                   },
                   {
@@ -1096,6 +1085,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 13852
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Imloth's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_iml_armor"
                     }
                   },
                   {
@@ -1700,6 +1700,44 @@
                 "type": "byte",
                 "value": 59
               },
+              "LIST": {
+                "type": "list",
+                "value": [
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Imloth's Bow"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_iml_weapon"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Shaori's Weapon"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_sha_weapon"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "The Fool's Weapon"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_foo_weapon"
+                    }
+                  }
+                ]
+              },
               "STRREF": {
                 "type": "dword",
                 "value": 6814
@@ -1745,6 +1783,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 95373
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Mischa's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_mis_armor"
                     }
                   },
                   {
@@ -3590,22 +3639,6 @@
               "ID": {
                 "type": "byte",
                 "value": 0
-              },
-              "LIST": {
-                "type": "list",
-                "value": [
-                  {
-                    "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_iml_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 107986
-                    }
-                  }
-                ]
               },
               "STRREF": {
                 "type": "dword",
