@@ -6,71 +6,40 @@
   },
   "BaseItem": {
     "type": "int",
-    "value": 80
+    "value": 73
   },
   "Charges": {
     "type": "byte",
     "value": 0
   },
-  "Cloth1Color": {
-    "type": "byte",
-    "value": 37
-  },
-  "Cloth2Color": {
-    "type": "byte",
-    "value": 37
-  },
   "Comment": {
     "type": "cexostring",
-    "value": "1"
+    "value": ""
   },
   "Cost": {
     "type": "dword",
-    "value": 2444
+    "value": 256000
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13807,
     "type": "cexolocstring",
-    "value": {
-      "0": ""
-    }
+    "value": {}
   },
   "Description": {
     "type": "cexolocstring",
-    "value": {
-      "0": ""
-    }
+    "value": {}
   },
   "Identified": {
     "type": "byte",
     "value": 0
   },
-  "Leather1Color": {
-    "type": "byte",
-    "value": 7
-  },
-  "Leather2Color": {
-    "type": "byte",
-    "value": 7
-  },
   "LocalizedName": {
-    "id": 13806,
+    "id": 107962,
     "type": "cexolocstring",
-    "value": {
-      "0": "Daelan's Cloak"
-    }
-  },
-  "Metal1Color": {
-    "type": "byte",
-    "value": 23
-  },
-  "Metal2Color": {
-    "type": "byte",
-    "value": 23
+    "value": {}
   },
   "ModelPart1": {
     "type": "byte",
@@ -95,11 +64,11 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 1
+          "value": 11
         },
         "CostValue": {
           "type": "word",
-          "value": 1
+          "value": 10
         },
         "Param1": {
           "type": "byte",
@@ -111,11 +80,11 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 0
+          "value": 39
         },
         "Subtype": {
           "type": "word",
-          "value": 2
+          "value": 0
         }
       }
     ]
@@ -130,10 +99,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "NW_MAARCL057"
+    "value": "X2_IT_CREITEM007"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_dae_cloak"
+    "value": "it_creitem008"
   }
 }

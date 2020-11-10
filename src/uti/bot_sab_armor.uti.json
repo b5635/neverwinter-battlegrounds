@@ -6,7 +6,7 @@
   },
   "ArmorPart_Belt": {
     "type": "byte",
-    "value": 10
+    "value": 16
   },
   "ArmorPart_LBicep": {
     "type": "byte",
@@ -14,7 +14,7 @@
   },
   "ArmorPart_LFArm": {
     "type": "byte",
-    "value": 20
+    "value": 16
   },
   "ArmorPart_LFoot": {
     "type": "byte",
@@ -22,19 +22,19 @@
   },
   "ArmorPart_LHand": {
     "type": "byte",
-    "value": 4
+    "value": 3
   },
   "ArmorPart_LShin": {
     "type": "byte",
-    "value": 6
+    "value": 11
   },
   "ArmorPart_LShoul": {
     "type": "byte",
-    "value": 22
+    "value": 23
   },
   "ArmorPart_LThigh": {
     "type": "byte",
-    "value": 12
+    "value": 6
   },
   "ArmorPart_Neck": {
     "type": "byte",
@@ -42,7 +42,7 @@
   },
   "ArmorPart_Pelvis": {
     "type": "byte",
-    "value": 6
+    "value": 5
   },
   "ArmorPart_RBicep": {
     "type": "byte",
@@ -50,7 +50,7 @@
   },
   "ArmorPart_RFArm": {
     "type": "byte",
-    "value": 20
+    "value": 16
   },
   "ArmorPart_RFoot": {
     "type": "byte",
@@ -58,7 +58,7 @@
   },
   "ArmorPart_RHand": {
     "type": "byte",
-    "value": 4
+    "value": 3
   },
   "ArmorPart_Robe": {
     "type": "byte",
@@ -66,19 +66,19 @@
   },
   "ArmorPart_RShin": {
     "type": "byte",
-    "value": 6
+    "value": 11
   },
   "ArmorPart_RShoul": {
     "type": "byte",
-    "value": 22
+    "value": 23
   },
   "ArmorPart_RThigh": {
     "type": "byte",
-    "value": 12
+    "value": 6
   },
   "ArmorPart_Torso": {
     "type": "byte",
-    "value": 25
+    "value": 23
   },
   "BaseItem": {
     "type": "int",
@@ -90,7 +90,7 @@
   },
   "Cloth1Color": {
     "type": "byte",
-    "value": 37
+    "value": 8
   },
   "Cloth2Color": {
     "type": "byte",
@@ -102,7 +102,7 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 4420
+    "value": 810504
   },
   "Cursed": {
     "type": "byte",
@@ -119,34 +119,32 @@
   },
   "Identified": {
     "type": "byte",
-    "value": 0
+    "value": 1
   },
   "Leather1Color": {
     "type": "byte",
-    "value": 7
+    "value": 8
   },
   "Leather2Color": {
     "type": "byte",
-    "value": 7
+    "value": 52
   },
   "LocalizedName": {
-    "id": 62382,
+    "id": 108106,
     "type": "cexolocstring",
-    "value": {
-      "0": "Daelan's Chainmail"
-    }
+    "value": {}
   },
   "Metal1Color": {
     "type": "byte",
-    "value": 22
+    "value": 24
   },
   "Metal2Color": {
     "type": "byte",
-    "value": 23
+    "value": 11
   },
   "PaletteID": {
     "type": "byte",
-    "value": 14
+    "value": 7
   },
   "Plot": {
     "type": "byte",
@@ -163,11 +161,42 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 1
+          "value": 2
         },
         "CostValue": {
           "type": "word",
+          "value": 7
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 255
+        },
+        "PropertyName": {
+          "type": "word",
           "value": 1
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
+          "value": 10
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 3
         },
         "Param1": {
           "type": "byte",
@@ -179,11 +208,42 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 0
+          "value": 11
         },
         "Subtype": {
           "type": "word",
           "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
+          "value": 0
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 0
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 0
+        },
+        "PropertyName": {
+          "type": "word",
+          "value": 37
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 8
         }
       }
     ]
@@ -198,10 +258,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "X0_MAARCL013"
+    "value": "q6_sabal_armor"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_dae_armor"
+    "value": "bot_sab_armor"
   }
 }

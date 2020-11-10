@@ -19,6 +19,50 @@
                 "value": [
                   {
                     "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_cav_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 67726
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_see_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 13854
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_lav_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107943
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_hal_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 95115
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
                     "NAME": {
                       "type": "cexostring",
                       "value": "Improved Robes of the Old Order"
@@ -37,6 +81,28 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 90489
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_sle_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 100205
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Meldanen's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_mel_armor"
                     }
                   },
                   {
@@ -120,11 +186,44 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
+                      "value": "bot_dha_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 109882
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_whi_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 95067
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
                       "value": "armor39"
                     },
                     "STRREF": {
                       "type": "dword",
                       "value": 47617
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_sha_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 108112
                     }
                   }
                 ]
@@ -200,6 +299,17 @@
                   },
                   {
                     "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Half Plate (Mischa L1)"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_mis_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
                       "value": "armor69"
@@ -207,6 +317,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 13747
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_vae_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107959
                     }
                   },
                   {
@@ -252,6 +373,17 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "armor100"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 40652
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_cav_helm"
                     },
                     "STRREF": {
                       "type": "dword",
@@ -608,6 +740,17 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
+                      "value": "bot_ard_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 100164
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
                       "value": "armor13"
                     },
                     "STRREF": {
@@ -657,6 +800,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 90483
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_dor_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 75203
                     }
                   },
                   {
@@ -789,6 +943,17 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
+                      "value": "bot_sab_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 108106
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
                       "value": "armor102"
                     },
                     "STRREF": {
@@ -838,6 +1003,39 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
+                      "value": "bot_ali_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 83058
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_aya_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 75031
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Bim/Pavel's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_bim_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
                       "value": "armor54"
                     },
                     "STRREF": {
@@ -849,11 +1047,77 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
+                      "value": "bot_cal_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 24844
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_ole_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 26340
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Fenthick's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_fen_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_fer_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107954
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
                       "value": "armor53"
                     },
                     "STRREF": {
                       "type": "dword",
                       "value": 13852
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_jna_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 75052
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_kat_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 75056
                     }
                   },
                   {
@@ -986,6 +1250,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 13850
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_xan_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 75208
                     }
                   }
                 ]
@@ -1459,6 +1734,50 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "bot_dae_cloak"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_rea_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 95373
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "it_creitem008"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107962
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "q3_armand_pro002"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107999
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_arm_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 110426
                     }
                   }
                 ]
@@ -2167,6 +2486,17 @@
                           "__struct_id": 0,
                           "RESREF": {
                             "type": "resref",
+                            "value": "bot_arm_cloak"
+                          },
+                          "STRREF": {
+                            "type": "dword",
+                            "value": 13842
+                          }
+                        },
+                        {
+                          "__struct_id": 0,
+                          "RESREF": {
+                            "type": "resref",
                             "value": "apparel67"
                           },
                           "STRREF": {
@@ -2227,6 +2557,17 @@
                           "STRREF": {
                             "type": "dword",
                             "value": 66539
+                          }
+                        },
+                        {
+                          "__struct_id": 0,
+                          "RESREF": {
+                            "type": "resref",
+                            "value": "bot_sab_cloak"
+                          },
+                          "STRREF": {
+                            "type": "dword",
+                            "value": 66542
                           }
                         },
                         {
@@ -3218,6 +3559,22 @@
           "type": "byte",
           "value": 54
         },
+        "LIST": {
+          "type": "list",
+          "value": [
+            {
+              "__struct_id": 0,
+              "RESREF": {
+                "type": "resref",
+                "value": "bot_dro_armor"
+              },
+              "STRREF": {
+                "type": "dword",
+                "value": 75041
+              }
+            }
+          ]
+        },
         "STRREF": {
           "type": "dword",
           "value": 6808
@@ -3234,6 +3591,22 @@
                 "type": "byte",
                 "value": 0
               },
+              "LIST": {
+                "type": "list",
+                "value": [
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_iml_armor"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107986
+                    }
+                  }
+                ]
+              },
               "STRREF": {
                 "type": "dword",
                 "value": 6688
@@ -3244,6 +3617,22 @@
               "ID": {
                 "type": "byte",
                 "value": 1
+              },
+              "LIST": {
+                "type": "list",
+                "value": [
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "h2_senseiamulet"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 100180
+                    }
+                  }
+                ]
               },
               "STRREF": {
                 "type": "dword",
@@ -3266,6 +3655,22 @@
               "ID": {
                 "type": "byte",
                 "value": 3
+              },
+              "LIST": {
+                "type": "list",
+                "value": [
+                  {
+                    "__struct_id": 0,
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_nat_cloak"
+                    },
+                    "STRREF": {
+                      "type": "dword",
+                      "value": 107974
+                    }
+                  }
+                ]
               },
               "STRREF": {
                 "type": "dword",
@@ -5288,6 +5693,17 @@
                           "STRREF": {
                             "type": "dword",
                             "value": 14180
+                          }
+                        },
+                        {
+                          "__struct_id": 0,
+                          "RESREF": {
+                            "type": "resref",
+                            "value": "bot_arm_weapon"
+                          },
+                          "STRREF": {
+                            "type": "dword",
+                            "value": 110403
                           }
                         },
                         {

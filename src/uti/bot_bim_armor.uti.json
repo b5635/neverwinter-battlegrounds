@@ -10,11 +10,11 @@
   },
   "ArmorPart_LBicep": {
     "type": "byte",
-    "value": 6
+    "value": 12
   },
   "ArmorPart_LFArm": {
     "type": "byte",
-    "value": 20
+    "value": 13
   },
   "ArmorPart_LFoot": {
     "type": "byte",
@@ -26,15 +26,15 @@
   },
   "ArmorPart_LShin": {
     "type": "byte",
-    "value": 6
+    "value": 10
   },
   "ArmorPart_LShoul": {
     "type": "byte",
-    "value": 22
+    "value": 20
   },
   "ArmorPart_LThigh": {
     "type": "byte",
-    "value": 12
+    "value": 9
   },
   "ArmorPart_Neck": {
     "type": "byte",
@@ -46,11 +46,11 @@
   },
   "ArmorPart_RBicep": {
     "type": "byte",
-    "value": 6
+    "value": 12
   },
   "ArmorPart_RFArm": {
     "type": "byte",
-    "value": 20
+    "value": 13
   },
   "ArmorPart_RFoot": {
     "type": "byte",
@@ -66,19 +66,19 @@
   },
   "ArmorPart_RShin": {
     "type": "byte",
-    "value": 6
+    "value": 10
   },
   "ArmorPart_RShoul": {
     "type": "byte",
-    "value": 22
+    "value": 3
   },
   "ArmorPart_RThigh": {
     "type": "byte",
-    "value": 12
+    "value": 9
   },
   "ArmorPart_Torso": {
     "type": "byte",
-    "value": 25
+    "value": 33
   },
   "BaseItem": {
     "type": "int",
@@ -86,15 +86,15 @@
   },
   "Charges": {
     "type": "byte",
-    "value": 0
+    "value": 50
   },
   "Cloth1Color": {
     "type": "byte",
-    "value": 37
+    "value": 25
   },
   "Cloth2Color": {
     "type": "byte",
-    "value": 37
+    "value": 20
   },
   "Comment": {
     "type": "cexostring",
@@ -102,14 +102,13 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 4420
+    "value": 7312
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13776,
     "type": "cexolocstring",
     "value": {}
   },
@@ -123,34 +122,34 @@
   },
   "Leather1Color": {
     "type": "byte",
-    "value": 7
+    "value": 3
   },
   "Leather2Color": {
     "type": "byte",
-    "value": 7
+    "value": 25
   },
   "LocalizedName": {
-    "id": 62382,
+    "id": 24979,
     "type": "cexolocstring",
     "value": {
-      "0": "Daelan's Chainmail"
+      "0": "Bim/Pavel's Armor"
     }
   },
   "Metal1Color": {
     "type": "byte",
-    "value": 22
+    "value": 0
   },
   "Metal2Color": {
     "type": "byte",
-    "value": 23
+    "value": 8
   },
   "PaletteID": {
     "type": "byte",
-    "value": 14
+    "value": 58
   },
   "Plot": {
     "type": "byte",
-    "value": 0
+    "value": 1
   },
   "PropertiesList": {
     "type": "list",
@@ -163,7 +162,7 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 1
+          "value": 2
         },
         "CostValue": {
           "type": "word",
@@ -179,7 +178,7 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 0
+          "value": 1
         },
         "Subtype": {
           "type": "word",
@@ -198,10 +197,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "X0_MAARCL013"
+    "value": "NWuniform"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_dae_armor"
+    "value": "bot_bim_armor"
   }
 }

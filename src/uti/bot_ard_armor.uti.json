@@ -6,59 +6,59 @@
   },
   "ArmorPart_Belt": {
     "type": "byte",
-    "value": 10
+    "value": 9
   },
   "ArmorPart_LBicep": {
     "type": "byte",
-    "value": 6
+    "value": 10
   },
   "ArmorPart_LFArm": {
     "type": "byte",
-    "value": 20
+    "value": 1
   },
   "ArmorPart_LFoot": {
     "type": "byte",
-    "value": 5
+    "value": 10
   },
   "ArmorPart_LHand": {
     "type": "byte",
-    "value": 4
+    "value": 6
   },
   "ArmorPart_LShin": {
     "type": "byte",
-    "value": 6
+    "value": 4
   },
   "ArmorPart_LShoul": {
     "type": "byte",
-    "value": 22
+    "value": 24
   },
   "ArmorPart_LThigh": {
     "type": "byte",
-    "value": 12
+    "value": 8
   },
   "ArmorPart_Neck": {
     "type": "byte",
-    "value": 1
+    "value": 4
   },
   "ArmorPart_Pelvis": {
     "type": "byte",
-    "value": 6
+    "value": 37
   },
   "ArmorPart_RBicep": {
     "type": "byte",
-    "value": 6
+    "value": 10
   },
   "ArmorPart_RFArm": {
     "type": "byte",
-    "value": 20
+    "value": 1
   },
   "ArmorPart_RFoot": {
     "type": "byte",
-    "value": 5
+    "value": 10
   },
   "ArmorPart_RHand": {
     "type": "byte",
-    "value": 4
+    "value": 1
   },
   "ArmorPart_Robe": {
     "type": "byte",
@@ -66,19 +66,19 @@
   },
   "ArmorPart_RShin": {
     "type": "byte",
-    "value": 6
+    "value": 4
   },
   "ArmorPart_RShoul": {
     "type": "byte",
-    "value": 22
+    "value": 24
   },
   "ArmorPart_RThigh": {
     "type": "byte",
-    "value": 12
+    "value": 8
   },
   "ArmorPart_Torso": {
     "type": "byte",
-    "value": 25
+    "value": 20
   },
   "BaseItem": {
     "type": "int",
@@ -90,11 +90,11 @@
   },
   "Cloth1Color": {
     "type": "byte",
-    "value": 37
+    "value": 52
   },
   "Cloth2Color": {
     "type": "byte",
-    "value": 37
+    "value": 55
   },
   "Comment": {
     "type": "cexostring",
@@ -102,14 +102,14 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 4420
+    "value": 1647418
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13776,
+    "id": 100165,
     "type": "cexolocstring",
     "value": {}
   },
@@ -123,30 +123,28 @@
   },
   "Leather1Color": {
     "type": "byte",
-    "value": 7
+    "value": 52
   },
   "Leather2Color": {
     "type": "byte",
-    "value": 7
+    "value": 55
   },
   "LocalizedName": {
-    "id": 62382,
+    "id": 100164,
     "type": "cexolocstring",
-    "value": {
-      "0": "Daelan's Chainmail"
-    }
+    "value": {}
   },
   "Metal1Color": {
     "type": "byte",
-    "value": 22
+    "value": 9
   },
   "Metal2Color": {
     "type": "byte",
-    "value": 23
+    "value": 8
   },
   "PaletteID": {
     "type": "byte",
-    "value": 14
+    "value": 6
   },
   "Plot": {
     "type": "byte",
@@ -163,11 +161,11 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 1
+          "value": 7
         },
         "CostValue": {
           "type": "word",
-          "value": 1
+          "value": 6
         },
         "Param1": {
           "type": "byte",
@@ -179,11 +177,42 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 0
+          "value": 23
         },
         "Subtype": {
           "type": "word",
+          "value": 2
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
           "value": 0
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 0
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 0
+        },
+        "PropertyName": {
+          "type": "word",
+          "value": 63
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 1
         }
       }
     ]
@@ -198,10 +227,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "X0_MAARCL013"
+    "value": "BardsBarding"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_dae_armor"
+    "value": "bot_ard_armor"
   }
 }

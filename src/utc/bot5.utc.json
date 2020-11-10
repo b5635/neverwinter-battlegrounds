@@ -2,11 +2,11 @@
   "__data_type": "UTC ",
   "Appearance_Head": {
     "type": "byte",
-    "value": 6
+    "value": 10
   },
   "Appearance_Type": {
     "type": "word",
-    "value": 5
+    "value": 0
   },
   "ArmorPart_RFoot": {
     "type": "byte",
@@ -86,11 +86,11 @@
   },
   "Cha": {
     "type": "byte",
-    "value": 8
+    "value": 10
   },
   "ChallengeRating": {
     "type": "float",
-    "value": 7.0
+    "value": 0.5
   },
   "ClassList": {
     "type": "list",
@@ -99,34 +99,34 @@
         "__struct_id": 2,
         "Class": {
           "type": "int",
-          "value": 0
+          "value": 8
         },
         "ClassLevel": {
           "type": "short",
-          "value": 7
+          "value": 1
         }
       }
     ]
   },
   "Color_Hair": {
     "type": "byte",
-    "value": 3
+    "value": 7
   },
   "Color_Skin": {
     "type": "byte",
-    "value": 41
+    "value": 9
   },
   "Color_Tattoo1": {
     "type": "byte",
-    "value": 1
+    "value": 27
   },
   "Color_Tattoo2": {
     "type": "byte",
-    "value": 1
+    "value": 25
   },
   "Comment": {
     "type": "cexostring",
-    "value": "Daelin Level 4"
+    "value": "Dwarven Rogue/Barbarian\r\nA dedicated friend, but fatalistic and resigned to a career as professional ambushee.\r\n"
   },
   "Con": {
     "type": "byte",
@@ -138,11 +138,11 @@
   },
   "CRAdjust": {
     "type": "int",
-    "value": 1
+    "value": 0
   },
   "CurrentHitPoints": {
     "type": "short",
-    "value": 84
+    "value": 6
   },
   "DecayTime": {
     "type": "dword",
@@ -153,17 +153,17 @@
     "value": ""
   },
   "Description": {
-    "id": 57653,
+    "id": 75019,
     "type": "cexolocstring",
     "value": {}
   },
   "Dex": {
     "type": "byte",
-    "value": 9
+    "value": 18
   },
   "Disarmable": {
     "type": "byte",
-    "value": 1
+    "value": 0
   },
   "Equip_ItemList": {
     "type": "list",
@@ -172,32 +172,25 @@
         "__struct_id": 2,
         "EquippedRes": {
           "type": "resref",
-          "value": "bot_dae_armor"
-        }
-      },
-      {
-        "__struct_id": 16,
-        "EquippedRes": {
-          "type": "resref",
-          "value": "nw_waxmgr009"
-        }
-      },
-      {
-        "__struct_id": 64,
-        "EquippedRes": {
-          "type": "resref",
-          "value": "bot_dae_cloak"
+          "value": "bot_dor_armor"
         }
       }
     ]
   },
   "FactionID": {
     "type": "word",
-    "value": 1
+    "value": 3
   },
   "FeatList": {
     "type": "list",
     "value": [
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 1
+        }
+      },
       {
         "__struct_id": 1,
         "Feat": {
@@ -209,42 +202,70 @@
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 4
+          "value": 233
         }
       },
       {
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 326
+          "value": 232
         }
       },
       {
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 23
+          "value": 231
         }
       },
       {
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 195
+          "value": 228
         }
       },
       {
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 251
+          "value": 374
         }
       },
       {
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 111
+          "value": 229
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 230
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 234
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 221
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 227
         }
       },
       {
@@ -253,14 +274,21 @@
           "type": "word",
           "value": 45
         }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 50
+        }
       }
     ]
   },
   "FirstName": {
-    "id": 12605,
+    "id": 75017,
     "type": "cexolocstring",
     "value": {
-      "0": "Daelan"
+      "0": "Dorna"
     }
   },
   "fortbonus": {
@@ -269,19 +297,19 @@
   },
   "Gender": {
     "type": "byte",
-    "value": 0
+    "value": 1
   },
   "GoodEvil": {
     "type": "byte",
-    "value": 100
+    "value": 50
   },
   "HitPoints": {
     "type": "short",
-    "value": 84
+    "value": 6
   },
   "Int": {
     "type": "byte",
-    "value": 8
+    "value": 10
   },
   "Interruptable": {
     "type": "byte",
@@ -289,20 +317,20 @@
   },
   "IsImmortal": {
     "type": "byte",
-    "value": 0
+    "value": 1
   },
   "IsPC": {
     "type": "byte",
     "value": 0
   },
   "LastName": {
-    "id": 12606,
+    "id": 75018,
     "type": "cexolocstring",
     "value": {}
   },
   "LawfulChaotic": {
     "type": "byte",
-    "value": 0
+    "value": 50
   },
   "Lootable": {
     "type": "byte",
@@ -310,7 +338,7 @@
   },
   "MaxHitPoints": {
     "type": "short",
-    "value": 105
+    "value": 10
   },
   "NaturalAC": {
     "type": "byte",
@@ -322,7 +350,7 @@
   },
   "PaletteID": {
     "type": "byte",
-    "value": 43
+    "value": 4
   },
   "PerceptionRange": {
     "type": "byte",
@@ -338,11 +366,11 @@
   },
   "PortraitId": {
     "type": "word",
-    "value": 139
+    "value": 642
   },
   "Race": {
     "type": "byte",
-    "value": 5
+    "value": 0
   },
   "refbonus": {
     "type": "short",
@@ -350,55 +378,55 @@
   },
   "ScriptAttacked": {
     "type": "resref",
-    "value": "j_ai_onphiattack"
+    "value": ""
   },
   "ScriptDamaged": {
     "type": "resref",
-    "value": "j_ai_ondamaged"
+    "value": ""
   },
   "ScriptDeath": {
     "type": "resref",
-    "value": "j_ai_ondeath"
+    "value": ""
   },
   "ScriptDialogue": {
     "type": "resref",
-    "value": "j_ai_onconversat"
+    "value": ""
   },
   "ScriptDisturbed": {
     "type": "resref",
-    "value": "j_ai_ondisturbed"
+    "value": ""
   },
   "ScriptEndRound": {
     "type": "resref",
-    "value": "j_ai_oncombatrou"
+    "value": ""
   },
   "ScriptHeartbeat": {
     "type": "resref",
-    "value": "j_ai_onheartbeat"
+    "value": ""
   },
   "ScriptOnBlocked": {
     "type": "resref",
-    "value": "j_ai_onblocked"
+    "value": ""
   },
   "ScriptOnNotice": {
     "type": "resref",
-    "value": "j_ai_onpercieve"
+    "value": ""
   },
   "ScriptRested": {
     "type": "resref",
-    "value": "j_ai_onrest"
+    "value": ""
   },
   "ScriptSpawn": {
     "type": "resref",
-    "value": "j_ai_onspawn"
+    "value": ""
   },
   "ScriptSpellAt": {
     "type": "resref",
-    "value": "j_ai_onspellcast"
+    "value": ""
   },
   "ScriptUserDefine": {
     "type": "resref",
-    "value": "j_ai_onuserdef"
+    "value": ""
   },
   "SkillList": {
     "type": "list",
@@ -421,14 +449,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 11
+          "value": 4
         }
       },
       {
@@ -449,7 +470,14 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
+          "value": 4
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 4
         }
       },
       {
@@ -463,35 +491,21 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
+          "value": 4
         }
       },
       {
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
+          "value": 4
         }
       },
       {
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
+          "value": 4
         }
       },
       {
@@ -519,21 +533,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 11
+          "value": 4
         }
       },
       {
@@ -554,7 +554,35 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
+          "value": 4
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
           "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 4
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 4
         }
       },
       {
@@ -603,7 +631,7 @@
   },
   "SoundSetFile": {
     "type": "word",
-    "value": 212
+    "value": 347
   },
   "SpecAbilityList": {
     "type": "list",
@@ -611,11 +639,11 @@
   },
   "StartingPackage": {
     "type": "byte",
-    "value": 0
+    "value": 71
   },
   "Str": {
     "type": "byte",
-    "value": 19
+    "value": 13
   },
   "Subrace": {
     "type": "cexostring",
@@ -623,7 +651,7 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "NW_HEN_DAE"
+    "value": "x0_hen_dor"
   },
   "Tail_New": {
     "type": "dword",
@@ -635,11 +663,11 @@
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_daelan"
+    "value": "bot5"
   },
   "WalkRate": {
     "type": "int",
-    "value": 4
+    "value": 7
   },
   "willbonus": {
     "type": "short",
@@ -651,6 +679,6 @@
   },
   "Wis": {
     "type": "byte",
-    "value": 8
+    "value": 14
   }
 }

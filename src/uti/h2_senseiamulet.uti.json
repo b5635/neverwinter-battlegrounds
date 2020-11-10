@@ -6,83 +6,53 @@
   },
   "BaseItem": {
     "type": "int",
-    "value": 80
+    "value": 19
   },
   "Charges": {
     "type": "byte",
     "value": 0
   },
-  "Cloth1Color": {
-    "type": "byte",
-    "value": 37
-  },
-  "Cloth2Color": {
-    "type": "byte",
-    "value": 37
-  },
   "Comment": {
     "type": "cexostring",
-    "value": "1"
+    "value": ""
   },
   "Cost": {
     "type": "dword",
-    "value": 2444
+    "value": 4
   },
   "Cursed": {
     "type": "byte",
-    "value": 0
+    "value": 1
   },
   "DescIdentified": {
-    "id": 13807,
+    "id": 100181,
     "type": "cexolocstring",
-    "value": {
-      "0": ""
-    }
+    "value": {}
   },
   "Description": {
     "type": "cexolocstring",
-    "value": {
-      "0": ""
-    }
+    "value": {}
   },
   "Identified": {
     "type": "byte",
-    "value": 0
-  },
-  "Leather1Color": {
-    "type": "byte",
-    "value": 7
-  },
-  "Leather2Color": {
-    "type": "byte",
-    "value": 7
+    "value": 1
   },
   "LocalizedName": {
-    "id": 13806,
+    "id": 100180,
     "type": "cexolocstring",
-    "value": {
-      "0": "Daelan's Cloak"
-    }
-  },
-  "Metal1Color": {
-    "type": "byte",
-    "value": 23
-  },
-  "Metal2Color": {
-    "type": "byte",
-    "value": 23
+    "value": {}
   },
   "ModelPart1": {
     "type": "byte",
-    "value": 1
+    "value": 28
   },
   "PaletteID": {
     "type": "byte",
-    "value": 14
+    "value": 1
   },
   "Plot": {
     "type": "byte",
-    "value": 0
+    "value": 1
   },
   "PropertiesList": {
     "type": "list",
@@ -95,11 +65,11 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 1
+          "value": 3
         },
         "CostValue": {
           "type": "word",
-          "value": 1
+          "value": 13
         },
         "Param1": {
           "type": "byte",
@@ -111,11 +81,11 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 0
+          "value": 15
         },
         "Subtype": {
           "type": "word",
-          "value": 2
+          "value": 335
         }
       }
     ]
@@ -130,10 +100,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "NW_MAARCL057"
+    "value": "H2_SenseiAmulet"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_dae_cloak"
+    "value": "h2_senseiamulet"
   }
 }

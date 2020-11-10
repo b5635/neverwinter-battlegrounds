@@ -4,85 +4,9 @@
     "type": "dword",
     "value": 0
   },
-  "ArmorPart_Belt": {
-    "type": "byte",
-    "value": 10
-  },
-  "ArmorPart_LBicep": {
-    "type": "byte",
-    "value": 6
-  },
-  "ArmorPart_LFArm": {
-    "type": "byte",
-    "value": 20
-  },
-  "ArmorPart_LFoot": {
-    "type": "byte",
-    "value": 5
-  },
-  "ArmorPart_LHand": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_LShin": {
-    "type": "byte",
-    "value": 6
-  },
-  "ArmorPart_LShoul": {
-    "type": "byte",
-    "value": 22
-  },
-  "ArmorPart_LThigh": {
-    "type": "byte",
-    "value": 12
-  },
-  "ArmorPart_Neck": {
-    "type": "byte",
-    "value": 1
-  },
-  "ArmorPart_Pelvis": {
-    "type": "byte",
-    "value": 6
-  },
-  "ArmorPart_RBicep": {
-    "type": "byte",
-    "value": 6
-  },
-  "ArmorPart_RFArm": {
-    "type": "byte",
-    "value": 20
-  },
-  "ArmorPart_RFoot": {
-    "type": "byte",
-    "value": 5
-  },
-  "ArmorPart_RHand": {
-    "type": "byte",
-    "value": 4
-  },
-  "ArmorPart_Robe": {
-    "type": "byte",
-    "value": 0
-  },
-  "ArmorPart_RShin": {
-    "type": "byte",
-    "value": 6
-  },
-  "ArmorPart_RShoul": {
-    "type": "byte",
-    "value": 22
-  },
-  "ArmorPart_RThigh": {
-    "type": "byte",
-    "value": 12
-  },
-  "ArmorPart_Torso": {
-    "type": "byte",
-    "value": 25
-  },
   "BaseItem": {
     "type": "int",
-    "value": 16
+    "value": 80
   },
   "Charges": {
     "type": "byte",
@@ -90,11 +14,11 @@
   },
   "Cloth1Color": {
     "type": "byte",
-    "value": 37
+    "value": 100
   },
   "Cloth2Color": {
     "type": "byte",
-    "value": 37
+    "value": 129
   },
   "Comment": {
     "type": "cexostring",
@@ -102,14 +26,14 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 4420
+    "value": 75054
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13776,
+    "id": 66528,
     "type": "cexolocstring",
     "value": {}
   },
@@ -123,30 +47,32 @@
   },
   "Leather1Color": {
     "type": "byte",
-    "value": 7
+    "value": 101
   },
   "Leather2Color": {
     "type": "byte",
-    "value": 7
+    "value": 128
   },
   "LocalizedName": {
-    "id": 62382,
+    "id": 66542,
     "type": "cexolocstring",
-    "value": {
-      "0": "Daelan's Chainmail"
-    }
+    "value": {}
   },
   "Metal1Color": {
     "type": "byte",
-    "value": 22
+    "value": 8
   },
   "Metal2Color": {
     "type": "byte",
-    "value": 23
+    "value": 24
+  },
+  "ModelPart1": {
+    "type": "byte",
+    "value": 10
   },
   "PaletteID": {
     "type": "byte",
-    "value": 14
+    "value": 18
   },
   "Plot": {
     "type": "byte",
@@ -163,11 +89,11 @@
         },
         "CostTable": {
           "type": "byte",
-          "value": 1
+          "value": 2
         },
         "CostValue": {
           "type": "word",
-          "value": 1
+          "value": 5
         },
         "Param1": {
           "type": "byte",
@@ -179,7 +105,7 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 0
+          "value": 40
         },
         "Subtype": {
           "type": "word",
@@ -198,10 +124,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "X0_MAARCL013"
+    "value": "X0_MAARCL029"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_dae_armor"
+    "value": "bot_sab_cloak"
   }
 }
