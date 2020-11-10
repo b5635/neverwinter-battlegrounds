@@ -1,5 +1,7 @@
 #include "inc_constants"
 #include "util_i_csvlists"
+#include "util_i_color"
+#include "inc_player"
 
 // Get a random map by game mode.
 // Valid options: "tdm"
@@ -11,6 +13,17 @@ string GetRandomMapResRef(string sGameMode)
     int nCount = CountList(sList);
 
     return GetListItem(sList, Random(nCount));
+}
+
+void TriggerDoorsScript(string sTeam)
+{
+    object oTeamDoor1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(sTeam));
+    object oTeamDoor2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(sTeam));
+    object oTeamDoorRandom = GetObjectByTag("DOOR_SPAWNRANDOM_"+GetStringUpperCase(sTeam));
+
+    ExecuteScript(GetEventScript(oTeamDoor1, EVENT_SCRIPT_DOOR_ON_HEARTBEAT), oTeamDoor1);
+    ExecuteScript(GetEventScript(oTeamDoor2, EVENT_SCRIPT_DOOR_ON_HEARTBEAT), oTeamDoor2);
+    ExecuteScript(GetEventScript(oTeamDoorRandom, EVENT_SCRIPT_DOOR_ON_HEARTBEAT), oTeamDoorRandom);
 }
 
 // Creates a new session. TDM only currently.
@@ -52,20 +65,22 @@ int StartSession()
         {
             case OBJECT_TYPE_DOOR:
                 sTag = GetTag(oObject);
+                SetTag(oObject, "SESSION_"+sTag);
+                sTag = GetTag(oObject);
 
-                if (sTag == "TEAM1_SPAWN1")
+                if (sTag == "SESSION_TEAM1_SPAWN1")
                 {
                     SetLocalObject(oTeam1Door1, "door", oObject);
                 }
-                else if (sTag == "TEAM1_SPAWN2")
+                else if (sTag == "SESSION_TEAM1_SPAWN2")
                 {
                     SetLocalObject(oTeam1Door2, "door", oObject);
                 }
-                else if (sTag == "TEAM2_SPAWN1")
+                else if (sTag == "SESSION_TEAM2_SPAWN1")
                 {
                     SetLocalObject(oTeam2Door1, "door", oObject);
                 }
-                else if (sTag == "TEAM2_SPAWN2")
+                else if (sTag == "SESSION_TEAM2_SPAWN2")
                 {
                     SetLocalObject(oTeam2Door2, "door", oObject);
                 }
@@ -75,12 +90,128 @@ int StartSession()
         oObject = GetNextObjectInArea(oSession);
     }
 
+    TriggerDoorsScript(TEAM_BLUE);
+    TriggerDoorsScript(TEAM_RED);
+
     SetEventScript(oSession, EVENT_SCRIPT_AREA_ON_ENTER, "area_on_enter");
 
-    AssignCommand(GetModule(), SpeakString(GetName(oSession)+" has started!", TALKVOLUME_SHOUT));
+    AssignCommand(GetModule(), SpeakString(HexColorString(GetName(oSession), COLOR_PURPLE)+" has started!", TALKVOLUME_SHOUT));
 
     return TRUE;
+}
 
+// This function awards points to the selected team.
+// Also awards XP to PCs in the current map.
+// And will end the game if the maximum points have been exceeded.
+void AwardPoints(int nPoints, string sTeam);
+void AwardPoints(int nPoints, string sTeam)
+{
+    object oSession = GetObjectByTag(SESSION_TAG);
+
+// Award every PC inside the session map for these points.
+    object oPC = GetFirstPC();
+    {
+        if (GetArea(oPC) == oSession && GetLocalString(OBJECT_SELF, "team") == sTeam)
+            SetXP(oPC, GetXP(oPC) + (nPoints*XP_PER_POINT));
+
+        oPC = GetNextPC();
+    }
+
+// Store the points on the session
+    int nCurrentPoints = GetLocalInt(oSession, "points_"+sTeam);
+    SetLocalInt(oSession, "points_"+sTeam, nCurrentPoints+nPoints);
+
+// Retrieve it again after adding to the current.
+    nCurrentPoints = GetLocalInt(oSession, "points_"+sTeam);
+
+    if (GetLocalInt(oSession, "end") != 1 && nCurrentPoints >= POINTS_TO_WIN)
+    {
+// This is set so "end of session" never triggers twice.
+        SetLocalInt(oSession, "end", 1);
+
+// Award end of session XP
+        oPC = GetFirstPC();
+        {
+            if (GetLocalString(OBJECT_SELF, "team") == sTeam)
+            {
+                SetXP(oPC, GetXP(oPC) + (END_SESSION_XP*2)); // Winners get doubled end of session XP
+            }
+            else
+            {
+                SetXP(oPC, GetXP(oPC) + END_SESSION_XP);
+            }
+
+            oPC = GetNextPC();
+        }
+
+// Trigger the scripts of each door to get them to close itself.
+        TriggerDoorsScript(TEAM_BLUE);
+        TriggerDoorsScript(TEAM_RED);
+
+        SetEventScript(oSession, EVENT_SCRIPT_AREA_ON_HEARTBEAT, "session_end_hb");
+
+// Play end of session message.
+        string sTeamWin = HexColorString("Blue Team wins!", COLOR_BLUE);
+        if (sTeam == TEAM_RED) sTeamWin = HexColorString("Red Team wins!", COLOR_RED);
+        AssignCommand(GetModule(), SpeakString(HexColorString(GetName(oSession), COLOR_PURPLE)+" has ended! "+sTeamWin, TALKVOLUME_SHOUT));
+    }
+}
+
+// Determines the points for a kill.
+// This MUST be used on either PC death or creature death.
+void DetermineKillPoints();
+void DetermineKillPoints()
+{
+    object oSession = GetObjectByTag(SESSION_TAG);
+// do not proceed if the session has already ended
+    if (GetLocalInt(oSession, "end") == 1) return;
+
+    object oKiller = GetPlayer(GetLastHostileActor());
+
+    object oLastAttacker = GetPlayer(GetLocalObject(OBJECT_SELF, "last_attacker"));
+
+    string sVictimName = GetName(OBJECT_SELF);
+    string sVictimTeam = GetLocalString(OBJECT_SELF, "team");
+
+    string sName, sTeam;
+    int nHitDice;
+
+    if (GetIsObjectValid(oKiller))
+    {
+        sName = GetName(oKiller);
+        nHitDice = GetHitDice(oKiller);
+        sTeam = GetLocalString(oKiller, "team");
+    }
+    else
+    {
+        oKiller = GetPlayer(oLastAttacker);
+        sName = GetLocalString(OBJECT_SELF, "last_attacker_name");
+        nHitDice = GetLocalInt(OBJECT_SELF, "last_attacker_level");
+        sTeam = GetLocalString(OBJECT_SELF, "last_attacker_team");
+    }
+
+    if (sName != "" && sTeam != sVictimTeam)
+    {
+
+        int nDifference = GetHitDice(OBJECT_SELF) - nHitDice;
+        int nPoints = POINTS_PER_KILL + nDifference;
+
+        string sPoints = IntToString(nPoints)+" points!";
+        if (nPoints == 1) sPoints = IntToString(nPoints)+" point!";
+        sPoints = HexColorString(sPoints, COLOR_PURPLE);
+
+// Colorize victim name
+        if (sVictimTeam == TEAM_BLUE) { sVictimName = HexColorString(sVictimName, COLOR_BLUE); }
+        else if (sVictimTeam == TEAM_RED) { sVictimName = HexColorString(sVictimName, COLOR_RED); }
+
+// Same for killer name
+        if (sTeam == TEAM_BLUE) { sName = HexColorString(sName, COLOR_BLUE); }
+        else if (sVictimTeam == TEAM_RED) { sName = HexColorString(sName, COLOR_RED); }
+
+        AssignCommand(GetModule(), SpeakString(sName+" has killed "+sVictimName+" for "+sPoints, TALKVOLUME_SHOUT));
+
+        AwardPoints(nPoints, sTeam);
+    }
 }
 
 //void main() {}

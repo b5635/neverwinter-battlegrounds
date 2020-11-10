@@ -1,3 +1,5 @@
+#include "inc_constants"
+
 void DetermineGold(object oPC)
 {
     int nMaxGold = GetXP(oPC);
@@ -36,6 +38,35 @@ void DetermineGold(object oPC)
    {
         SendMessageToPC(oPC, "You have too much gold. You need to drop some gold or items to continue. Difference: "+IntToString(nDifference));
    }
+}
+
+// Wrapper function for getting the player or bot.
+// If the target isn't a player, we will retrieve the master instead.
+// This whole thing simply checks for the "team" local.
+// This is typically used for tracking the last attacker/killer.
+object GetPlayer(object oPC = OBJECT_SELF);
+object GetPlayer(object oPC = OBJECT_SELF)
+{
+    string sTeam = GetLocalString(oPC, "team");
+
+    if (sTeam != TEAM_BLUE && sTeam != TEAM_RED)
+    {
+        oPC = GetMaster(oPC);
+        sTeam = GetLocalString(oPC, "team");
+
+        if (sTeam != TEAM_BLUE && sTeam != TEAM_RED)
+        {
+            return OBJECT_INVALID;
+        }
+        else
+        {
+            return oPC;
+        }
+    }
+    else
+    {
+        return oPC;
+    }
 }
 
 //void main() {}
