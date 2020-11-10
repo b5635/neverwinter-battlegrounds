@@ -26,6 +26,10 @@ void main()
 
             ActionCastSpellAtLocation(nSpell, lLocation, nMetamagic, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
         }
+        else
+        {
+            ActionCastSpellAtObject(nSpell, OBJECT_SELF, nMetamagic, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+        }
 
         NWNX_Events_SkipEvent();
     }

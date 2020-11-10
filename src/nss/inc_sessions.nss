@@ -2,6 +2,7 @@
 #include "util_i_csvlists"
 #include "util_i_color"
 #include "inc_teams"
+#include "nwnx_area"
 
 // Get a random map by game mode.
 // Valid options: "tdm"
@@ -38,6 +39,8 @@ int StartSession()
     if (GetIsObjectValid(oSession)) return FALSE;
 
     oSession = CreateArea(GetRandomMapResRef("tdm"), SESSION_TAG);
+
+    NWNX_Area_SetNoRestingAllowed(oSession, TRUE);
 
 // do not continue if the session was not created successfully
     if (!GetIsObjectValid(oSession)) return FALSE;

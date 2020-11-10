@@ -1,5 +1,6 @@
 #include "inc_sessions"
 #include "inc_teams"
+#include "inc_player"
 
 void main()
 {
@@ -25,6 +26,10 @@ void main()
     while (GetIsObjectValid(oPC))
     {
         SetTeamFaction(oPC);
+
+        string sResRef = GetResRef(GetArea(oPC));
+
+        if (sResRef == "_system" || sResRef == "_choice") DetermineGold(oPC);
 
         oPC = GetNextPC();
     }

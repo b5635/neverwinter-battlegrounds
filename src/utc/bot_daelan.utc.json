@@ -442,28 +442,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 7
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 7
+          "value": 11
         }
       },
       {
@@ -491,7 +470,21 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 6
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
         }
       },
       {
@@ -519,7 +512,14 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 1
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
         }
       },
       {
@@ -540,14 +540,14 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 3
+          "value": 0
         }
       },
       {
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
+          "value": 11
         }
       },
       {
