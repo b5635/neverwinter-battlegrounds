@@ -1,4 +1,5 @@
 #include "inc_player"
+#include "inc_teams"
 
 void main()
 {
@@ -8,5 +9,6 @@ void main()
     {
         DetermineGold(oPC);
         ExploreAreaForPlayer(OBJECT_SELF, oPC, TRUE);
+        SetTeamFaction(oPC);
     }
 }

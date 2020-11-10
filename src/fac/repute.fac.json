@@ -125,7 +125,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 50
+          "value": 0
         }
       },
       {
@@ -140,7 +140,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 50
+          "value": 0
         }
       },
       {
@@ -245,7 +245,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 50
+          "value": 0
         }
       },
       {
@@ -260,7 +260,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 100
+          "value": 0
         }
       },
       {
@@ -290,7 +290,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 50
+          "value": 0
         }
       },
       {
@@ -320,7 +320,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 100
+          "value": 0
         }
       },
       {
@@ -350,7 +350,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 50
+          "value": 0
         }
       },
       {
@@ -365,7 +365,7 @@
         },
         "FactionRep": {
           "type": "dword",
-          "value": 100
+          "value": 0
         }
       },
       {

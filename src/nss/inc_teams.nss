@@ -1,4 +1,5 @@
 #include "inc_constants"
+#include "util_i_color"
 
 struct Teams
 {
@@ -45,6 +46,70 @@ struct Teams GetData()
     TeamHash.blueHitDice = nBlueHitDice;
 
     return TeamHash;
+}
+
+// Wrapper function for getting the player or bot.
+// If the target isn't a player, we will retrieve the master instead.
+// This whole thing simply checks for the "team" local.
+// This is typically used for tracking the last attacker/killer.
+object GetPlayer(object oPC = OBJECT_SELF);
+object GetPlayer(object oPC = OBJECT_SELF)
+{
+    string sTeam = GetLocalString(oPC, "team");
+
+    if (sTeam != TEAM_BLUE && sTeam != TEAM_RED)
+    {
+        oPC = GetMaster(oPC);
+        sTeam = GetLocalString(oPC, "team");
+
+        if (sTeam != TEAM_BLUE && sTeam != TEAM_RED)
+        {
+            return OBJECT_INVALID;
+        }
+        else
+        {
+            return oPC;
+        }
+    }
+    else
+    {
+        return oPC;
+    }
+}
+
+// Puts the creature into the correct faction
+void SetTeamFaction(object oCreature);
+void SetTeamFaction(object oCreature)
+{
+    string sTeam = GetLocalString(oCreature, "team");
+
+    if (sTeam == TEAM_BLUE)
+    {
+        SetStandardFactionReputation(STANDARD_FACTION_DEFENDER, 100, oCreature);
+        SetStandardFactionReputation(STANDARD_FACTION_MERCHANT, 0, oCreature);
+    }
+    else if (sTeam == TEAM_RED)
+    {
+        SetStandardFactionReputation(STANDARD_FACTION_DEFENDER, 0, oCreature);
+        SetStandardFactionReputation(STANDARD_FACTION_MERCHANT, 100, oCreature);
+    }
+}
+
+// Makes the creature join the specified team.
+void JoinTeam(object oCreature, string sTeam);
+void JoinTeam(object oCreature, string sTeam)
+{
+    SetLocalString(oCreature, "team", sTeam);
+
+    SetTeamFaction(oCreature);
+
+    if (GetIsPC(oCreature))
+    {
+        string sTeamName = HexColorString("Blue Team!", COLOR_BLUE);
+        if (sTeam == TEAM_RED) sTeamName = HexColorString("Red Team!", COLOR_RED);
+
+        AssignCommand(GetModule(), SpeakString(HexColorString(GetName(oCreature)+" ("+IntToString(GetHitDice(oCreature))+")", COLOR_PURPLE)+" has joined the "+sTeamName, TALKVOLUME_SHOUT));
+    }
 }
 
 //void main() {}

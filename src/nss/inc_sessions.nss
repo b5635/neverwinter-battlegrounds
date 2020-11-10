@@ -1,7 +1,7 @@
 #include "inc_constants"
 #include "util_i_csvlists"
 #include "util_i_color"
-#include "inc_player"
+#include "inc_teams"
 
 // Get a random map by game mode.
 // Valid options: "tdm"

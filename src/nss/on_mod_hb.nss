@@ -1,7 +1,10 @@
 #include "inc_sessions"
+#include "inc_teams"
 
 void main()
 {
+    ExportAllCharacters();
+
     object oSession = GetObjectByTag(SESSION_TAG);
 
     if (!GetIsObjectValid(oSession))
@@ -17,5 +20,12 @@ void main()
         {
             SetLocalInt(OBJECT_SELF, "session_count", nCount+1);
         }
+    }
+    object oPC = GetFirstPC();
+    while (GetIsObjectValid(oPC))
+    {
+        SetTeamFaction(oPC);
+
+        oPC = GetNextPC();
     }
 }
