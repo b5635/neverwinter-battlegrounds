@@ -66,9 +66,17 @@
 
 // This is required for all spawn in options!
 #include "j_inc_spawnin"
-
+#include "nwnx_creature"
+#include "inc_constants"
 void main()
 {
+    NWNX_Creature_SetDisarmable(OBJECT_SELF, TRUE);
+    NWNX_Creature_SetCorpseDecayTime(OBJECT_SELF, RESPAWN_TIME*1000);
+    SetIsDestroyable(TRUE, FALSE, TRUE);
+    SetPlotFlag(OBJECT_SELF, FALSE);
+    SetImmortal(OBJECT_SELF, FALSE);
+    NWNX_Creature_SetChallengeRating(OBJECT_SELF, IntToFloat(GetHitDice(OBJECT_SELF)));
+
 /************************ [Important Spawn Settings] **************************/
     SetAIInteger(AI_INTELLIGENCE, 10);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.

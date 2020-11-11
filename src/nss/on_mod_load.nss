@@ -8,6 +8,8 @@
 
 void InitializeBase(string sTeam, int nColor)
 {
+    SetMaxHenchmen(999);
+
     object oArea = CreateArea("_base", "BASE_"+GetStringUpperCase(sTeam), sTeam+" Base");
 
     object oObject = GetFirstObjectInArea(oArea);
@@ -67,6 +69,28 @@ void main()
     SetLocalString(oModule, "tdm_list", sTDM);
     WriteTimestampedLogEntry("tdm_list: "+sTDM);
 
+// loop through and get the list of valid bots
+    int i;
+    object oBot;
+    string sHitDice, sList;
+    location lSystem = Location(GetObjectByTag("_system"), Vector(), 0.0);
+    for (i = 1; i < 75; i++)
+    {
+        oBot = CreateObject(OBJECT_TYPE_CREATURE, "bot"+IntToString(i), lSystem);
+        sHitDice = IntToString(GetHitDice(oBot));
+
+// bots with this script set is considered complete
+        if (GetIsObjectValid(oBot) && GetEventScript(oBot, EVENT_SCRIPT_CREATURE_ON_BLOCKED_BY_DOOR) == "j_ai_onblocked")
+        {
+            sList = AddListItem(GetLocalString(GetModule(), "bot_lvl"+sHitDice), GetResRef(oBot), TRUE);
+            SetLocalString(GetModule(), "bot_lvl"+sHitDice, sList);
+        }
+
+        DestroyObject(oBot);
+    }
+
+    for (i = 7; i <= 12; i++)
+        WriteTimestampedLogEntry("bot_lvl"+IntToString(i)+": "+GetLocalString(GetModule(), "bot_lvl"+IntToString(i)));
 
 // This script makes players always start at "The Choice"
     NWNX_Events_SubscribeEvent("NWNX_ON_ELC_VALIDATE_CHARACTER_BEFORE", "on_elc_validateb");

@@ -97,6 +97,7 @@ int StartSession()
     TriggerDoorsScript(TEAM_RED);
 
     SetEventScript(oSession, EVENT_SCRIPT_AREA_ON_ENTER, "area_on_enter");
+    SetEventScript(oSession, EVENT_SCRIPT_AREA_ON_HEARTBEAT, "session_hb");
 
     AssignCommand(GetModule(), SpeakString(HexColorString(GetName(oSession), COLOR_PURPLE)+" has started!", TALKVOLUME_SHOUT));
 
@@ -111,10 +112,12 @@ void AwardPoints(int nPoints, string sTeam)
 {
     object oSession = GetObjectByTag(SESSION_TAG);
 
+    if (GetLocalInt(oSession, "end") == 1) return;
+
 // Award every PC inside the session map for these points.
     object oPC = GetFirstPC();
     {
-        if (GetArea(oPC) == oSession && GetLocalString(OBJECT_SELF, "team") == sTeam)
+        if (GetArea(oPC) == oSession && GetLocalString(oPC, "team") == sTeam)
             SetXP(oPC, GetXP(oPC) + (nPoints*XP_PER_POINT));
 
         oPC = GetNextPC();
@@ -127,7 +130,7 @@ void AwardPoints(int nPoints, string sTeam)
 // Retrieve it again after adding to the current.
     nCurrentPoints = GetLocalInt(oSession, "points_"+sTeam);
 
-    if (GetLocalInt(oSession, "end") != 1 && nCurrentPoints >= POINTS_TO_WIN)
+    if (nCurrentPoints >= POINTS_TO_WIN)
     {
 // This is set so "end of session" never triggers twice.
         SetLocalInt(oSession, "end", 1);
@@ -135,7 +138,7 @@ void AwardPoints(int nPoints, string sTeam)
 // Award end of session XP
         oPC = GetFirstPC();
         {
-            if (GetLocalString(OBJECT_SELF, "team") == sTeam)
+            if (GetLocalString(oPC, "team") == sTeam)
             {
                 SetXP(oPC, GetXP(oPC) + (END_SESSION_XP*2)); // Winners get doubled end of session XP
             }
@@ -162,19 +165,19 @@ void AwardPoints(int nPoints, string sTeam)
 
 // Determines the points for a kill.
 // This MUST be used on either PC death or creature death.
-void DetermineKillPoints();
-void DetermineKillPoints()
+void DetermineKillPoints(object oCreature = OBJECT_SELF);
+void DetermineKillPoints(object oCreature = OBJECT_SELF)
 {
     object oSession = GetObjectByTag(SESSION_TAG);
 // do not proceed if the session has already ended
     if (GetLocalInt(oSession, "end") == 1) return;
 
-    object oKiller = GetPlayer(GetLastHostileActor());
+    object oKiller = GetPlayer(GetLastHostileActor(oCreature));
 
-    object oLastAttacker = GetPlayer(GetLocalObject(OBJECT_SELF, "last_attacker"));
+    object oLastAttacker = GetPlayer(GetLocalObject(oCreature, "last_attacker"));
 
-    string sVictimName = GetName(OBJECT_SELF);
-    string sVictimTeam = GetLocalString(OBJECT_SELF, "team");
+    string sVictimName = GetName(oCreature);
+    string sVictimTeam = GetLocalString(oCreature, "team");
 
     string sName, sTeam;
     int nHitDice;
@@ -188,28 +191,39 @@ void DetermineKillPoints()
     else
     {
         oKiller = GetPlayer(oLastAttacker);
-        sName = GetLocalString(OBJECT_SELF, "last_attacker_name");
-        nHitDice = GetLocalInt(OBJECT_SELF, "last_attacker_level");
-        sTeam = GetLocalString(OBJECT_SELF, "last_attacker_team");
+        sName = GetLocalString(oCreature, "last_attacker_name");
+        nHitDice = GetLocalInt(oCreature, "last_attacker_level");
+        sTeam = GetLocalString(oCreature, "last_attacker_team");
     }
 
     if (sName != "" && sTeam != sVictimTeam)
     {
-
-        int nDifference = GetHitDice(OBJECT_SELF) - nHitDice;
+        int nVictimHitDice = GetHitDice(oCreature);
+        int nDifference = nVictimHitDice - nHitDice;
         int nPoints = POINTS_PER_KILL + nDifference;
 
         string sPoints = IntToString(nPoints)+" points!";
         if (nPoints == 1) sPoints = IntToString(nPoints)+" point!";
+
+        FloatingTextStringOnCreature("You killed "+sVictimName+" for "+IntToString(nPoints)+sPoints, oKiller, FALSE);
+
+        sName = sName+" ("+IntToString(nHitDice)+")";
+
+        sVictimName = sVictimName+" ("+IntToString(nVictimHitDice)+")";
+
         sPoints = HexColorString(sPoints, COLOR_PURPLE);
 
 // Colorize victim name
         if (sVictimTeam == TEAM_BLUE) { sVictimName = HexColorString(sVictimName, COLOR_BLUE); }
         else if (sVictimTeam == TEAM_RED) { sVictimName = HexColorString(sVictimName, COLOR_RED); }
 
+        int nEffect;
 // Same for killer name
-        if (sTeam == TEAM_BLUE) { sName = HexColorString(sName, COLOR_BLUE); }
-        else if (sVictimTeam == TEAM_RED) { sName = HexColorString(sName, COLOR_RED); }
+        if (sTeam == TEAM_BLUE) { sName = HexColorString(sName, COLOR_BLUE); nEffect = VFX_IMP_PULSE_COLD;}
+        else if (sTeam == TEAM_RED) { sName = HexColorString(sName, COLOR_RED); nEffect = VFX_IMP_PULSE_NEGATIVE;}
+
+        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(nEffect), GetLocation(oKiller));
+
 
         AssignCommand(GetModule(), SpeakString(sName+" has killed "+sVictimName+" for "+sPoints, TALKVOLUME_SHOUT));
 

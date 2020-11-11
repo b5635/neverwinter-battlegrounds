@@ -162,11 +162,11 @@
   },
   "Mod_OnPlrDeath": {
     "type": "resref",
-    "value": ""
+    "value": "on_pc_death"
   },
   "Mod_OnPlrDying": {
     "type": "resref",
-    "value": ""
+    "value": "on_pc_dying"
   },
   "Mod_OnPlrEqItm": {
     "type": "resref",
@@ -226,6 +226,6 @@
   },
   "Mod_XPScale": {
     "type": "byte",
-    "value": 10
+    "value": 0
   }
 }

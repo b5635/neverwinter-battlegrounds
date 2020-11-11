@@ -90,7 +90,7 @@
   },
   "ChallengeRating": {
     "type": "float",
-    "value": 2.0
+    "value": 7.0
   },
   "ClassList": {
     "type": "list",
@@ -100,6 +100,17 @@
         "Class": {
           "type": "int",
           "value": 4
+        },
+        "ClassLevel": {
+          "type": "short",
+          "value": 6
+        }
+      },
+      {
+        "__struct_id": 2,
+        "Class": {
+          "type": "int",
+          "value": 33
         },
         "ClassLevel": {
           "type": "short",
@@ -130,11 +141,11 @@
   },
   "Con": {
     "type": "byte",
-    "value": 12
+    "value": 16
   },
   "Conversation": {
     "type": "resref",
-    "value": "m1q2_alaefin"
+    "value": ""
   },
   "CRAdjust": {
     "type": "int",
@@ -142,7 +153,7 @@
   },
   "CurrentHitPoints": {
     "type": "short",
-    "value": 40
+    "value": 70
   },
   "DecayTime": {
     "type": "dword",
@@ -167,7 +178,43 @@
   },
   "Equip_ItemList": {
     "type": "list",
-    "value": []
+    "value": [
+      {
+        "__struct_id": 2,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "nw_maarcl052"
+        }
+      },
+      {
+        "__struct_id": 8,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel103"
+        }
+      },
+      {
+        "__struct_id": 16,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "weapon157"
+        }
+      },
+      {
+        "__struct_id": 256,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel114"
+        }
+      },
+      {
+        "__struct_id": 512,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel128"
+        }
+      }
+    ]
   },
   "FactionID": {
     "type": "word",
@@ -176,13 +223,6 @@
   "FeatList": {
     "type": "list",
     "value": [
-      {
-        "__struct_id": 1,
-        "Feat": {
-          "type": "word",
-          "value": 0
-        }
-      },
       {
         "__struct_id": 1,
         "Feat": {
@@ -208,6 +248,34 @@
         "__struct_id": 1,
         "Feat": {
           "type": "word",
+          "value": 10
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 389
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 882
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 26
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
           "value": 258
         }
       },
@@ -222,6 +290,13 @@
         "__struct_id": 1,
         "Feat": {
           "type": "word",
+          "value": 392
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
           "value": 40
         }
       },
@@ -229,14 +304,14 @@
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 123
+          "value": 107
         }
       },
       {
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 44
+          "value": 929
         }
       },
       {
@@ -252,13 +327,29 @@
           "type": "word",
           "value": 46
         }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 145
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 867
+        }
       }
     ]
   },
   "FirstName": {
     "id": 24574,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "Head Gaoler Alaefin"
+    }
   },
   "fortbonus": {
     "type": "short",
@@ -274,11 +365,11 @@
   },
   "HitPoints": {
     "type": "short",
-    "value": 40
+    "value": 70
   },
   "Int": {
     "type": "byte",
-    "value": 10
+    "value": 13
   },
   "Interruptable": {
     "type": "byte",
@@ -295,7 +386,9 @@
   "LastName": {
     "id": 24575,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": ""
+    }
   },
   "LawfulChaotic": {
     "type": "byte",
@@ -307,7 +400,7 @@
   },
   "MaxHitPoints": {
     "type": "short",
-    "value": 42
+    "value": 98
   },
   "NaturalAC": {
     "type": "byte",
@@ -347,55 +440,55 @@
   },
   "ScriptAttacked": {
     "type": "resref",
-    "value": "nw_c2_default5"
+    "value": "j_ai_onphiattack"
   },
   "ScriptDamaged": {
     "type": "resref",
-    "value": "nw_c2_default6"
+    "value": "j_ai_ondamaged"
   },
   "ScriptDeath": {
     "type": "resref",
-    "value": "nw_c2_default7"
+    "value": "j_ai_ondeath"
   },
   "ScriptDialogue": {
     "type": "resref",
-    "value": "m1q2daelp_4"
+    "value": "j_ai_onconversat"
   },
   "ScriptDisturbed": {
     "type": "resref",
-    "value": "nw_c2_default8"
+    "value": "j_ai_ondisturbed"
   },
   "ScriptEndRound": {
     "type": "resref",
-    "value": "nw_c2_default3"
+    "value": "j_ai_oncombatrou"
   },
   "ScriptHeartbeat": {
     "type": "resref",
-    "value": "nw_c2_default1"
+    "value": "j_ai_onheartbeat"
   },
   "ScriptOnBlocked": {
     "type": "resref",
-    "value": "nw_c2_defaulte"
+    "value": "j_ai_onblocked"
   },
   "ScriptOnNotice": {
     "type": "resref",
-    "value": "nw_c2_default2"
+    "value": "j_ai_onpercieve"
   },
   "ScriptRested": {
     "type": "resref",
-    "value": "nw_c2_defaulta"
+    "value": "j_ai_onrest"
   },
   "ScriptSpawn": {
     "type": "resref",
-    "value": "nw_c2_default9"
+    "value": "j_ai_onspawn"
   },
   "ScriptSpellAt": {
     "type": "resref",
-    "value": "nw_c2_defaultb"
+    "value": "j_ai_onspellcast"
   },
   "ScriptUserDefine": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onuserdef"
   },
   "SkillList": {
     "type": "list",
@@ -425,6 +518,62 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
+          "value": 10
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 10
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
           "value": 4
         }
       },
@@ -467,6 +616,41 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
+          "value": 10
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 5
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
           "value": 0
         }
       },
@@ -482,97 +666,6 @@
         "Rank": {
           "type": "byte",
           "value": 4
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
         }
       },
       {
@@ -612,7 +705,7 @@
   },
   "Str": {
     "type": "byte",
-    "value": 15
+    "value": 19
   },
   "Subrace": {
     "type": "cexostring",
@@ -648,6 +741,6 @@
   },
   "Wis": {
     "type": "byte",
-    "value": 12
+    "value": 8
   }
 }

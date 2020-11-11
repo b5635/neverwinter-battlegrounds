@@ -1,14 +1,17 @@
 #include "inc_constants"
 #include "util_i_color"
 
+// int redCount, int redHitDice, int blueCount, int blueHitDice
 struct Teams
 {
-    int redTeam;
+    int redCount;
     int redHitDice;
-    int blueTeam;
+    int blueCount;
     int blueHitDice;
 };
 
+// int redCount, int redHitDice, int blueCount, int blueHitDice
+struct Teams GetData();
 struct Teams GetData()
 {
     struct Teams TeamHash;
@@ -40,9 +43,9 @@ struct Teams GetData()
         oPC = GetNextPC();
     }
 
-    TeamHash.redTeam = nRedCount;
+    TeamHash.redCount = nRedCount;
     TeamHash.redHitDice = nRedHitDice;
-    TeamHash.blueTeam = nBlueCount;
+    TeamHash.blueCount = nBlueCount;
     TeamHash.blueHitDice = nBlueHitDice;
 
     return TeamHash;
@@ -77,6 +80,27 @@ object GetPlayer(object oPC = OBJECT_SELF)
     }
 }
 
+void SetBotMaster(object oBot)
+{
+    if (GetIsObjectValid(GetMaster(oBot))) return;
+
+    string sTeam = GetLocalString(oBot, "team");
+
+    object oPC = GetFirstPC();
+    object oArea = GetArea(oBot);
+
+    while (GetIsObjectValid(oPC))
+    {
+        if (!GetIsDead(oPC) && GetArea(oPC) == oArea && GetLocalString(oPC, "team") == sTeam)
+        {
+            AddHenchman(oPC, oBot);
+            break;
+        }
+
+        oPC = GetNextPC();
+    }
+}
+
 // Puts the creature into the correct faction
 void SetTeamFaction(object oCreature);
 void SetTeamFaction(object oCreature)
@@ -87,12 +111,16 @@ void SetTeamFaction(object oCreature)
     {
         SetStandardFactionReputation(STANDARD_FACTION_DEFENDER, 100, oCreature);
         SetStandardFactionReputation(STANDARD_FACTION_MERCHANT, 0, oCreature);
+        if (!GetIsObjectValid(GetMaster(oCreature))) ChangeToStandardFaction(oCreature, STANDARD_FACTION_DEFENDER);
     }
     else if (sTeam == TEAM_RED)
     {
         SetStandardFactionReputation(STANDARD_FACTION_DEFENDER, 0, oCreature);
         SetStandardFactionReputation(STANDARD_FACTION_MERCHANT, 100, oCreature);
+        if (!GetIsObjectValid(GetMaster(oCreature))) ChangeToStandardFaction(oCreature, STANDARD_FACTION_MERCHANT);
     }
+
+    if (!GetIsPC(oCreature)) SetBotMaster(oCreature);
 }
 
 // Makes the creature join the specified team.

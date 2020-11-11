@@ -86,11 +86,11 @@
   },
   "Cha": {
     "type": "byte",
-    "value": 10
+    "value": 8
   },
   "ChallengeRating": {
     "type": "float",
-    "value": 1.0
+    "value": 11.0
   },
   "ClassList": {
     "type": "list",
@@ -103,7 +103,18 @@
         },
         "ClassLevel": {
           "type": "short",
-          "value": 1
+          "value": 6
+        }
+      },
+      {
+        "__struct_id": 2,
+        "Class": {
+          "type": "int",
+          "value": 33
+        },
+        "ClassLevel": {
+          "type": "short",
+          "value": 5
         }
       }
     ]
@@ -130,7 +141,7 @@
   },
   "Con": {
     "type": "byte",
-    "value": 15
+    "value": 16
   },
   "Conversation": {
     "type": "resref",
@@ -138,11 +149,11 @@
   },
   "CRAdjust": {
     "type": "int",
-    "value": 0
+    "value": 1
   },
   "CurrentHitPoints": {
     "type": "short",
-    "value": 10
+    "value": 110
   },
   "DecayTime": {
     "type": "dword",
@@ -159,7 +170,7 @@
   },
   "Dex": {
     "type": "byte",
-    "value": 15
+    "value": 13
   },
   "Disarmable": {
     "type": "byte",
@@ -173,6 +184,41 @@
         "EquippedRes": {
           "type": "resref",
           "value": "bot_vae_armor"
+        }
+      },
+      {
+        "__struct_id": 4,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel37"
+        }
+      },
+      {
+        "__struct_id": 8,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel104"
+        }
+      },
+      {
+        "__struct_id": 16,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "nw_wblmfh011"
+        }
+      },
+      {
+        "__struct_id": 256,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel115"
+        }
+      },
+      {
+        "__struct_id": 512,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel130"
         }
       }
     ]
@@ -216,7 +262,42 @@
         "__struct_id": 1,
         "Feat": {
           "type": "word",
-          "value": 28
+          "value": 10
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 389
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 78
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 883
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 882
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 26
         }
       },
       {
@@ -230,7 +311,21 @@
         "__struct_id": 1,
         "Feat": {
           "type": "word",
+          "value": 392
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
           "value": 116
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 937
         }
       },
       {
@@ -245,6 +340,20 @@
         "Feat": {
           "type": "word",
           "value": 46
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 154
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 867
         }
       }
     ]
@@ -270,11 +379,11 @@
   },
   "HitPoints": {
     "type": "short",
-    "value": 10
+    "value": 110
   },
   "Int": {
     "type": "byte",
-    "value": 15
+    "value": 13
   },
   "Interruptable": {
     "type": "byte",
@@ -303,7 +412,7 @@
   },
   "MaxHitPoints": {
     "type": "short",
-    "value": 12
+    "value": 143
   },
   "NaturalAC": {
     "type": "byte",
@@ -315,7 +424,7 @@
   },
   "PaletteID": {
     "type": "byte",
-    "value": 3
+    "value": 44
   },
   "PerceptionRange": {
     "type": "byte",
@@ -335,7 +444,7 @@
   },
   "Race": {
     "type": "byte",
-    "value": 20
+    "value": 6
   },
   "refbonus": {
     "type": "short",
@@ -343,55 +452,55 @@
   },
   "ScriptAttacked": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onphiattack"
   },
   "ScriptDamaged": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_ondamaged"
   },
   "ScriptDeath": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_ondeath"
   },
   "ScriptDialogue": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onconversat"
   },
   "ScriptDisturbed": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_ondisturbed"
   },
   "ScriptEndRound": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_oncombatrou"
   },
   "ScriptHeartbeat": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onheartbeat"
   },
   "ScriptOnBlocked": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onblocked"
   },
   "ScriptOnNotice": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onpercieve"
   },
   "ScriptRested": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onrest"
   },
   "ScriptSpawn": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onspawn"
   },
   "ScriptSpellAt": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onspellcast"
   },
   "ScriptUserDefine": {
     "type": "resref",
-    "value": ""
+    "value": "j_ai_onuserdef"
   },
   "SkillList": {
     "type": "list",
@@ -421,14 +530,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 4
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 4
+          "value": 14
         }
       },
       {
@@ -449,28 +551,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 0
-        }
-      },
-      {
-        "__struct_id": 0,
-        "Rank": {
-          "type": "byte",
-          "value": 4
+          "value": 14
         }
       },
       {
@@ -547,7 +628,35 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
+          "value": 14
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
           "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "Rank": {
+          "type": "byte",
+          "value": 5
         }
       },
       {
@@ -608,7 +717,7 @@
   },
   "Str": {
     "type": "byte",
-    "value": 15
+    "value": 20
   },
   "Subrace": {
     "type": "cexostring",
@@ -664,6 +773,6 @@
   },
   "Wis": {
     "type": "byte",
-    "value": 12
+    "value": 8
   }
 }

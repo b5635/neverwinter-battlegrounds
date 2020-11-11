@@ -42,9 +42,12 @@
 
 // - This includes J_Inc_Constants
 #include "J_INC_HEARTBEAT"
+#include "inc_teams"
 
 void main()
 {
+    SetTeamFaction(OBJECT_SELF);
+
     // Special - Runner from the leader shouts, each heartbeat, to others to get thier
     // attention that they are being attacked.
     // - Includes fleeing making sure (so it resets the ActionMoveTo each 6 seconds -

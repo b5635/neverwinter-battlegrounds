@@ -312,17 +312,6 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
-                      "value": "bot_vae_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 107959
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
                       "value": "armor5"
                     },
                     "STRREF": {
@@ -1034,28 +1023,6 @@
                   },
                   {
                     "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_cal_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 24844
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_ole_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 26340
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
                     "NAME": {
                       "type": "cexostring",
                       "value": "Fenthick's Armor"
@@ -1707,6 +1674,17 @@
                     "__struct_id": 0,
                     "NAME": {
                       "type": "cexostring",
+                      "value": "Eltoora's Crossbow"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_elt_weapon"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
                       "value": "Imloth's Bow"
                     },
                     "RESREF": {
@@ -1752,6 +1730,17 @@
               "LIST": {
                 "type": "list",
                 "value": [
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Clothing: Bloodsailor (Fancy)"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_cal_armor"
+                    }
+                  },
                   {
                     "__struct_id": 0,
                     "NAME": {
@@ -1809,6 +1798,17 @@
                   },
                   {
                     "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Oleff's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_ole_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
                       "value": "q3_armand_pro002"
@@ -1827,6 +1827,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 110426
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Valen's Breastplate"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_vae_armor"
                     }
                   }
                 ]
