@@ -14,6 +14,11 @@ void main()
 {
     object oPC = GetLastPlayerDied();
 
+    DeleteLocalInt(oPC, "last_attacker_level");
+    DeleteLocalString(oPC, "last_attacker_name");
+    DeleteLocalString(oPC, "last_attacker_team");
+    DeleteLocalObject(oPC, "last_attacker");
+
     Gibs(oPC);
 
     DetermineKillPoints(oPC);
