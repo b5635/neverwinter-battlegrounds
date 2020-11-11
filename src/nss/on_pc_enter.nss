@@ -63,6 +63,10 @@ void main()
 {
     object oPC = GetEnteringObject();
 
+    AddJournalQuestEntry("welcome", 1, oPC, FALSE, FALSE, TRUE);
+    AddJournalQuestEntry("rules", 1, oPC, FALSE, FALSE, TRUE);
+    AddJournalQuestEntry("credits", 1, oPC, FALSE, FALSE, TRUE);
+
 // Do this only for PCs
     if (!GetIsPC(oPC)) return;
 
