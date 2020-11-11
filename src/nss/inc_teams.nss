@@ -120,7 +120,26 @@ void SetTeamFaction(object oCreature)
         if (!GetIsObjectValid(GetMaster(oCreature))) ChangeToStandardFaction(oCreature, STANDARD_FACTION_MERCHANT);
     }
 
-    if (!GetIsPC(oCreature)) SetBotMaster(oCreature);
+
+    if (GetIsPC(oCreature))
+    {
+        object oPC = GetFirstPC();
+        string sPCTeam;
+
+        while (GetIsObjectValid(oPC))
+        {
+            sPCTeam = GetLocalString(oPC, "team");
+
+            if (sPCTeam == sTeam) { SetPCLike(oCreature, oPC); }
+            else { SetPCDislike(oCreature, oPC); }
+
+            oPC = GetNextPC();
+        }
+    }
+    else if (!GetIsPC(oCreature))
+    {
+        SetBotMaster(oCreature);
+    }
 }
 
 // Makes the creature join the specified team.

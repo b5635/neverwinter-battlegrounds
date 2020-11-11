@@ -33,6 +33,9 @@ void main()
 // No player should be able to login.
     NWNX_Administration_SetPlayerPassword(GetRandomUUID());
 
+    NWNX_Administration_SetPlayOption(NWNX_ADMINISTRATION_OPTION_USE_MAX_HITPOINTS, TRUE);
+    NWNX_Administration_SetPlayOption(NWNX_ADMINISTRATION_OPTION_AUTO_FAIL_SAVE_ON_1, TRUE);
+
 // Set a very high instruction limit so we can run the initialization scripts without TMI
     NWNX_Util_SetInstructionLimit(52428888);
 
@@ -100,6 +103,15 @@ void main()
 
 // This is to make spells instant in certain areas.
     NWNX_Events_SubscribeEvent("NWNX_ON_INPUT_CAST_SPELL_BEFORE", "on_inputspellb");
+
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_LEAVE_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_KICK_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_ACCEPT_INVITATION_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_REJECT_INVITATION_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_IGNORE_INVITATION_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_INVITE_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_KICK_HENCHMAN_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_PVP_ATTITUDE_CHANGE_BEFORE", "skip_event");
 
 // Following actions are not allowed under any circumstance
     NWNX_Events_SubscribeEvent("NWNX_ON_DM_CHANGE_DIFFICULTY_BEFORE", "dm_never");
