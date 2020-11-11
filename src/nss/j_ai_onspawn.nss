@@ -68,6 +68,272 @@
 #include "j_inc_spawnin"
 #include "nwnx_creature"
 #include "inc_constants"
+
+// Buff OBJECT_SELF if OBJECT_SELF isn't already buffed with the particular spell
+void BuffIfNotBuffed(int bSpell, int bInstant)
+{
+    if(GetHasSpell(bSpell) && !GetHasSpellEffect(bSpell))
+    {
+      ActionCastSpellAtObject(bSpell, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+}
+
+void FastBuff(int bInstant = TRUE)
+{
+    ClearAllActions(TRUE);
+
+    // General Protections and misc buffs
+    BuffIfNotBuffed(SPELL_NEGATIVE_ENERGY_PROTECTION, bInstant);
+    BuffIfNotBuffed(SPELL_DEATH_WARD, bInstant);
+    BuffIfNotBuffed(SPELL_DARKVISION, bInstant);
+    BuffIfNotBuffed(SPELL_DEATH_WARD, bInstant);
+    BuffIfNotBuffed(SPELL_TRUE_SEEING, bInstant);
+    BuffIfNotBuffed(SPELL_FREEDOM_OF_MOVEMENT, bInstant);
+    BuffIfNotBuffed(SPELL_PROTECTION_FROM_SPELLS, bInstant);
+    BuffIfNotBuffed(SPELL_SPELL_RESISTANCE, bInstant);
+    BuffIfNotBuffed(SPELL_RESISTANCE, bInstant);
+    BuffIfNotBuffed(SPELL_VIRTUE, bInstant);
+    BuffIfNotBuffed(SPELL_CLAIRAUDIENCE_AND_CLAIRVOYANCE, bInstant);
+
+    // Cleric buffs
+    BuffIfNotBuffed(SPELL_BLESS, bInstant);
+    BuffIfNotBuffed(SPELL_PRAYER, bInstant);
+    BuffIfNotBuffed(SPELL_AID, bInstant);
+    BuffIfNotBuffed(SPELL_DIVINE_POWER, bInstant);
+    BuffIfNotBuffed(SPELL_DIVINE_FAVOR, bInstant);
+
+    // Ranger/Druid buffs
+    BuffIfNotBuffed(SPELL_CAMOFLAGE, bInstant);
+    BuffIfNotBuffed(SPELL_MASS_CAMOFLAGE, bInstant);
+    BuffIfNotBuffed(SPELL_ONE_WITH_THE_LAND, bInstant);
+
+    // Weapon Buffs
+    BuffIfNotBuffed(SPELL_DARKFIRE, bInstant);
+    BuffIfNotBuffed(SPELL_MAGIC_VESTMENT, bInstant);
+    BuffIfNotBuffed(SPELL_MAGIC_WEAPON, bInstant);
+    BuffIfNotBuffed(SPELL_GREATER_MAGIC_WEAPON, bInstant);
+    BuffIfNotBuffed(SPELL_FLAME_WEAPON, bInstant);
+    BuffIfNotBuffed(SPELL_KEEN_EDGE, bInstant);
+    BuffIfNotBuffed(SPELL_BLADE_THIRST, bInstant);
+    BuffIfNotBuffed(SPELL_BLACKSTAFF, bInstant);
+    BuffIfNotBuffed(SPELL_BLESS_WEAPON, bInstant);
+    BuffIfNotBuffed(SPELL_DEAFENING_CLANG, bInstant);
+    BuffIfNotBuffed(SPELL_HOLY_SWORD, bInstant);
+
+    // Armor buffs
+    BuffIfNotBuffed(SPELL_MAGE_ARMOR, bInstant);
+    BuffIfNotBuffed(SPELL_SHIELD, bInstant);
+    BuffIfNotBuffed(SPELL_SHIELD_OF_FAITH, bInstant);
+    BuffIfNotBuffed(SPELL_ENTROPIC_SHIELD, bInstant);
+    BuffIfNotBuffed(SPELL_BARKSKIN, bInstant);
+
+    // Stat buffs
+    BuffIfNotBuffed(SPELL_AURA_OF_VITALITY, bInstant);
+    BuffIfNotBuffed(SPELL_BULLS_STRENGTH, bInstant);
+    BuffIfNotBuffed(SPELL_OWLS_WISDOM, bInstant);
+    BuffIfNotBuffed(SPELL_OWLS_INSIGHT, bInstant);
+    BuffIfNotBuffed(SPELL_FOXS_CUNNING, bInstant);
+    BuffIfNotBuffed(SPELL_ENDURANCE, bInstant);
+    BuffIfNotBuffed(SPELL_CATS_GRACE, bInstant);
+
+
+    // Alignment Protections
+    int nAlignment = GetAlignmentGoodEvil(OBJECT_SELF);
+    if (nAlignment == ALIGNMENT_EVIL)
+    {
+        BuffIfNotBuffed(SPELL_PROTECTION_FROM_GOOD, bInstant);
+        BuffIfNotBuffed(SPELL_MAGIC_CIRCLE_AGAINST_GOOD, bInstant);
+        BuffIfNotBuffed(SPELL_UNHOLY_AURA, bInstant);
+    }
+    else if (nAlignment == ALIGNMENT_GOOD || nAlignment == ALIGNMENT_NEUTRAL)
+    {
+        BuffIfNotBuffed(SPELL_PROTECTION_FROM_EVIL, bInstant);
+        BuffIfNotBuffed(SPELL_MAGIC_CIRCLE_AGAINST_EVIL, bInstant);
+        BuffIfNotBuffed(SPELL_HOLY_AURA, bInstant);
+    }
+
+
+    if(GetRacialType(OBJECT_SELF) == RACIAL_TYPE_UNDEAD && GetHasSpell(SPELL_STONE_BONES) && !GetHasSpellEffect(SPELL_STONE_BONES))
+    {
+        ActionCastSpellAtObject(SPELL_STONE_BONES, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Evasion Protections
+    if(GetHasSpell(SPELL_IMPROVED_INVISIBILITY) && !GetHasSpellEffect(SPELL_IMPROVED_INVISIBILITY))
+    {
+        ActionCastSpellAtObject(SPELL_IMPROVED_INVISIBILITY, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_DISPLACEMENT)&& !GetHasSpellEffect(SPELL_DISPLACEMENT))
+    {
+        ActionCastSpellAtObject(SPELL_DISPLACEMENT, OBJECT_SELF, METAMAGIC_ANY, 0, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Regeneration Protections
+    if(GetHasSpell(SPELL_REGENERATE) && !GetHasSpellEffect(SPELL_REGENERATE))
+    {
+        ActionCastSpellAtObject(SPELL_REGENERATE, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_MONSTROUS_REGENERATION)&& !GetHasSpellEffect(SPELL_MONSTROUS_REGENERATION))
+    {
+        ActionCastSpellAtObject(SPELL_MONSTROUS_REGENERATION, OBJECT_SELF, METAMAGIC_ANY, 0, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Combat Protections
+    if(GetHasSpell(SPELL_PREMONITION) && !GetHasSpellEffect(SPELL_PREMONITION))
+    {
+        ActionCastSpellAtObject(SPELL_PREMONITION, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_GREATER_STONESKIN)&& !GetHasSpellEffect(SPELL_GREATER_STONESKIN))
+    {
+        ActionCastSpellAtObject(SPELL_GREATER_STONESKIN, OBJECT_SELF, METAMAGIC_ANY, 0, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_STONESKIN)&& !GetHasSpellEffect(SPELL_STONESKIN))
+    {
+        ActionCastSpellAtObject(SPELL_STONESKIN, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    //Visage Protections
+    if(GetHasSpell(SPELL_SHADOW_SHIELD)&& !GetHasSpellEffect(SPELL_SHADOW_SHIELD))
+    {
+        ActionCastSpellAtObject(SPELL_SHADOW_SHIELD, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_ETHEREAL_VISAGE)&& !GetHasSpellEffect(SPELL_ETHEREAL_VISAGE))
+    {
+        ActionCastSpellAtObject(SPELL_ETHEREAL_VISAGE, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_GHOSTLY_VISAGE)&& !GetHasSpellEffect(SPELL_GHOSTLY_VISAGE))
+    {
+        ActionCastSpellAtObject(SPELL_GHOSTLY_VISAGE, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    //Mantle Protections
+    if(GetHasSpell(SPELL_GREATER_SPELL_MANTLE)&& !GetHasSpellEffect(SPELL_GREATER_SPELL_MANTLE))
+    {
+        ActionCastSpellAtObject(SPELL_GREATER_SPELL_MANTLE, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SPELL_MANTLE)&& !GetHasSpellEffect(SPELL_SPELL_MANTLE))
+    {
+        ActionCastSpellAtObject(SPELL_SPELL_MANTLE, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_LESSER_SPELL_BREACH)&& !GetHasSpellEffect(SPELL_LESSER_SPELL_BREACH))
+    {
+        ActionCastSpellAtObject(SPELL_LESSER_SPELL_BREACH, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    // Globes
+    if(GetHasSpell(SPELL_GLOBE_OF_INVULNERABILITY)&& !GetHasSpellEffect(SPELL_GLOBE_OF_INVULNERABILITY))
+    {
+        ActionCastSpellAtObject(SPELL_GLOBE_OF_INVULNERABILITY, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_MINOR_GLOBE_OF_INVULNERABILITY)&& !GetHasSpellEffect(SPELL_MINOR_GLOBE_OF_INVULNERABILITY))
+    {
+        ActionCastSpellAtObject(SPELL_MINOR_GLOBE_OF_INVULNERABILITY, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Misc Protections
+    if(GetHasSpell(SPELL_ELEMENTAL_SHIELD)&& !GetHasSpellEffect(SPELL_ELEMENTAL_SHIELD))
+    {
+        ActionCastSpellAtObject(SPELL_ELEMENTAL_SHIELD, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if (GetHasSpell(SPELL_MESTILS_ACID_SHEATH)&& !GetHasSpellEffect(SPELL_MESTILS_ACID_SHEATH))
+    {
+        ActionCastSpellAtObject(SPELL_MESTILS_ACID_SHEATH, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if (GetHasSpell(SPELL_DEATH_ARMOR)&& !GetHasSpellEffect(SPELL_DEATH_ARMOR))
+    {
+        ActionCastSpellAtObject(SPELL_DEATH_ARMOR, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Elemental Protections
+    if(GetHasSpell(SPELL_ENERGY_BUFFER)&& !GetHasSpellEffect(SPELL_ENERGY_BUFFER))
+    {
+        ActionCastSpellAtObject(SPELL_ENERGY_BUFFER, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_PROTECTION_FROM_ELEMENTS)&& !GetHasSpellEffect(SPELL_PROTECTION_FROM_ELEMENTS))
+    {
+        ActionCastSpellAtObject(SPELL_PROTECTION_FROM_ELEMENTS, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_RESIST_ELEMENTS)&& !GetHasSpellEffect(SPELL_RESIST_ELEMENTS))
+    {
+        ActionCastSpellAtObject(SPELL_RESIST_ELEMENTS, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_ENDURE_ELEMENTS)&& !GetHasSpellEffect(SPELL_ENDURE_ELEMENTS))
+    {
+        ActionCastSpellAtObject(SPELL_ENDURE_ELEMENTS, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Mental Protections
+    if(GetHasSpell(SPELL_MIND_BLANK)&& !GetHasSpellEffect(SPELL_MIND_BLANK))
+    {
+        ActionCastSpellAtObject(SPELL_MIND_BLANK, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_LESSER_MIND_BLANK)&& !GetHasSpellEffect(SPELL_LESSER_MIND_BLANK))
+    {
+        ActionCastSpellAtObject(SPELL_LESSER_MIND_BLANK, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_CLARITY)&& !GetHasSpellEffect(SPELL_CLARITY))
+    {
+        ActionCastSpellAtObject(SPELL_CLARITY, OBJECT_SELF, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+    //Summon Ally
+    if(GetHasSpell(SPELL_BLACK_BLADE_OF_DISASTER))
+    {
+        ActionCastSpellAtLocation(SPELL_BLACK_BLADE_OF_DISASTER, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_IX))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_IX, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELLABILITY_PM_SUMMON_GREATER_UNDEAD))
+    {
+        ActionCastSpellAtLocation(SPELLABILITY_PM_SUMMON_GREATER_UNDEAD, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_VIII))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_VIII, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_VII))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_VII, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_VI))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_VI, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_CREATE_UNDEAD))
+    {
+        ActionCastSpellAtLocation(SPELL_CREATE_UNDEAD, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_PLANAR_ALLY))
+    {
+        ActionCastSpellAtLocation(SPELL_PLANAR_ALLY, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_V))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_V, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_IV))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_IV, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_ANIMATE_DEAD))
+    {
+        ActionCastSpellAtLocation(SPELL_ANIMATE_DEAD, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_III))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_III, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_II))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_II, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+    else if(GetHasSpell(SPELL_SUMMON_CREATURE_I))
+    {
+        ActionCastSpellAtLocation(SPELL_SUMMON_CREATURE_I, GetLocation(OBJECT_SELF), METAMAGIC_ANY, FALSE, PROJECTILE_PATH_TYPE_DEFAULT, bInstant);
+    }
+
+
+}
+
 void main()
 {
     NWNX_Creature_SetDisarmable(OBJECT_SELF, TRUE);
@@ -76,6 +342,19 @@ void main()
     SetPlotFlag(OBJECT_SELF, FALSE);
     SetImmortal(OBJECT_SELF, FALSE);
     NWNX_Creature_SetChallengeRating(OBJECT_SELF, IntToFloat(GetHitDice(OBJECT_SELF)));
+    SetAILevel(OBJECT_SELF, AI_LEVEL_HIGH);
+
+    int bCaster = FALSE;
+    if (GetLevelByClass(CLASS_TYPE_SORCERER, OBJECT_SELF) > 2 || GetLevelByClass(CLASS_TYPE_WIZARD, OBJECT_SELF) > 2 || GetLevelByClass(CLASS_TYPE_BARD, OBJECT_SELF) > 2 || GetLevelByClass(CLASS_TYPE_CLERIC, OBJECT_SELF) > 2 || GetLevelByClass(CLASS_TYPE_DRUID, OBJECT_SELF) > 2)
+    {
+        bCaster = TRUE;
+    }
+
+    FastBuff(TRUE);
+
+    int bRange = FALSE;
+    if (GetWeaponRanged(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, OBJECT_SELF)))
+        bRange = TRUE;
 
 /************************ [Important Spawn Settings] **************************/
     SetAIInteger(AI_INTELLIGENCE, 10);
@@ -124,14 +403,17 @@ void main()
     // - Remember, uncommenting one will just ignore it (so will never check target's
     //   AC without TARGETING_AC on)
 
-    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
-        // Spell mantals are checked only for the spell target. Either Absense of or got any.
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
-        // Range - very imporant! Basis for all ranged/spell attacks.
-    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i2, i6);
-        // AC is used for all phisical attacks. Lower targets lower (By default).
-    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i2, i4);
-        // Used for spell attacks. Saves are sorta a AC versus spells.
+    if (bCaster)
+    {
+        AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
+            // Spell mantals are checked only for the spell target. Either Absense of or got any.
+        AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
+            // Range - very imporant! Basis for all ranged/spell attacks.
+        AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i2, i6);
+            // AC is used for all phisical attacks. Lower targets lower (By default).
+        AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i2, i4);
+            // Used for spell attacks. Saves are sorta a AC versus spells.
+    }
 
     // Phisical protections. Used by spells, ranged and melee.
     // Jasperre - simple check if we are a fighter (hit lower phisicals) or a
@@ -209,13 +491,15 @@ void main()
         // Set if you want them to move forwards into HTH sooner. Will always
         // if the enemy is a mage/archer, else % based on range.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
-        // For archers. If they have ally support, they'd rather move back & shoot then go into HTH.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
-        // This forces the move back from attackers, and shoot bows. Very small chance to go melee.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
-        // This will make the creature ALWAYs use any bows it has. ALWAYS.
-
+    if (!bCaster && bRange)
+    {
+        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
+            // For archers. If they have ally support, they'd rather move back & shoot then go into HTH.
+        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
+            // This forces the move back from attackers, and shoot bows. Very small chance to go melee.
+        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
+            // This will make the creature ALWAYs use any bows it has. ALWAYS.
+    }
     //SetSpawnInCondition(AI_FLAG_COMBAT_NO_GO_FOR_THE_KILL, AI_COMBAT_MASTER);
         // Turns off any attempts to kill dying PCs, or attack low hit point people.
         // This is only ever attempted at 9 or 10 intelligence anyway.
@@ -229,92 +513,73 @@ void main()
     There are also options here for counterspelling, fast buffing, Cheat cast spells,
     dispelling, spell triggers, long ranged spells first, immunity toggles, and AOE settings.
 ************************* [Combat - Spell Casters] ****************************/
+    if (bCaster)
+    {
+        //SetSpawnInCondition(AI_FLAG_COMBAT_LONGER_RANGED_SPELLS_FIRST, AI_COMBAT_MASTER);
+            // Casts spells only if the caster would not move into range to cast them.
+            // IE long range spells, then medium, then short (unless the enemy comes to us!)
+        //SetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
+            // When an enemy comes in 40M, we fast-cast many defensive spells, as if prepared.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_SUMMON_FAMILIAR, AI_COMBAT_MASTER);
+            // The caster summons thier familiar/animal companion. Either a nameless Bat or Badger respectivly.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_LONGER_RANGED_SPELLS_FIRST, AI_COMBAT_MASTER);
-        // Casts spells only if the caster would not move into range to cast them.
-        // IE long range spells, then medium, then short (unless the enemy comes to us!)
-    //SetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
-        // When an enemy comes in 40M, we fast-cast many defensive spells, as if prepared.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_SUMMON_FAMILIAR, AI_COMBAT_MASTER);
-        // The caster summons thier familiar/animal companion. Either a nameless Bat or Badger respectivly.
+        // Counterspelling/Dispelling...
+        // It checks for these classes within the 20M counterspell range.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_COUNTER_SPELL_ARCANE, AI_COMBAT_MASTER);
+            // If got dispels, it counterspells Arcane (Mage/Sorceror) spellcasters.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_COUNTER_SPELL_DIVINE, AI_COMBAT_MASTER);
+            // If got dispels, it counterspells Divine (Cleric/Druid) spellcasters.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_COUNTER_SPELL_ONLY_IN_GROUP, AI_COMBAT_MASTER);
+            // Recommended. Only counterspells with 5+ allies in group.
 
-    // Counterspelling/Dispelling...
-    // It checks for these classes within the 20M counterspell range.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_COUNTER_SPELL_ARCANE, AI_COMBAT_MASTER);
-        // If got dispels, it counterspells Arcane (Mage/Sorceror) spellcasters.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_COUNTER_SPELL_DIVINE, AI_COMBAT_MASTER);
-        // If got dispels, it counterspells Divine (Cleric/Druid) spellcasters.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_COUNTER_SPELL_ONLY_IN_GROUP, AI_COMBAT_MASTER);
-        // Recommended. Only counterspells with 5+ allies in group.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_MAGES_MORE, AI_COMBAT_MASTER);
+            // Targets seen mages to dispel, else uses normal spell target.
+        SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_IN_ORDER, AI_COMBAT_MASTER);
+            // This will make the mage not dispel just anything all the time, but important (spell-stopping)
+            // things first, others later, after some spells. If off, anything is dispelled.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_MAGES_MORE, AI_COMBAT_MASTER);
-        // Targets seen mages to dispel, else uses normal spell target.
-    SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_IN_ORDER, AI_COMBAT_MASTER);
-        // This will make the mage not dispel just anything all the time, but important (spell-stopping)
-        // things first, others later, after some spells. If off, anything is dispelled.
+        // AOE's
+        //SetSpawnInCondition(AI_FLAG_COMBAT_NEVER_HIT_ALLIES, AI_COMBAT_MASTER);
+            // Override toggle. Forces to never cast AOE's if it will hit an ally + harm them.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_AOE_DONT_MIND_IF_THEY_SURVIVE, AI_COMBAT_MASTER);
+            // Allies who will survive the blast are ignored for calculating best target.
+        //SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 3);
+            // Defualt: 3. If amount of allies in blast radius are equal or more then
+            // this, then that location is ignored.
+        //SetAIInteger(AI_AOE_HD_DIFFERENCE, -8);
+            // Very weak allies (who are not comparable to us) are ignored if we would hit them.
 
-    // AOE's
-    //SetSpawnInCondition(AI_FLAG_COMBAT_NEVER_HIT_ALLIES, AI_COMBAT_MASTER);
-        // Override toggle. Forces to never cast AOE's if it will hit an ally + harm them.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_AOE_DONT_MIND_IF_THEY_SURVIVE, AI_COMBAT_MASTER);
-        // Allies who will survive the blast are ignored for calculating best target.
-    //SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 3);
-        // Defualt: 3. If amount of allies in blast radius are equal or more then
-        // this, then that location is ignored.
-    //SetAIInteger(AI_AOE_HD_DIFFERENCE, -8);
-        // Very weak allies (who are not comparable to us) are ignored if we would hit them.
+        // For these 2, if neither are set, the AI will choose AOE more if there are
+        // lots of enemies, or singles if there are not many.
+        SetSpawnInCondition(AI_FLAG_COMBAT_SINGLE_TARGETING, AI_COMBAT_MASTER);
+            // For Same-level spells, single target spells are used first.
+        SetSpawnInCondition(AI_FLAG_COMBAT_MANY_TARGETING, AI_COMBAT_MASTER);
+            // For Same-level spells, AOE spells are used first.
 
-    // For these 2, if neither are set, the AI will choose AOE more if there are
-    // lots of enemies, or singles if there are not many.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_SINGLE_TARGETING, AI_COMBAT_MASTER);
-        // For Same-level spells, single target spells are used first.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_MANY_TARGETING, AI_COMBAT_MASTER);
-        // For Same-level spells, AOE spells are used first.
+        SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
+            // A few Death spells may be cast top-prioritory if the enemy will always fail saves.
+        SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SUMMON_TARGETING, AI_COMBAT_MASTER);
+            // Will use a better target to summon a creature at (EG: Ranged attacker)
+        SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_IMMUNITY_CHECKING, AI_COMBAT_MASTER);
+            // Turns On "GetIsImmune" checks. Auto on for 7+ Intel.
+        SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SPECIFIC_SPELL_IMMUNITY, AI_COMBAT_MASTER);
+            // Turns On checks for Globes & levels of spells. Auto on for 9+ Intel.
 
-    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
-        // A few Death spells may be cast top-prioritory if the enemy will always fail saves.
-    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SUMMON_TARGETING, AI_COMBAT_MASTER);
-        // Will use a better target to summon a creature at (EG: Ranged attacker)
-    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_IMMUNITY_CHECKING, AI_COMBAT_MASTER);
-        // Turns On "GetIsImmune" checks. Auto on for 7+ Intel.
-    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SPECIFIC_SPELL_IMMUNITY, AI_COMBAT_MASTER);
-        // Turns On checks for Globes & levels of spells. Auto on for 9+ Intel.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_MORE_ALLY_BUFFING_SPELLS, AI_COMBAT_MASTER);
+            // This will make the caster buff more allies - or, in fact, use spells
+            // to buff allies which they might have not used before.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_MORE_ALLY_BUFFING_SPELLS, AI_COMBAT_MASTER);
-        // This will make the caster buff more allies - or, in fact, use spells
-        // to buff allies which they might have not used before.
+        //SetSpawnInCondition(AI_FLAG_COMBAT_USE_ALL_POTIONS, AI_COMBAT_MASTER);
+            // Uses all buffing spells before melee.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_USE_ALL_POTIONS, AI_COMBAT_MASTER);
-        // Uses all buffing spells before melee.
+        //SetAICheatCastSpells(SPELL_MAGIC_MISSILE, SPELL_ICE_DAGGER, SPELL_HORIZIKAULS_BOOM, SPELL_MELFS_ACID_ARROW, SPELL_NEGATIVE_ENERGY_RAY, SPELL_FLAME_ARROW);
+            // Special: Mages cast for ever with this set.
 
-    //SetAICheatCastSpells(SPELL_MAGIC_MISSILE, SPELL_ICE_DAGGER, SPELL_HORIZIKAULS_BOOM, SPELL_MELFS_ACID_ARROW, SPELL_NEGATIVE_ENERGY_RAY, SPELL_FLAME_ARROW);
-        // Special: Mages cast for ever with this set.
-
-    // Spell triggers
-    //SetSpellTrigger(SPELLTRIGGER_NOT_GOT_FIRST_SPELL, FALSE, 1, SPELL_PREMONITION);
-        // This is just an example. See readme for more info.
-
+        // Spell triggers
+        //SetSpellTrigger(SPELLTRIGGER_NOT_GOT_FIRST_SPELL, FALSE, 1, SPELL_PREMONITION);
+            // This is just an example. See readme for more info.
+    }
 /************************ [Combat - Spell Casters] ****************************/
-
-/************************ [Combat - Dragons] ***********************************
-    I have a fondness for dragons - in NWN they are deprived of many abilities. Here
-    are some new ones for your enjoyment! Switches and flying for ANYTHING! :-)
-************************* [Combat - Dragons] **********************************/
-
-    //SetSpawnInCondition(AI_FLAG_COMBAT_NO_WING_BUFFET, AI_COMBAT_MASTER);
-        //This sets so there is no Dragon wing buffet. Readme has details of it.
-    //SetAIInteger(AI_DRAGON_FREQUENCY_OF_BUFFET, 3);
-        // Min. Amount of Rounds between each buffet. See readme for counter defaults. Def: 3
-    //SetAIInteger(AI_DRAGON_FREQUENCY_OF_BREATH, 3);
-        // Min. Amount of Rounds between each breath use. See readme for counter defaults. Def: 3
-
-    // Default checks for dragon flying automatic turning on of flying.
-    //if(GetLevelByClass(CLASS_TYPE_DRAGON) || GetRacialType(OBJECT_SELF) == RACIAL_TYPE_DRAGON)
-    //{
-    //    SetSpawnInCondition(AI_FLAG_COMBAT_FLYING, AI_COMBAT_MASTER);
-    //    // This turns ON combat flying. I think anything winged looks A-OK. See readme for info.
-    //}
-/************************ [Combat - Dragons] **********************************/
 
 /************************ [Combat Other - Healers/Healing] *********************
     Healing behaviour - not specifically clerics. See readme.
@@ -351,14 +616,14 @@ void main()
     // "NO" - This is for forcing the skill NEVER to be used by the combat AI.
     // "FORCE" - This forces it on (and to be used), except if they have no got the skill.
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_PICKPOCKETING, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_PICKPOCKETING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_PICKPOCKETING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_TAUNTING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_TAUNTING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_EMPATHY, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_EMPATHY, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_HIDING, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER);
+    if (GetSkillRank(SKILL_HIDE, OBJECT_SELF, TRUE) >= 10) SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_USING_HEALING_KITS, AI_OTHER_COMBAT_MASTER);
@@ -376,7 +641,7 @@ void main()
     Leaders/Bosses can be set to issue some orders and inspire more morale - and bring
     a lot of allies to a battle at once!
 ************************* [Combat Other - Leaders] ****************************/
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GROUP_LEADER, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GROUP_LEADER, AI_OTHER_COMBAT_MASTER);
         // Special leader. Can issuse some orders. See readme for details.
 
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_BOSS_MONSTER_SHOUT, AI_OTHER_COMBAT_MASTER);
@@ -400,11 +665,6 @@ void main()
     //SetAIConstant(AI_POLYMORPH_INTO, POLYMORPH_TYPE_WEREWOLF);
         // Polymorph to this creature when damaged (once, natural effect).
 
-    //AI_CreateRandomStats(-3, 3, 6);
-        // Create (Effect-applied) random statistics.
-    //AI_CreateRandomOther(-2, 2, -2, 2, -2, 2, -2, 2);
-        // Create (Effect-applied) random HP, saves, AC.
-
     //SetSpawnInCondition(AI_FLAG_OTHER_RETURN_TO_SPAWN_LOCATION, AI_OTHER_MASTER);
         // This will store our spawn location, and then move back there after combat.
     SetSpawnInCondition(AI_FLAG_OTHER_DONT_RESPOND_TO_EMOTES, AI_OTHER_MASTER);
@@ -413,9 +673,9 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_DONT_SHOUT, AI_OTHER_MASTER);
         // Turns off all silent talking NPC's do to other NPC's.
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_SEARCH_IF_ENEMIES_NEAR, AI_OTHER_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_SEARCH_IF_ENEMIES_NEAR, AI_OTHER_MASTER);
         // Move randomly closer to enemies in range set below.
-    //SetAIInteger(AI_SEARCH_IF_ENEMIES_NEAR_RANGE, 25);
+    SetAIInteger(AI_SEARCH_IF_ENEMIES_NEAR_RANGE, 500);
         // This is the range creatures use, in metres.
 
     //SetSpawnInCondition(AI_FLAG_OTHER_ONLY_ATTACK_IF_ATTACKED, AI_OTHER_MASTER);
@@ -429,23 +689,6 @@ void main()
 
     //SetSpawnInCondition(AI_FLAG_OTHER_NO_PLAYING_VOICE_CHAT, AI_OTHER_MASTER);
         // Stops any use of "PlayVoiceChat". Use with Custom speakstrings.
-
-          /*** Death settings - still under AI_OTHER_MASTER ***/
-
-    //AI_SetDeathResRef("Resref Here");
-        // Creates a creature from the string set. Instantly destroys this creatures body on death.
-
-    //SetAIConstant(AI_DEATH_VISUAL_EFFECT, VFX_FNF_IMPLOSION);
-        // Fires this visual effect number instantly on death. Use FNF and IMP ones.
-
-    //SetAIInteger(AI_CORPSE_DESTROY_TIME, 30);
-        // Seconds before body finally gets destroyed. Used for Clerical Raise Dead on NPC's.
-
-    //SetSpawnInCondition(AI_FLAG_OTHER_TURN_OFF_CORPSES, AI_OTHER_MASTER);
-        // This turns off the SetDestroyable() usually performed, and the above timer.
-
-    //SetSpawnInCondition(AI_FLAG_OTHER_USE_BIOWARE_LOOTING, AI_OTHER_MASTER);
-        // Makes the death file use Bioware's cool SetLootable() feature when corpses would disappear.
 
       /*** Lag and a few performance settings - still under AI_OTHER_MASTER ***/
 

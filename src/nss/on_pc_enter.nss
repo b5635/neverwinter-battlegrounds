@@ -67,6 +67,7 @@ void main()
     if (!GetIsPC(oPC)) return;
 
     SetEventScript(oPC, EVENT_SCRIPT_CREATURE_ON_DAMAGED, "on_pc_damaged");
+    SetEventScript(oPC, EVENT_SCRIPT_CREATURE_ON_MELEE_ATTACKED, "on_pc_attacked");
 
 
 // If the PC has less than the starting XP, then do this.

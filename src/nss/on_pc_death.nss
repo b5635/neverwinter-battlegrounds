@@ -1,5 +1,6 @@
 #include "inc_constants"
 #include "inc_sessions"
+#include "inc_general"
 
 void DoRespawn(object oPC)
 {
@@ -13,22 +14,20 @@ void main()
 {
     object oPC = GetLastPlayerDied();
 
+    Gibs(oPC);
+
     DetermineKillPoints(oPC);
 
     DelayCommand(IntToFloat(RESPAWN_TIME), DoRespawn(oPC));
 
     object oSession = GetObjectByTag(SESSION_TAG);
-
     string sTeam = GetLocalString(oPC, "team");
-
     object oHenchman = GetFirstObjectInArea(oSession);
 
     while (GetIsObjectValid(oHenchman))
     {
         if (GetLocalString(oHenchman, "team") == sTeam)
-        {
             RemoveHenchman(oPC, oHenchman);
-        }
 
         oHenchman = GetNextObjectInArea(oSession);
     }

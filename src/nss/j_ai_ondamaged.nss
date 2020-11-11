@@ -21,19 +21,19 @@
 ************************* [On Damaged] ****************************************/
 
 #include "j_inc_other_ai"
+#include "inc_teams"
+#include "inc_general"
+
 void main()
 {
-    // Pre-damaged-event
-    if(FireUserEvent(AI_FLAG_UDE_DAMAGED_PRE_EVENT, EVENT_DAMAGED_PRE_EVENT))
-        // We may exit if it fires
-        if(ExitFromUDE(EVENT_DAMAGED_PRE_EVENT)) return;
-
-    // AI status check. Is the AI on?
-    if(GetAIOff()) return;
-
     // Define Objects/Integers.
     int iDamage = GetTotalDamageDealt();
     object oDamager = GetLastDamager();
+
+    StoreLastAttacker(OBJECT_SELF, oDamager);
+
+    PlayNonMeleePainSound(oDamager);
+
     // Check to see if we will polymorph.
     int iPolymorph = GetAIConstant(AI_POLYMORPH_INTO);
 

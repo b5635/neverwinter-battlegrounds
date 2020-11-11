@@ -140,4 +140,25 @@ void JoinTeam(object oCreature, string sTeam)
     }
 }
 
+// Stores information about the last attacker.
+// Used for determining points, mainly on suicides and team kills.
+void StoreLastAttacker(object oVictim, object oAttacker);
+void StoreLastAttacker(object oVictim, object oAttacker)
+{
+    oAttacker = GetPlayer(oAttacker);
+
+    if (!GetIsObjectValid(oAttacker)) return;
+
+    string sVictimTeam = GetLocalString(oVictim, "team");
+    string sAttackerTeam = GetLocalString(oAttacker, "team");
+
+    if (sVictimTeam != sAttackerTeam)
+    {
+        SetLocalInt(oVictim, "last_attacker_level", GetHitDice(oAttacker));
+        SetLocalString(oVictim, "last_attacker_name", GetName(oAttacker));
+        SetLocalString(oVictim, "last_attacker_team", sAttackerTeam);
+        SetLocalObject(oVictim, "last_attacker", oAttacker);
+    }
+}
+
 //void main() {}

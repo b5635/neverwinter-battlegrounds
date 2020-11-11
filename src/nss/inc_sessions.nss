@@ -174,7 +174,7 @@ void DetermineKillPoints(object oCreature = OBJECT_SELF)
 
     object oKiller = GetPlayer(GetLastHostileActor(oCreature));
 
-    object oLastAttacker = GetPlayer(GetLocalObject(oCreature, "last_attacker"));
+    object oLastAttacker = GetLocalObject(oCreature, "last_attacker");
 
     string sVictimName = GetName(oCreature);
     string sVictimTeam = GetLocalString(oCreature, "team");
@@ -205,7 +205,7 @@ void DetermineKillPoints(object oCreature = OBJECT_SELF)
         string sPoints = IntToString(nPoints)+" points!";
         if (nPoints == 1) sPoints = IntToString(nPoints)+" point!";
 
-        FloatingTextStringOnCreature("You killed "+sVictimName+" for "+IntToString(nPoints)+sPoints, oKiller, FALSE);
+        FloatingTextStringOnCreature("You killed "+sVictimName+" for "+sPoints, oKiller, FALSE);
 
         sName = sName+" ("+IntToString(nHitDice)+")";
 

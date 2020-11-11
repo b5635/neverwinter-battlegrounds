@@ -14,22 +14,17 @@
 ************************* [On Phisical Attacked] ******************************/
 
 #include "j_inc_other_ai"
+#include "inc_teams"
 
 void main()
 {
-    // Pre-attacked-event
-    if(FireUserEvent(AI_FLAG_UDE_ATTACK_PRE_EVENT, EVENT_ATTACK_PRE_EVENT))
-        // We may exit if it fires
-        if(ExitFromUDE(EVENT_ATTACK_PRE_EVENT)) return;
-
-    // AI status check. Is the AI on?
-    if(GetAIOff()) return;
-
     // Set up objects.
     object oAttacker = GetLastAttacker();
     object oWeapon = GetLastWeaponUsed(oAttacker);
     int iMode = GetLastAttackMode(oAttacker);       // Currently unused
     int iAttackType = GetLastAttackType(oAttacker);
+
+    StoreLastAttacker(OBJECT_SELF, oAttacker);
 
     if(GetIsObjectValid(oAttacker) && !GetFactionEqual(oAttacker) &&
        !GetIsDM(oAttacker) && !GetIgnore(oAttacker))

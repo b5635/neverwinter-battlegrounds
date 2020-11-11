@@ -2367,6 +2367,7 @@ int AI_AttemptConcentrationCheck(object oTarget)
     {
         return FALSE;
     }
+    /*
     // Jump out if we use defensive casting!
     if(GetHasSkill(SKILL_CONCENTRATION) &&
     // If we have 15 + 9 skill (for a level 9 spell) so we'll never fail, we
@@ -2390,6 +2391,7 @@ int AI_AttemptConcentrationCheck(object oTarget)
         // Turn it off
         SetActionMode(OBJECT_SELF, ACTION_MODE_DEFENSIVE_CAST, FALSE);
     }
+    */
 
     if(// Check if we have the feat FEAT_EPIC_IMPROVED_COMBAT_CASTING - no AOO
       !GetHasFeat(FEAT_EPIC_IMPROVED_COMBAT_CASTING) &&
@@ -16143,15 +16145,7 @@ void AI_DetermineCombatRound(object oIntruder = OBJECT_INVALID)
         DeleteLocalObject(OBJECT_SELF, "oAlliedSetup");//... data sharing stuff
         return;
     }
-    // Tempory integer
-    int iTempInt;
 
-    // Set combat AI level
-    iTempInt = GetAIConstant(LAG_AI_LEVEL_COMBAT);
-    if(iTempInt > iM1 && GetAILevel() != iTempInt)
-    {
-        SetAILevel(OBJECT_SELF, iTempInt);
-    }
     // We stop  - ClearAllActions normally
     // NOTE: This returns FALSE if we don't stop actions - and want to carry on
     // doing the thing before! like fleeing! (or we do it in the Stop thing).
@@ -16176,6 +16170,9 @@ void AI_DetermineCombatRound(object oIntruder = OBJECT_INVALID)
     GlobalValidNearestSeenEnemy = GetIsObjectValid(GlobalNearestEnemySeen);
 //... set up above    GlobalValidNearestHeardEnemy = GetIsObjectValid(GlobalNearestEnemyHeard);
 
+    // Tempory integer
+    int iTempInt;
+
     // Speakstring arrays //... this never works bc heard never works...
     if(GlobalValidNearestHeardEnemy)
     {
@@ -16188,6 +16185,7 @@ void AI_DetermineCombatRound(object oIntruder = OBJECT_INVALID)
         {
             GlobalRangeToNearestEnemy = GetDistanceToObject(GlobalNearestEnemySeen);
         }
+
         iTempInt = GetHitDice(GlobalNearestEnemyHeard);
         // THEM_OVER_US - They have 5+ levels over us.
         if(iTempInt - i5 >= GlobalOurHitDice)

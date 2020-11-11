@@ -21,6 +21,7 @@
 ************************* [On Spell Cast At] **********************************/
 
 #include "j_inc_other_ai"
+#include "inc_teams"
 
 // Sets a local timer if the spell is an AOE one
 void SetAOESpell(int iSpellCast, object oCaster);
@@ -31,14 +32,6 @@ int GetOurSpellLevelImmunity();
 
 void main()
 {
-    // Pre-heartbeat-event
-    if(FireUserEvent(AI_FLAG_UDE_SPELL_CAST_AT_PRE_EVENT, EVENT_SPELL_CAST_AT_PRE_EVENT))
-        // We may exit if it fires
-        if(ExitFromUDE(EVENT_SPELL_CAST_AT_PRE_EVENT)) return;
-
-    // AI status check. Is the AI on?
-    if(GetAIOff()) return;
-
     object oCaster = GetLastSpellCaster();
     int iHarmful = GetLastSpellHarmful();
     int iSpellCast = GetLastSpell();
@@ -47,6 +40,8 @@ void main()
     // If harmful, we set the spell to a timer, if an AOE one.
     if(iHarmful && GetIsObjectValid(oCaster))
     {
+        StoreLastAttacker(OBJECT_SELF, oCaster);
+
         // Might set AOE spell to cast.
         SetAOESpell(iSpellCast, oCaster);
     }
@@ -72,6 +67,8 @@ void main()
             // If harmful, we attack anyone! (and if is enemy)
             if(iHarmful || GetIsEnemy(oCaster))
             {
+                StoreLastAttacker(OBJECT_SELF, oCaster);
+
                 if(iHarmful)
                 {
                     // Hostile spell speaksting, if set.
@@ -93,14 +90,6 @@ void main()
         // Else, faction is equal, we normally ignore, and only move to attack.
         else
         {
-            // Spawn in condition hostile thingy
-            if(GetSpawnInCondition(AI_FLAG_OTHER_CHANGE_FACTIONS_TO_HOSTILE_ON_ATTACK, AI_OTHER_MASTER))
-            {
-                if(!GetIsEnemy(oCaster))
-                {
-                    AdjustReputation(oCaster, OBJECT_SELF, -100);
-                }
-            }
             // We move to the person, if they are attacking something we cannot see...
             AISpeakString(CALL_TO_ARMS);
 

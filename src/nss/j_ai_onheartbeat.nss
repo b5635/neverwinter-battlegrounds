@@ -66,29 +66,6 @@ void main()
     // Define the enemy and player to use.
     object oEnemy = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY);
     object oPlayer = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
-    int iTempInt;
-
-    // AI level (re)setting
-    if(!GetIsInCombat() && !GetIsObjectValid(GetAttackTarget()) &&
-       (GetIsObjectValid(oEnemy) && GetDistanceToObject(oEnemy) <= f50 ||
-        GetIsObjectValid(oPlayer) && GetDistanceToObject(oPlayer) <= f50))
-    {
-        // AI setting, normally higher then normal.
-        iTempInt = GetAIConstant(LAG_AI_LEVEL_YES_PC_OR_ENEMY_50M);
-        if(iTempInt > iM1 && GetAILevel() != iTempInt)
-        {
-            SetAILevel(OBJECT_SELF, iTempInt);
-        }
-    }
-    else
-    {
-        // AI setting, normally higher then normal.
-        iTempInt = GetAIConstant(LAG_AI_LEVEL_NO_PC_OR_ENEMY_50M);
-        if(iTempInt > iM1 && GetAILevel() != iTempInt)
-        {
-            SetAILevel(OBJECT_SELF, iTempInt);
-        }
-    }
 
     // We can skip to the end if we are in combat, or something...
     if(!JumpOutOfHeartBeat() && // We don't stop due to effects.

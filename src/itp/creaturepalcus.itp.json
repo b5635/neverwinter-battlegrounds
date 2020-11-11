@@ -628,7 +628,7 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
-                      "value": 8.0
+                      "value": 7.0
                     },
                     "FACTION": {
                       "type": "cexostring",
@@ -946,14 +946,14 @@
                     },
                     "RESREF": {
                       "type": "resref",
-                      "value": "bot_daelan"
+                      "value": "bot9"
                     }
                   },
                   {
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
-                      "value": 12.0
+                      "value": 11.0
                     },
                     "FACTION": {
                       "type": "cexostring",
@@ -1089,13 +1089,13 @@
                       "type": "cexostring",
                       "value": "Defender"
                     },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Bloodsail Lieutenant Callik"
+                    },
                     "RESREF": {
                       "type": "resref",
                       "value": "bot46"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 24613
                     }
                   },
                   {

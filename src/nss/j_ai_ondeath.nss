@@ -20,10 +20,12 @@
 // We only require the constants/debug file. We have 1 function, not worth another include.
 #include "j_inc_constants"
 #include "inc_sessions"
-
+#include "inc_general"
 
 void main()
 {
+    Gibs(OBJECT_SELF);
+
     DelayCommand(IntToFloat(RESPAWN_TIME)-0.5, ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_RESTORATION), GetLocation(OBJECT_SELF)));
 
     DetermineKillPoints();
