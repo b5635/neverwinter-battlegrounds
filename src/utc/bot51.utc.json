@@ -446,7 +446,7 @@
               "__struct_id": 3,
               "Spell": {
                 "type": "word",
-                "value": 61
+                "value": 62
               },
               "SpellFlags": {
                 "type": "byte",
@@ -461,7 +461,7 @@
               "__struct_id": 3,
               "Spell": {
                 "type": "word",
-                "value": 62
+                "value": 172
               },
               "SpellFlags": {
                 "type": "byte",
@@ -561,7 +561,7 @@
               "__struct_id": 3,
               "Spell": {
                 "type": "word",
-                "value": 74
+                "value": 547
               },
               "SpellFlags": {
                 "type": "byte",
@@ -576,7 +576,7 @@
               "__struct_id": 3,
               "Spell": {
                 "type": "word",
-                "value": 547
+                "value": 180
               },
               "SpellFlags": {
                 "type": "byte",

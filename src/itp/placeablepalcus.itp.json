@@ -9,6 +9,22 @@
           "type": "byte",
           "value": 7
         },
+        "LIST": {
+          "type": "list",
+          "value": [
+            {
+              "__struct_id": 0,
+              "NAME": {
+                "type": "cexostring",
+                "value": "Bloodstain"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "_bloodstain"
+              }
+            }
+          ]
+        },
         "STRREF": {
           "type": "dword",
           "value": 6783

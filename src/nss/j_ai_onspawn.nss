@@ -493,7 +493,7 @@ void main()
 
     if (!bCaster && bRange)
     {
-        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
+        //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
             // For archers. If they have ally support, they'd rather move back & shoot then go into HTH.
         SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
             // This forces the move back from attackers, and shoot bows. Very small chance to go melee.
@@ -627,8 +627,8 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_USING_HEALING_KITS, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_PARRYING, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_PARRYING, AI_OTHER_COMBAT_MASTER);
+    if (GetSkillRank(SKILL_HIDE, OBJECT_SELF, TRUE) == 0) SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_PARRYING, AI_OTHER_COMBAT_MASTER);
+    if (GetSkillRank(SKILL_PARRY, OBJECT_SELF, TRUE) >= 10) SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_PARRYING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_SEARCH, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_SEARCH, AI_OTHER_COMBAT_MASTER);
     // - Concentration - special notes in the readme

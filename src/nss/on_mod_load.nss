@@ -75,7 +75,7 @@ void main()
 // loop through and get the list of valid bots
     int i;
     object oBot;
-    string sHitDice, sList;
+    string sHitDice, sList, sListName;
     location lSystem = Location(GetObjectByTag("_system"), Vector(), 0.0);
     for (i = 1; i < 75; i++)
     {
@@ -87,14 +87,19 @@ void main()
         {
             sList = AddListItem(GetLocalString(GetModule(), "bot_lvl"+sHitDice), GetResRef(oBot), TRUE);
             SetLocalString(GetModule(), "bot_lvl"+sHitDice, sList);
+
+            sListName = AddListItem(GetLocalString(GetModule(), "bot_lvl_name"+sHitDice), GetName(oBot), TRUE);
+            SetLocalString(GetModule(), "bot_lvl_name"+sHitDice, sListName);
         }
 
         DestroyObject(oBot);
     }
 
     for (i = 7; i <= 12; i++)
+    {
         WriteTimestampedLogEntry("bot_lvl"+IntToString(i)+": "+GetLocalString(GetModule(), "bot_lvl"+IntToString(i)));
-
+        WriteTimestampedLogEntry("bot_lvl_name"+IntToString(i)+": "+GetLocalString(GetModule(), "bot_lvl_name"+IntToString(i)));
+    }
 // This script makes players always start at "The Choice"
     NWNX_Events_SubscribeEvent("NWNX_ON_ELC_VALIDATE_CHARACTER_BEFORE", "on_elc_validateb");
 

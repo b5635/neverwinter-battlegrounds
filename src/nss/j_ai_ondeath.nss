@@ -26,6 +26,8 @@ void main()
 {
     Gibs(OBJECT_SELF);
 
+    CreateObject(OBJECT_TYPE_PLACEABLE, "_bloodstain", GetLocation(OBJECT_SELF));
+
     DelayCommand(IntToFloat(RESPAWN_TIME)-0.5, ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_RESTORATION), GetLocation(OBJECT_SELF)));
 
     DetermineKillPoints();

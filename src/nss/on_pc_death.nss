@@ -14,6 +14,8 @@ void main()
 {
     object oPC = GetLastPlayerDied();
 
+    CreateObject(OBJECT_TYPE_PLACEABLE, "_bloodstain", GetLocation(oPC));
+
     DeleteLocalInt(oPC, "last_attacker_level");
     DeleteLocalString(oPC, "last_attacker_name");
     DeleteLocalString(oPC, "last_attacker_team");

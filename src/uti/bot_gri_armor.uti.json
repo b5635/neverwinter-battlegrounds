@@ -10,11 +10,11 @@
   },
   "ArmorPart_LBicep": {
     "type": "byte",
-    "value": 4
+    "value": 6
   },
   "ArmorPart_LFArm": {
     "type": "byte",
-    "value": 8
+    "value": 6
   },
   "ArmorPart_LFoot": {
     "type": "byte",
@@ -22,19 +22,19 @@
   },
   "ArmorPart_LHand": {
     "type": "byte",
-    "value": 1
+    "value": 6
   },
   "ArmorPart_LShin": {
     "type": "byte",
-    "value": 14
+    "value": 15
   },
   "ArmorPart_LShoul": {
     "type": "byte",
-    "value": 18
+    "value": 7
   },
   "ArmorPart_LThigh": {
     "type": "byte",
-    "value": 3
+    "value": 14
   },
   "ArmorPart_Neck": {
     "type": "byte",
@@ -42,15 +42,15 @@
   },
   "ArmorPart_Pelvis": {
     "type": "byte",
-    "value": 3
+    "value": 21
   },
   "ArmorPart_RBicep": {
     "type": "byte",
-    "value": 4
+    "value": 6
   },
   "ArmorPart_RFArm": {
     "type": "byte",
-    "value": 8
+    "value": 6
   },
   "ArmorPart_RFoot": {
     "type": "byte",
@@ -58,27 +58,27 @@
   },
   "ArmorPart_RHand": {
     "type": "byte",
-    "value": 1
+    "value": 6
   },
   "ArmorPart_Robe": {
     "type": "byte",
-    "value": 4
+    "value": 0
   },
   "ArmorPart_RShin": {
     "type": "byte",
-    "value": 14
+    "value": 15
   },
   "ArmorPart_RShoul": {
     "type": "byte",
-    "value": 18
+    "value": 7
   },
   "ArmorPart_RThigh": {
     "type": "byte",
-    "value": 3
+    "value": 14
   },
   "ArmorPart_Torso": {
     "type": "byte",
-    "value": 6
+    "value": 50
   },
   "BaseItem": {
     "type": "int",
@@ -90,11 +90,11 @@
   },
   "Cloth1Color": {
     "type": "byte",
-    "value": 20
+    "value": 23
   },
   "Cloth2Color": {
     "type": "byte",
-    "value": 44
+    "value": 23
   },
   "Comment": {
     "type": "cexostring",
@@ -102,14 +102,14 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 13626
+    "value": 5850
   },
   "Cursed": {
     "type": "byte",
     "value": 0
   },
   "DescIdentified": {
-    "id": 13855,
+    "id": 67465,
     "type": "cexolocstring",
     "value": {}
   },
@@ -123,17 +123,17 @@
   },
   "Leather1Color": {
     "type": "byte",
-    "value": 44
+    "value": 23
   },
   "Leather2Color": {
     "type": "byte",
-    "value": 44
+    "value": 23
   },
   "LocalizedName": {
-    "id": 13854,
+    "id": 67461,
     "type": "cexolocstring",
     "value": {
-      "0": "The Seer's Armor"
+      "0": "Grimgnaw's Armor"
     }
   },
   "Metal1Color": {
@@ -142,7 +142,7 @@
   },
   "Metal2Color": {
     "type": "byte",
-    "value": 24
+    "value": 3
   },
   "PaletteID": {
     "type": "byte",
@@ -167,7 +167,7 @@
         },
         "CostValue": {
           "type": "word",
-          "value": 3
+          "value": 2
         },
         "Param1": {
           "type": "byte",
@@ -175,7 +175,7 @@
         },
         "Param1Value": {
           "type": "byte",
-          "value": 255
+          "value": 0
         },
         "PropertyName": {
           "type": "word",
@@ -184,6 +184,68 @@
         "Subtype": {
           "type": "word",
           "value": 0
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
+          "value": 21
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 1
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 0
+        },
+        "PropertyName": {
+          "type": "word",
+          "value": 29
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 6
+        }
+      },
+      {
+        "__struct_id": 0,
+        "ChanceAppear": {
+          "type": "byte",
+          "value": 100
+        },
+        "CostTable": {
+          "type": "byte",
+          "value": 0
+        },
+        "CostValue": {
+          "type": "word",
+          "value": 0
+        },
+        "Param1": {
+          "type": "byte",
+          "value": 255
+        },
+        "Param1Value": {
+          "type": "byte",
+          "value": 0
+        },
+        "PropertyName": {
+          "type": "word",
+          "value": 63
+        },
+        "Subtype": {
+          "type": "word",
+          "value": 5
         }
       }
     ]
@@ -198,10 +260,10 @@
   },
   "Tag": {
     "type": "cexostring",
-    "value": "NW_MCLOTH004"
+    "value": "NW_MCLOTH019"
   },
   "TemplateResRef": {
     "type": "resref",
-    "value": "bot_see_armor"
+    "value": "bot_gri_armor"
   }
 }

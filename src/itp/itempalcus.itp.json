@@ -32,17 +32,6 @@
                     "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
-                      "value": "bot_see_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 13854
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
                       "value": "bot_lav_armor"
                     },
                     "STRREF": {
@@ -979,17 +968,6 @@
                   },
                   {
                     "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_aya_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 75031
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
                     "NAME": {
                       "type": "cexostring",
                       "value": "Bim/Pavel's Armor"
@@ -1723,6 +1701,17 @@
                     "__struct_id": 0,
                     "NAME": {
                       "type": "cexostring",
+                      "value": "Ayala's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_aya_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
                       "value": "Clothing: Bloodsailor (Fancy)"
                     },
                     "RESREF": {
@@ -1772,6 +1761,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 95373
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Grimgnaw's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_gri_armor"
                     }
                   },
                   {
@@ -1838,6 +1838,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 110426
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "The Seer's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_see_armor"
                     }
                   },
                   {

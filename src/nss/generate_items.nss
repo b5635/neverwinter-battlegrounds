@@ -328,12 +328,6 @@ void main()
 
    location lStaging = Location(GetObjectByTag("_seed"), Vector(), 0.0);
 
-   object oApparel = CreateObject(OBJECT_TYPE_STORE, "mer_template", lStaging, FALSE, "mer_apparel");
-   object oMisc = CreateObject(OBJECT_TYPE_STORE, "mer_template", lStaging, FALSE, "mer_misc");
-   object oWeapon = CreateObject(OBJECT_TYPE_STORE, "mer_template", lStaging, FALSE, "mer_weapon");
-   object oArmor = CreateObject(OBJECT_TYPE_STORE, "mer_template", lStaging, FALSE, "mer_armor");
-   object oShield = CreateObject(OBJECT_TYPE_STORE, "mer_template", lStaging, FALSE, "mer_shield");
-
 // grab items from palette
    CreateTypeLoot("apparel");
    CreateTypeLoot("misc");

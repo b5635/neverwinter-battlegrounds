@@ -569,7 +569,9 @@
   },
   "LastName": {
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "Jhareg"
+    }
   },
   "LawfulChaotic": {
     "type": "byte",

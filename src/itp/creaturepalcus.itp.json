@@ -582,6 +582,25 @@
                     },
                     "NAME": {
                       "type": "cexostring",
+                      "value": "Grimgnaw"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot65"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 7.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Merchant"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
                       "value": "Hodd"
                     },
                     "RESREF": {
@@ -605,6 +624,25 @@
               "LIST": {
                 "type": "list",
                 "value": [
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 9.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Merchant"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Ayala"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot1"
+                    }
+                  },
                   {
                     "__struct_id": 0,
                     "CR": {
@@ -660,6 +698,25 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "bot6"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 7.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Merchant"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Linu"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot66"
                     }
                   },
                   {
@@ -780,6 +837,25 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
+                      "value": 13.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Commoner"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "The Seer"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot21"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
                       "value": 12.0
                     },
                     "FACTION": {
@@ -799,7 +875,7 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
-                      "value": 8.0
+                      "value": 10.0
                     },
                     "FACTION": {
                       "type": "cexostring",
@@ -826,6 +902,30 @@
               "ID": {
                 "type": "byte",
                 "value": 40
+              },
+              "LIST": {
+                "type": "list",
+                "value": [
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 6.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Merchant"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Boddyknock"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot64"
+                    }
+                  }
+                ]
               },
               "STRREF": {
                 "type": "dword",
@@ -970,6 +1070,25 @@
                       "type": "dword",
                       "value": 40955
                     }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 7.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Merchant"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Tomi"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot68"
+                    }
                   }
                 ]
               },
@@ -1029,7 +1148,7 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
-                      "value": 7.0
+                      "value": 9.0
                     },
                     "FACTION": {
                       "type": "cexostring",
@@ -1153,6 +1272,25 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "bot46"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 10.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Defender"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Desther"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot42"
                     }
                   },
                   {
@@ -1387,6 +1525,25 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
+                      "value": 6.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
+                      "value": "Merchant"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Sharwyn"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot67"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
                       "value": 37.0
                     },
                     "FACTION": {
@@ -1429,6 +1586,25 @@
                     },
                     "FACTION": {
                       "type": "cexostring",
+                      "value": "Commoner"
+                    },
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Uthgardt Chieftan Zokan"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot59"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "CR": {
+                      "type": "float",
+                      "value": 11.0
+                    },
+                    "FACTION": {
+                      "type": "cexostring",
                       "value": "Merchant"
                     },
                     "NAME": {
@@ -1444,7 +1620,7 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
-                      "value": 3.0
+                      "value": 10.0
                     },
                     "FACTION": {
                       "type": "cexostring",
@@ -1457,25 +1633,6 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "bot48"
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "CR": {
-                      "type": "float",
-                      "value": 12.0
-                    },
-                    "FACTION": {
-                      "type": "cexostring",
-                      "value": "Commoner"
-                    },
-                    "NAME": {
-                      "type": "cexostring",
-                      "value": "Zokan"
-                    },
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot59"
                     }
                   }
                 ]
@@ -1540,25 +1697,6 @@
                     "__struct_id": 0,
                     "CR": {
                       "type": "float",
-                      "value": 5.0
-                    },
-                    "FACTION": {
-                      "type": "cexostring",
-                      "value": "Defender"
-                    },
-                    "NAME": {
-                      "type": "cexostring",
-                      "value": "Desther"
-                    },
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot42"
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "CR": {
-                      "type": "float",
                       "value": 24.0
                     },
                     "FACTION": {
@@ -1572,25 +1710,6 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "bot_16"
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "CR": {
-                      "type": "float",
-                      "value": 16.0
-                    },
-                    "FACTION": {
-                      "type": "cexostring",
-                      "value": "Commoner"
-                    },
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot21"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 107854
                     }
                   }
                 ]
@@ -1702,25 +1821,6 @@
                     "RESREF": {
                       "type": "resref",
                       "value": "bot11"
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
-                    "CR": {
-                      "type": "float",
-                      "value": 7.0
-                    },
-                    "FACTION": {
-                      "type": "cexostring",
-                      "value": "Merchant"
-                    },
-                    "NAME": {
-                      "type": "cexostring",
-                      "value": "Ayala"
-                    },
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot1"
                     }
                   },
                   {
