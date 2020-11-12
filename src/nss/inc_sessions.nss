@@ -47,18 +47,28 @@ int StartSession()
 
     object oObject = GetFirstObjectInArea(oSession);
 
+    string sMapNote = "_map_note_";
+
     object oTeam1Door1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(TEAM_BLUE));
+    string sTeam1Door1 = TEAM_BLUE;
     object oTeam1Door2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(TEAM_BLUE));
+    string sTeam1Door2 = TEAM_BLUE;
     object oTeam2Door1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(TEAM_RED));
+    string sTeam2Door1 = TEAM_RED;
     object oTeam2Door2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(TEAM_RED));
+    string sTeam2Door2 = TEAM_RED;
 
 // randomize team selection for spawn doors
     if (d2() == 1)
     {
-        object oTeam1Door1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(TEAM_RED));
-        object oTeam1Door2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(TEAM_RED));
-        object oTeam2Door1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(TEAM_BLUE));
-        object oTeam2Door2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(TEAM_BLUE));
+        oTeam1Door1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(TEAM_RED));
+        sTeam1Door1 = TEAM_RED;
+        oTeam1Door2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(TEAM_RED));
+        sTeam1Door2 = TEAM_RED;
+        oTeam2Door1 = GetObjectByTag("DOOR_SPAWN1_"+GetStringUpperCase(TEAM_BLUE));
+        sTeam2Door1 = TEAM_BLUE;
+        oTeam2Door2 = GetObjectByTag("DOOR_SPAWN2_"+GetStringUpperCase(TEAM_BLUE));
+        sTeam2Door2 = TEAM_BLUE;
     }
 
     string sTag;
@@ -73,18 +83,22 @@ int StartSession()
 
                 if (sTag == "SESSION_TEAM1_SPAWN1")
                 {
+                    CreateObject(OBJECT_TYPE_WAYPOINT, sMapNote+sTeam1Door1+"1", GetLocation(oObject));
                     SetLocalObject(oTeam1Door1, "door", oObject);
                 }
                 else if (sTag == "SESSION_TEAM1_SPAWN2")
                 {
+                    CreateObject(OBJECT_TYPE_WAYPOINT, sMapNote+sTeam1Door2+"2", GetLocation(oObject));
                     SetLocalObject(oTeam1Door2, "door", oObject);
                 }
                 else if (sTag == "SESSION_TEAM2_SPAWN1")
                 {
+                    CreateObject(OBJECT_TYPE_WAYPOINT, sMapNote+sTeam2Door1+"1", GetLocation(oObject));
                     SetLocalObject(oTeam2Door1, "door", oObject);
                 }
                 else if (sTag == "SESSION_TEAM2_SPAWN2")
                 {
+                    CreateObject(OBJECT_TYPE_WAYPOINT, sMapNote+sTeam2Door2+"2", GetLocation(oObject));
                     SetLocalObject(oTeam2Door2, "door", oObject);
                 }
             break;

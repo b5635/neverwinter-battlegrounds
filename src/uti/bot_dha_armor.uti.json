@@ -102,7 +102,7 @@
   },
   "Cost": {
     "type": "dword",
-    "value": 192082
+    "value": 5850
   },
   "Cursed": {
     "type": "byte",
@@ -132,7 +132,9 @@
   "LocalizedName": {
     "id": 109882,
     "type": "cexolocstring",
-    "value": {}
+    "value": {
+      "0": "Dharvana's Armor"
+    }
   },
   "Metal1Color": {
     "type": "byte",
@@ -144,7 +146,7 @@
   },
   "PaletteID": {
     "type": "byte",
-    "value": 5
+    "value": 14
   },
   "Plot": {
     "type": "byte",
@@ -165,7 +167,7 @@
         },
         "CostValue": {
           "type": "word",
-          "value": 5
+          "value": 2
         },
         "Param1": {
           "type": "byte",
@@ -177,11 +179,11 @@
         },
         "PropertyName": {
           "type": "word",
-          "value": 51
+          "value": 1
         },
         "Subtype": {
           "type": "word",
-          "value": 65535
+          "value": 0
         }
       }
     ]

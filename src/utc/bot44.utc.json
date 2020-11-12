@@ -90,7 +90,7 @@
   },
   "ChallengeRating": {
     "type": "float",
-    "value": 7.0
+    "value": 9.0
   },
   "ClassList": {
     "type": "list",
@@ -114,7 +114,7 @@
         },
         "ClassLevel": {
           "type": "short",
-          "value": 1
+          "value": 3
         }
       }
     ]
@@ -153,7 +153,7 @@
   },
   "CurrentHitPoints": {
     "type": "short",
-    "value": 70
+    "value": 90
   },
   "DecayTime": {
     "type": "dword",
@@ -187,10 +187,10 @@
         }
       },
       {
-        "__struct_id": 8,
+        "__struct_id": 4,
         "EquippedRes": {
           "type": "resref",
-          "value": "apparel103"
+          "value": "apparel37"
         }
       },
       {
@@ -211,7 +211,14 @@
         "__struct_id": 512,
         "EquippedRes": {
           "type": "resref",
-          "value": "apparel128"
+          "value": "apparel129"
+        }
+      },
+      {
+        "__struct_id": 1024,
+        "EquippedRes": {
+          "type": "resref",
+          "value": "apparel26"
         }
       }
     ]
@@ -256,6 +263,13 @@
         "Feat": {
           "type": "word",
           "value": 389
+        }
+      },
+      {
+        "__struct_id": 1,
+        "Feat": {
+          "type": "word",
+          "value": 69
         }
       },
       {
@@ -365,7 +379,7 @@
   },
   "HitPoints": {
     "type": "short",
-    "value": 70
+    "value": 90
   },
   "Int": {
     "type": "byte",
@@ -400,7 +414,7 @@
   },
   "MaxHitPoints": {
     "type": "short",
-    "value": 98
+    "value": 126
   },
   "NaturalAC": {
     "type": "byte",
@@ -518,7 +532,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 10
+          "value": 12
         }
       },
       {
@@ -539,7 +553,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 10
+          "value": 12
         }
       },
       {
@@ -616,7 +630,7 @@
         "__struct_id": 0,
         "Rank": {
           "type": "byte",
-          "value": 10
+          "value": 12
         }
       },
       {
@@ -705,7 +719,7 @@
   },
   "Str": {
     "type": "byte",
-    "value": 19
+    "value": 20
   },
   "Subrace": {
     "type": "cexostring",

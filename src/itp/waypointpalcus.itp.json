@@ -76,6 +76,55 @@
           "type": "byte",
           "value": 5
         },
+        "LIST": {
+          "type": "list",
+          "value": [
+            {
+              "__struct_id": 0,
+              "NAME": {
+                "type": "cexostring",
+                "value": "Map Note - Blue Spawn 1"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "_map_note_blue1"
+              }
+            },
+            {
+              "__struct_id": 0,
+              "NAME": {
+                "type": "cexostring",
+                "value": "Map Note - Blue Spawn 2"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "_map_note_blue2"
+              }
+            },
+            {
+              "__struct_id": 0,
+              "NAME": {
+                "type": "cexostring",
+                "value": "Map Note - Red Spawn 1"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "_map_note_red1"
+              }
+            },
+            {
+              "__struct_id": 0,
+              "NAME": {
+                "type": "cexostring",
+                "value": "Map Note - Red Spawn 2"
+              },
+              "RESREF": {
+                "type": "resref",
+                "value": "_map_note_red2"
+              }
+            }
+          ]
+        },
         "STRREF": {
           "type": "dword",
           "value": 6798

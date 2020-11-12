@@ -184,17 +184,6 @@
                   },
                   {
                     "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_dha_armor"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 109882
-                    }
-                  },
-                  {
-                    "__struct_id": 0,
                     "NAME": {
                       "type": "cexostring",
                       "value": "Shaori's Armor"
@@ -1765,6 +1754,17 @@
                   },
                   {
                     "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Dharvana's Armor"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_dha_armor"
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
                     "RESREF": {
                       "type": "resref",
                       "value": "bot_rea_armor"
@@ -1794,6 +1794,17 @@
                     "STRREF": {
                       "type": "dword",
                       "value": 107962
+                    }
+                  },
+                  {
+                    "__struct_id": 0,
+                    "NAME": {
+                      "type": "cexostring",
+                      "value": "Nathyrra's Cloak"
+                    },
+                    "RESREF": {
+                      "type": "resref",
+                      "value": "bot_nat_cloak"
                     }
                   },
                   {
@@ -3699,22 +3710,6 @@
               "ID": {
                 "type": "byte",
                 "value": 3
-              },
-              "LIST": {
-                "type": "list",
-                "value": [
-                  {
-                    "__struct_id": 0,
-                    "RESREF": {
-                      "type": "resref",
-                      "value": "bot_nat_cloak"
-                    },
-                    "STRREF": {
-                      "type": "dword",
-                      "value": 107974
-                    }
-                  }
-                ]
               },
               "STRREF": {
                 "type": "dword",
