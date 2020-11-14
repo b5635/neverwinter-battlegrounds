@@ -84,6 +84,7 @@ void main()
     SendDiscordMessage(sMessage+" - there " + (nPCs == 1 ? "is" : "are") + " now " + IntToString(nPCs) + " player" + (nPCs == 1 ? "" : "s") + " online.");
 
     AddJournalQuestEntry("welcome", 1, oPC, FALSE, FALSE, TRUE);
+    AddJournalQuestEntry("discord", 1, oPC, FALSE, FALSE, TRUE);
     AddJournalQuestEntry("rules", 1, oPC, FALSE, FALSE, TRUE);
     AddJournalQuestEntry("credits", 1, oPC, FALSE, FALSE, TRUE);
 

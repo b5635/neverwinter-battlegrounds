@@ -76,6 +76,57 @@
               "Text": {
                 "type": "cexolocstring",
                 "value": {
+                  "0": "https://discord.gg/h2emZf7kvu"
+                }
+              }
+            }
+          ]
+        },
+        "Name": {
+          "type": "cexolocstring",
+          "value": {
+            "0": "Discord"
+          }
+        },
+        "Picture": {
+          "type": "word",
+          "value": 65535
+        },
+        "Priority": {
+          "type": "dword",
+          "value": 2
+        },
+        "Tag": {
+          "type": "cexostring",
+          "value": "discord"
+        },
+        "XP": {
+          "type": "dword",
+          "value": 0
+        }
+      },
+      {
+        "__struct_id": 2,
+        "Comment": {
+          "type": "cexostring",
+          "value": ""
+        },
+        "EntryList": {
+          "type": "list",
+          "value": [
+            {
+              "__struct_id": 0,
+              "End": {
+                "type": "word",
+                "value": 0
+              },
+              "ID": {
+                "type": "dword",
+                "value": 1
+              },
+              "Text": {
+                "type": "cexolocstring",
+                "value": {
                   "0": "There aren't a lot of rules, nor do I want there to be. All I ask for if you play on the server is to be a decent human being. Therefore:\n\n1. No griefing or trolling.\n2. No erotic, sexual, or obscene content.\n3. No exploiting or hacks.\n4. Be a team player."
                 }
               }
@@ -106,7 +157,7 @@
         }
       },
       {
-        "__struct_id": 2,
+        "__struct_id": 3,
         "Comment": {
           "type": "cexostring",
           "value": ""
