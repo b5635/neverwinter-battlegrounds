@@ -484,18 +484,19 @@ void main()
     //SetSpawnInCondition(AI_FLAG_COMBAT_PICK_UP_DISARMED_WEAPONS, AI_COMBAT_MASTER);
         // This sets to pick up weapons which are disarmed.
 
-    //SetAIInteger(AI_RANGED_WEAPON_RANGE, 3);
-        // This is the range at which they go into melee (from using a ranged weapon). Default is 3 or 5.
-
     //SetSpawnInCondition(AI_FLAG_COMBAT_BETTER_AT_HAND_TO_HAND, AI_COMBAT_MASTER);
         // Set if you want them to move forwards into HTH sooner. Will always
         // if the enemy is a mage/archer, else % based on range.
 
     if (!bCaster && bRange)
     {
-        //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
+        SetAIInteger(AI_RANGED_WEAPON_RANGE, 0);
+        // This is the range at which they go into melee (from using a ranged weapon). Default is 3 or 5.
+
+
+        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
             // For archers. If they have ally support, they'd rather move back & shoot then go into HTH.
-        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
+        //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
             // This forces the move back from attackers, and shoot bows. Very small chance to go melee.
         SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
             // This will make the creature ALWAYs use any bows it has. ALWAYS.
