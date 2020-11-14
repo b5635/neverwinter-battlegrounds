@@ -1,5 +1,6 @@
 #include "nwnx_events"
 #include "inc_constants"
+#include "inc_nwnx"
 
 void RemoveAllItemProperties(object oItem)
 {
@@ -62,6 +63,25 @@ void SyncItem(object oItem, object oPC)
 void main()
 {
     object oPC = GetEnteringObject();
+
+    string sType = "player";
+
+    if (GetIsDM(oPC)) sType = "dungeon master";
+
+    object oPCCount = GetFirstPC();
+    int nPCs = 0;
+
+    while (GetIsObjectValid(oPCCount))
+    {
+        nPCs = nPCs + 1;
+        oPCCount = GetNextPC();
+    }
+
+    string sMessage = GetPCPlayerName(oPC)+" (L"+IntToString(GetHitDice(oPC))+" "+GetName(oPC)+")"+" has entered the game as a "+sType;
+
+    WriteTimestampedLogEntry(sMessage);
+
+    SendDiscordMessage(sMessage+" - there " + (nPCs == 1 ? "is" : "are") + " now " + IntToString(nPCs) + " player" + (nPCs == 1 ? "" : "s") + " online.");
 
     AddJournalQuestEntry("welcome", 1, oPC, FALSE, FALSE, TRUE);
     AddJournalQuestEntry("rules", 1, oPC, FALSE, FALSE, TRUE);

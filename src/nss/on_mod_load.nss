@@ -5,6 +5,7 @@
 #include "nwnx_admin"
 #include "nwnx_events"
 #include "util_i_csvlists"
+#include "inc_nwnx"
 
 void InitializeBase(string sTeam, int nColor)
 {
@@ -32,6 +33,10 @@ void main()
 {
 // No player should be able to login.
     NWNX_Administration_SetPlayerPassword(GetRandomUUID());
+
+    SetLocalString(GetModule(), "DISCORD_WEBHOOK", NWNX_Util_GetEnvironmentVariable("DISCORD_WEBHOOK"));
+
+    SendDiscordMessage("The server is initializing...");
 
     NWNX_Administration_SetPlayOption(NWNX_ADMINISTRATION_OPTION_USE_MAX_HITPOINTS, TRUE);
     NWNX_Administration_SetPlayOption(NWNX_ADMINISTRATION_OPTION_AUTO_FAIL_SAVE_ON_1, TRUE);
@@ -100,6 +105,11 @@ void main()
         WriteTimestampedLogEntry("bot_lvl"+IntToString(i)+": "+GetLocalString(GetModule(), "bot_lvl"+IntToString(i)));
         WriteTimestampedLogEntry("bot_lvl_name"+IntToString(i)+": "+GetLocalString(GetModule(), "bot_lvl_name"+IntToString(i)));
     }
+
+    NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_BEFORE", "on_pc_connectb");
+    NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_AFTER", "on_pc_connecta");
+    NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_DISCONNECT_AFTER", "on_pc_dconnecta");
+
 // This script makes players always start at "The Choice"
     NWNX_Events_SubscribeEvent("NWNX_ON_ELC_VALIDATE_CHARACTER_BEFORE", "on_elc_validateb");
 
@@ -144,4 +154,6 @@ void main()
 
 // Now player should be able to login.
     NWNX_Administration_ClearPlayerPassword();
+
+    SendDiscordMessage("The server is now up and connectable.");
 }

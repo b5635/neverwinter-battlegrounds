@@ -1,14 +1,12 @@
-
 #include "nwnx_webhook"
 
-void SendDiscordMessage(string sPath, string sMessage)
+// Sends a discord message to "DISCORD_WEBHOOK", retrieved as as local on the module.
+void SendDiscordMessage(string sMessage);
+void SendDiscordMessage(string sMessage)
 {
-    NWNX_WebHook_SendWebHookHTTPS("discordapp.com", sPath, sMessage);
-}
+    string sPath = GetLocalString(GetModule(), "DISCORD_WEBHOOK");
 
-void SendDiscordLogMessage(string sMessage)
-{
-    if (GetLocalInt(GetModule(), "dev") == 0) NWNX_WebHook_SendWebHookHTTPS("discordapp.com", Get2DAString("env", "Value", 2), sMessage);
+    if (sPath != "") NWNX_WebHook_SendWebHookHTTPS("discordapp.com", sPath, sMessage);
 }
 
 //void main() {}

@@ -2,5 +2,5 @@
 
 void main()
 {
-    SendDiscordLogMessage("The server is shutting down.");
+    SendDiscordMessage("The server is now shutting down.");
 }

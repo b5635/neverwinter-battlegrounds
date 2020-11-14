@@ -13,6 +13,6 @@ void main()
     }
     else if (GetIsDeveloper(OBJECT_SELF))
     {
-         SendDiscordLogMessage("DM: "+GetName(OBJECT_SELF)+" has executed "+NWNX_Events_GetCurrentEvent()+", target: "+GetName(NWNX_Object_StringToObject(NWNX_Events_GetEventData("OBJECT")))+", amount: "+NWNX_Events_GetEventData("AMOUNT"));
+         SendDiscordMessage("DM: "+GetName(OBJECT_SELF)+" has executed "+NWNX_Events_GetCurrentEvent()+", target: "+GetName(NWNX_Object_StringToObject(NWNX_Events_GetEventData("OBJECT")))+", amount: "+NWNX_Events_GetEventData("AMOUNT"));
     }
 }

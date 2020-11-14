@@ -3,6 +3,7 @@
 #include "util_i_color"
 #include "inc_teams"
 #include "nwnx_area"
+#include "inc_nwnx"
 
 // Get a random map by game mode.
 // Valid options: "tdm"
@@ -113,6 +114,8 @@ int StartSession()
     SetEventScript(oSession, EVENT_SCRIPT_AREA_ON_ENTER, "area_on_enter");
     SetEventScript(oSession, EVENT_SCRIPT_AREA_ON_HEARTBEAT, "session_hb");
 
+    SendDiscordMessage(GetName(oSession)+" has started!");
+
     AssignCommand(GetModule(), SpeakString(HexColorString(GetName(oSession), COLOR_PURPLE)+" has started!", TALKVOLUME_SHOUT));
 
     return TRUE;
@@ -173,6 +176,9 @@ void AwardPoints(int nPoints, string sTeam)
 // Play end of session message.
         string sTeamWin = HexColorString("Blue Team wins!", COLOR_BLUE);
         if (sTeam == TEAM_RED) sTeamWin = HexColorString("Red Team wins!", COLOR_RED);
+
+        SendDiscordMessage(GetName(oSession)+" has ended! "+sTeam+" Team wins!");
+
         AssignCommand(GetModule(), SpeakString(HexColorString(GetName(oSession), COLOR_PURPLE)+" has ended! "+sTeamWin, TALKVOLUME_SHOUT));
     }
 }
