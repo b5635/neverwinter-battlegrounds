@@ -1,2 +1,2 @@
-docker-compose -f docker-compose.yml down
-docker-compose -f docker-compose.yml up --no-recreate -d
+docker-compose -f docker-compose-dev.yml down
+docker-compose -f docker-compose-dev.yml up --no-recreate -d
