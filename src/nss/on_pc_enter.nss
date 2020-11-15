@@ -1,6 +1,7 @@
 #include "nwnx_events"
 #include "inc_constants"
 #include "inc_nwnx"
+#include "inc_general"
 
 void RemoveAllItemProperties(object oItem)
 {
@@ -77,7 +78,7 @@ void main()
         oPCCount = GetNextPC();
     }
 
-    string sMessage = GetPCPlayerName(oPC)+" (L"+IntToString(GetHitDice(oPC))+" "+GetName(oPC)+")"+" has entered the game as a "+sType;
+    string sMessage = PlayerDetailedName(oPC)+" has entered the game as a "+sType;
 
     WriteTimestampedLogEntry(sMessage);
 

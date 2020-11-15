@@ -1,3 +1,10 @@
+// Returns the player's name, character name, and level
+string PlayerDetailedName(object oPC);
+string PlayerDetailedName(object oPC)
+{
+    return GetPCPlayerName(oPC)+" (L"+IntToString(GetHitDice(oPC))+" "+GetName(oPC)+")";
+}
+
 void PlayNonMeleePainSound(object oDamager)
 {
     if (GetIsDead(OBJECT_SELF)) return;
