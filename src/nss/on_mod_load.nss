@@ -127,6 +127,7 @@ void main()
     NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_INVITE_BEFORE", "skip_event");
     NWNX_Events_SubscribeEvent("NWNX_ON_PARTY_KICK_HENCHMAN_BEFORE", "skip_event");
     NWNX_Events_SubscribeEvent("NWNX_ON_PVP_ATTITUDE_CHANGE_BEFORE", "skip_event");
+    NWNX_Events_SubscribeEvent("NWNX_ON_BARTER_START_BEFORE", "skip_event");
 
 // Following actions are not allowed under any circumstance
     NWNX_Events_SubscribeEvent("NWNX_ON_DM_CHANGE_DIFFICULTY_BEFORE", "dm_never");
