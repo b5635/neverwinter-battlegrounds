@@ -1,6 +1,6 @@
-/*/////////////////////// [Include - Set Effects] //////////////////////////////
-    Filename: J_INC_SetEffects
-///////////////////////// [Include - Set Effects] //////////////////////////////
+/************************ [Set Effects Include] ********************************
+    Filename:
+************************* [Set Effects] ****************************************
     This can be executed on a PC or NPC, and sets what thier current effects
     are - the hostile ones.
 
@@ -9,28 +9,22 @@
 
     It is meant to be more efficient then doing countless checks against other
     NPCs and PCs for what effects they already have on them.
-///////////////////////// [History] ////////////////////////////////////////////
+************************* [History] ********************************************
     1.3 - Added
-    1.4 - Changed so fear and stun was seperate.
-          Uncommandable still is now for any uncommandable effects.
-
-        - TO DO
-        - Make the ability decrease into "light" "major" and so on, about 4
-          ratings, each set as more decreases are present.
-///////////////////////// [Workings] ///////////////////////////////////////////
+************************* [Workings] *******************************************
     ExecuteScript - might not work faster. If so, it is easy to add into the
     generic AI and have oTarget to set to.
 
     It searches the code and sets 3 custom integers, but only once (so not
     during the loop)
-///////////////////////// [Arguments] //////////////////////////////////////////
+************************* [Arguments] ******************************************
     Arguments: N/A
-///////////////////////// [Include - Set Effects] ////////////////////////////*/
+************************* [Set Effects] ***************************************/
 
 #include "J_INC_CONSTANTS"
 
 // List (use Global to not conflict with the nwscript.nss!)
-const int GlobalEffectUncommandable               = 0x00000001;// Stun. Sleep. Fear. Turning. Paralsis. Petrify.
+const int GlobalEffectUncommandable               = 0x00000001;// Stun. Sleep. Fear. Turning.
 const int GlobalEffectSilenced                    = 0x00000002;// Eeek!
 const int GlobalEffectSlowed                      = 0x00000004;// Stop with haste.
 const int GlobalEffectUltravision                 = 0x00000008;
@@ -41,7 +35,7 @@ const int GlobalEffectInvisible                   = 0x00000080;
 const int GlobalEffectDeaf                        = 0x00000100;// Ack!
 const int GlobalEffectHaste                       = 0x00000200;
 const int GlobalEffectPolymorph                   = 0x00000400;// Only attack
-const int GlobalEffectBlindness                   = 0x00000800;// Oh no! Cannot see others to cast spells.
+const int GlobalEffectBlindness                   = 0x00000800;// Oh no!
 const int GlobalEffectDisease                     = 0x00001000;
 const int GlobalEffectPoison                      = 0x00002000;
 const int GlobalEffectCurse                       = 0x00004000;
@@ -53,15 +47,13 @@ const int GlobalEffectDazed                       = 0x00080000;// Special: 1.30 
 const int GlobalEffectEthereal                    = 0x00100000;
 const int GlobalEffectPetrify                     = 0x00200000;
 const int GlobalEffectParalyze                    = 0x00400000;// Divided from Uncommandable for healing of
+//const int GlobalEffectAbilityDecrease             = 0x00080000;// Ohh! Tingly!
 const int GlobalEffectSpellFailure                = 0x00800000;// Makes sure spells are not cast under high failure.
 const int GlobalEffectDamageShield                = 0x01000000;// All damage shields
-const int GlobalEffectFear                        = 0x02000000;// 1.4. Remove fear + G.Rest. Removes.
-const int GlobalEffectStun                        = 0x04000000;// 1.4. G.Rest. Removes.
 //int GlobalEffectAbilityDecrease = 0; // In combat include
 
 // These are Globals for spell effects, to not csat them on us again, and to
 // speed things up...
-// These are *good* spells. This effect is only set up on us.
 const int GlobalHasStoneSkinProtections           = 0x00000001;
 const int GlobalHasElementalProtections           = 0x00000002;
 const int GlobalHasVisageProtections              = 0x00000004;
@@ -88,7 +80,7 @@ const int GlobalHasRegenerateSpell                = 0x00400000;
 const int GlobalHasOwlsWisdomSpell                = 0x00800000;
 const int GlobalHasSpellResistanceSpell           = 0x01000000;
 const int GlobalHasSpellWarCrySpell               = 0x02000000;
-//const int GlobalHasElementalShieldSpell           = 0x04000000;// Is general effect
+//const int GlobalHasElementalShieldSpell           = 0x04000000;
 const int GlobalHasDomainSpells                   = 0x08000000;
 const int GlobalHasDeflectionACSpell              = 0x10000000;
 const int GlobalHasNaturalACSpell                 = 0x20000000;
@@ -102,173 +94,154 @@ const int GlobalHasWeaponHelpSpell                = 0x80000000;
 int TempEffectHex, TempSpellHex;
 
 // Sets up an effects thing to that
-void AI_SetTargetHasEffect(int nEffectHex);
+void AI_SetWeHaveEffect(int iEffectHex);
 // Sets we have spell iSpellHex's effects.
-void AI_SetWeHaveSpellsEffect(int nSpellHex);
+void AI_SetWeHaveSpellsEffect(int iSpellHex);
 // Sets up effects on oTarget
 void AI_SetEffectsOnTarget(object oTarget = OBJECT_SELF);
 
 
 // Simple return TRUE if it matches hex.
 // - Effects tested on oTarget
-int AI_GetAIHaveEffect(int nEffectHex, object oTarget = OBJECT_SELF);
+int AI_GetAIHaveEffect(int iEffectHex, object oTarget = OBJECT_SELF);
 // Simple return TRUE if it matches hex.
-// * Can only be used on ourself.
-int AI_GetAIHaveSpellsEffect(int nSpellHex);
+// - Uses oTarget
+int AI_GetAIHaveSpellsEffect(int iSpellHex, object oTarget = OBJECT_SELF);
 
 // Sets up an effects thing to that
-void AI_SetTargetHasEffect(int nEffectHex)
+void AI_SetWeHaveEffect(int iEffectHex)
 {
-    TempEffectHex = TempEffectHex | nEffectHex;
+    TempEffectHex = TempEffectHex | iEffectHex;
 }
 // Sets we have spell iSpellHex's effects.
-void AI_SetWeHaveSpellsEffect(int nSpellHex)
+void AI_SetWeHaveSpellsEffect(int iSpellHex)
 {
-    TempSpellHex = TempSpellHex | nSpellHex;
+    TempSpellHex = TempSpellHex | iSpellHex;
 }
 
 // Simple return TRUE if it matches hex.
 // - Effects tested on oTarget
-int AI_GetAIHaveEffect(int nEffectHex, object oTarget = OBJECT_SELF)
+int AI_GetAIHaveEffect(int iEffectHex, object oTarget = OBJECT_SELF)
 {
-    return (GetLocalInt(oTarget, AI_EFFECT_HEX) & nEffectHex);
+    return (GetLocalInt(oTarget, AI_EFFECT_HEX) & iEffectHex);
 
 }
 // Simple return TRUE if it matches hex.
-// * Can only be used on ourself.
-int AI_GetAIHaveSpellsEffect(int nSpellHex)
+// - Uses oTarget
+int AI_GetAIHaveSpellsEffect(int iSpellHex, object oTarget = OBJECT_SELF)
 {
-    return (GetLocalInt(OBJECT_SELF, AI_SPELL_HEX) & nSpellHex);
+    return (GetLocalInt(oTarget, AI_SPELL_HEX) & iSpellHex);
 }
 
-// Sets up effects on oTarget
+
 void AI_SetEffectsOnTarget(object oTarget = OBJECT_SELF)
 {
     TempEffectHex = FALSE;
     TempSpellHex = FALSE;
     // Checks our effects once.
     effect eCheck = GetFirstEffect(oTarget);
-    int nEffect, nEffectAbilityDecrease, nSpellID;
+    int iEffect, iEffectAbilityDecrease, iSpellID;
     // EFFECTS:
     // For ALL targets (that we will use), we set up effects on a system of Hexes.
     // like spawn in things. Replaces GetHasSpellEffect, except genralising -
     // IE we will NOT cast more than one of the stoneskin type things at once.
     while(GetIsEffectValid(eCheck))
     {
-        nEffect = GetEffectType(eCheck);
-        switch(nEffect)
+        iEffect = GetEffectType(eCheck);
+        switch(iEffect)
         {
             case EFFECT_TYPE_INVALIDEFFECT:
             case EFFECT_TYPE_VISUALEFFECT:
                 // Don't check these for spell values.
             break;
-            case EFFECT_TYPE_PARALYZE: // Also makes you uncommandable
-            {
-                AI_SetTargetHasEffect(GlobalEffectParalyze);
-                AI_SetTargetHasEffect(GlobalEffectUncommandable);
-            }
+            case EFFECT_TYPE_PARALYZE:
+                AI_SetWeHaveEffect(GlobalEffectParalyze);
             break;
-            case EFFECT_TYPE_STUNNED: // Also makes you uncommandable
-            {
-                AI_SetTargetHasEffect(GlobalEffectStun);
-                AI_SetTargetHasEffect(GlobalEffectUncommandable);
-            }
-            break;
-            case EFFECT_TYPE_FRIGHTENED: // Also makes you uncommandable
-            {
-                AI_SetTargetHasEffect(GlobalEffectFear);
-                AI_SetTargetHasEffect(GlobalEffectUncommandable);
-            }
-            break;
-            // * Cannot remove these, but make you unable to move.
+            case EFFECT_TYPE_STUNNED:
+            case EFFECT_TYPE_FRIGHTENED:
             case EFFECT_TYPE_SLEEP:
             case EFFECT_TYPE_TURNED:
             case EFFECT_TYPE_DISAPPEARAPPEAR:// Added for dragon flying
-            case EFFECT_TYPE_CONFUSED:// 1.4 added. wasn't in before
-                AI_SetTargetHasEffect(GlobalEffectUncommandable);
+                AI_SetWeHaveEffect(GlobalEffectUncommandable);
             break;
             case EFFECT_TYPE_DAZED:
-                AI_SetTargetHasEffect(GlobalEffectDazed);
+                AI_SetWeHaveEffect(GlobalEffectDazed);
             break;
             case EFFECT_TYPE_SILENCE:
-                AI_SetTargetHasEffect(GlobalEffectSilenced);
+                AI_SetWeHaveEffect(GlobalEffectSilenced);
             break;
             case EFFECT_TYPE_SLOW:
-                AI_SetTargetHasEffect(GlobalEffectSlowed);
+                AI_SetWeHaveEffect(GlobalEffectSlowed);
             break;
             case EFFECT_TYPE_ULTRAVISION:
-                AI_SetTargetHasEffect(GlobalEffectUltravision);
+                AI_SetWeHaveEffect(GlobalEffectUltravision);
             break;
             case EFFECT_TYPE_SEEINVISIBLE:
-                AI_SetTargetHasEffect(GlobalEffectSeeInvisible);
+                AI_SetWeHaveEffect(GlobalEffectSeeInvisible);
             break;
             // Caused by Beholder things mainly, but this stops any spell being
             // cast, not just, for example, arcane spells cast in armor.
             case EFFECT_TYPE_SPELL_FAILURE:
-                AI_SetTargetHasEffect(GlobalEffectSpellFailure);
+                AI_SetWeHaveEffect(GlobalEffectSpellFailure);
             break;
             // Penetrates darkness.
             case EFFECT_TYPE_TRUESEEING:
-                AI_SetTargetHasEffect(GlobalEffectTrueSeeing);
+                AI_SetWeHaveEffect(GlobalEffectTrueSeeing);
             break;
             // Timestop - IE don't cast same spell twice.
             case EFFECT_TYPE_TIMESTOP:
-                AI_SetTargetHasEffect(GlobalEffectTimestop);
+                AI_SetWeHaveEffect(GlobalEffectTimestop);
             break;
             // Invisibility/Improved (although improved only uses normal in the spell)
             // Sneak attack/whatever :-)
             // - include the spell EFFECT_TYPE_ETHEREAL.
             case EFFECT_TYPE_INVISIBILITY:
             case EFFECT_TYPE_IMPROVEDINVISIBILITY:
-                AI_SetTargetHasEffect(GlobalEffectInvisible);
+                AI_SetWeHaveEffect(GlobalEffectInvisible);
             break;
             // Deaf - spell failing of 20%, but still cast.
             case EFFECT_TYPE_DEAF:
-                AI_SetTargetHasEffect(GlobalEffectDeaf);
+                AI_SetWeHaveEffect(GlobalEffectDeaf);
             break;
             // Special invis.
             case EFFECT_TYPE_ETHEREAL:
-                 AI_SetTargetHasEffect(GlobalEffectEthereal);
+                 AI_SetWeHaveEffect(GlobalEffectEthereal);
             break;
             // Haste - so don't cast haste again and whatever.
             case EFFECT_TYPE_HASTE:
-                AI_SetTargetHasEffect(GlobalEffectHaste);
+                AI_SetWeHaveEffect(GlobalEffectHaste);
             break;
             // Haste - so don't cast haste again and whatever.
             case EFFECT_TYPE_POLYMORPH:
-                AI_SetTargetHasEffect(GlobalEffectPolymorph);
+                AI_SetWeHaveEffect(GlobalEffectPolymorph);
             break;
             // Blindness - oh no, can't see, only hear!
             case EFFECT_TYPE_BLINDNESS:
-                AI_SetTargetHasEffect(GlobalEffectBlindness);
+                AI_SetWeHaveEffect(GlobalEffectBlindness);
             break;
             // Damage shield = Elemental shield, wounding whispers, Death armor, mestals
             // sheth and so on.
             case EFFECT_TYPE_ELEMENTALSHIELD:
-                AI_SetTargetHasEffect(GlobalEffectDamageShield);
+                AI_SetWeHaveEffect(GlobalEffectDamageShield);
             break;
             // Things we may want to remove VIA cirtain spells, we set here - may as well.
             // Same setting as any other.
             // IF we can remove it (not confusion ETC of course) then we set it.
             case EFFECT_TYPE_DISEASE:
-                AI_SetTargetHasEffect(GlobalEffectDisease);
+                AI_SetWeHaveEffect(GlobalEffectDisease);
             break;
             case EFFECT_TYPE_POISON:
-                AI_SetTargetHasEffect(GlobalEffectPoison);
+                AI_SetWeHaveEffect(GlobalEffectPoison);
             break;
             // SoU Petrify
-            // Note: Also makes them uncommandable
             case EFFECT_TYPE_PETRIFY:
-            {
-                AI_SetTargetHasEffect(GlobalEffectPetrify);
-                AI_SetTargetHasEffect(GlobalEffectUncommandable);
-            }
+                AI_SetWeHaveEffect(GlobalEffectPetrify);
             break;
             case EFFECT_TYPE_CURSE:
-                AI_SetTargetHasEffect(GlobalEffectCurse);
+                AI_SetWeHaveEffect(GlobalEffectCurse);
             break;
             case EFFECT_TYPE_NEGATIVELEVEL:
-                AI_SetTargetHasEffect(GlobalEffectNegativeLevel);
+                AI_SetWeHaveEffect(GlobalEffectNegativeLevel);
             break;
             case EFFECT_TYPE_ABILITY_DECREASE:
             case EFFECT_TYPE_AC_DECREASE:
@@ -279,25 +252,24 @@ void AI_SetEffectsOnTarget(object oTarget = OBJECT_SELF)
             case EFFECT_TYPE_SPELL_RESISTANCE_DECREASE:
             case EFFECT_TYPE_SKILL_DECREASE:
                 // Special - we add one to this, to determine when to use restoration
-                nEffectAbilityDecrease++;
+                iEffectAbilityDecrease++;
             break;
             case EFFECT_TYPE_ENTANGLE:
-                AI_SetTargetHasEffect(GlobalEffectEntangle);
+                AI_SetWeHaveEffect(GlobalEffectEntangle);
             break;
             case EFFECT_TYPE_MOVEMENT_SPEED_DECREASE:
-                AI_SetTargetHasEffect(GlobalEffectMovementSpeedDecrease);
+                AI_SetWeHaveEffect(GlobalEffectMovementSpeedDecrease);
             break;
             case EFFECT_TYPE_DARKNESS:
-                AI_SetTargetHasEffect(GlobalEffectDarkness);
+                AI_SetWeHaveEffect(GlobalEffectDarkness);
             break;
             default:
             {
-                // Check spells *we* (1.4 change: now checks OBJECT_SELF)
-                // have on...so we don't cast over them!
-                nSpellID = GetEffectSpellId(eCheck);
-                if(nSpellID != -1 && oTarget == OBJECT_SELF)
+                // Check spells we have on...so we don't cast over them!
+                iSpellID = GetEffectSpellId(eCheck);
+                if(iSpellID != iM1)
                 {
-                    switch(nSpellID)
+                    switch(iSpellID)
                     {
                         // All weapon things are on one variable. We cast the best.
                         case SPELL_MAGIC_WEAPON:
@@ -366,7 +338,7 @@ void AI_SetEffectsOnTarget(object oTarget = OBJECT_SELF)
                         break;
                         case SPELL_CATS_GRACE:
                         case SPELL_GREATER_CATS_GRACE:
-                        case AI_SPELLABILITY_HARPER_CATS_GRACE:  // Harper
+                        case AI_SPELL_HARPER_CATS_GRACE:  // Harper
                             AI_SetWeHaveSpellsEffect(GlobalHasCatsGraceSpell);
                         break;
                         case SPELL_CLAIRAUDIENCE_AND_CLAIRVOYANCE:
@@ -389,7 +361,7 @@ void AI_SetEffectsOnTarget(object oTarget = OBJECT_SELF)
                         break;
                         case SPELL_EAGLE_SPLEDOR:
                         case SPELL_GREATER_EAGLE_SPLENDOR:
-                        case AI_SPELLABILITY_HARPER_EAGLE_SPLEDOR: // Harper
+                        case AI_SPELL_HARPER_EAGLE_SPLEDOR: // Harper
                             AI_SetWeHaveSpellsEffect(GlobalHasEaglesSpledorSpell);
                         break;
                         case SPELL_ENDURANCE:
@@ -464,14 +436,9 @@ void AI_SetEffectsOnTarget(object oTarget = OBJECT_SELF)
     }
     DeleteLocalInt(oTarget, AI_ABILITY_DECREASE);
     DeleteLocalInt(oTarget, AI_EFFECT_HEX);
-    // Special - only we set spell hexs on ourselves.
-    if(oTarget == OBJECT_SELF)
-    {
-        DeleteLocalInt(oTarget, AI_SPELL_HEX);
-        SetLocalInt(oTarget, AI_SPELL_HEX, TempSpellHex);
-    }
+    DeleteLocalInt(oTarget, AI_SPELL_HEX);
     // Set final ones from temp integers
-    SetLocalInt(oTarget, AI_ABILITY_DECREASE, nEffectAbilityDecrease);
+    SetLocalInt(oTarget, AI_ABILITY_DECREASE, iEffectAbilityDecrease);
     SetLocalInt(oTarget, AI_EFFECT_HEX, TempEffectHex);
+    SetLocalInt(oTarget, AI_SPELL_HEX, TempSpellHex);
 }
-

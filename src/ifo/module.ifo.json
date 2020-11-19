@@ -11,13 +11,6 @@
         "__struct_id": 6,
         "Area_Name": {
           "type": "resref",
-          "value": "tdm_demoniaque"
-        }
-      },
-      {
-        "__struct_id": 6,
-        "Area_Name": {
-          "type": "resref",
           "value": "_base"
         }
       },
@@ -40,6 +33,13 @@
         "Area_Name": {
           "type": "resref",
           "value": "_system"
+        }
+      },
+      {
+        "__struct_id": 6,
+        "Area_Name": {
+          "type": "resref",
+          "value": "tdm_demoniaque"
         }
       }
     ]

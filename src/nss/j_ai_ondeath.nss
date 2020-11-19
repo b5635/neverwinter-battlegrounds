@@ -8,7 +8,6 @@
 ************************* [History] ********************************************
     1.3 - Added in Turn of corpses toggle
         - Added in appropriate space for XP awards, marked with ideas (effect death)
-    1.4 pok - only shout was changed from 1.4
 ************************* [Workings] *******************************************
     You can edit this for experience, there is a seperate section for it.
 
@@ -34,7 +33,7 @@ void main()
     DetermineKillPoints();
 
     // Always shout when we are killed. Reactions - Morale penalty, and attack the killer.
-    AISpeakString(AI_SHOUT_I_WAS_KILLED);
+    AISpeakString(I_WAS_KILLED);
 
     // Signal the death event.
     FireUserEvent(AI_FLAG_UDE_DEATH_EVENT, EVENT_DEATH_EVENT);

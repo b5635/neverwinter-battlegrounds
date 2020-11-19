@@ -1,8 +1,8 @@
-/*/////////////////////// [On User Defined] ////////////////////////////////////
-    Filename: J_AI_OnUserDef or nw_c2_defaultd
-///////////////////////// [Workings] ///////////////////////////////////////////
-    1.4 Adds proper Pre-event functionality. Use this to make sure you keep the
-    AI working, but making small additions using this event.
+/************************ [On User Defined] ************************************
+    Filename: j_ai_onuserdef or nw_c2_defaultd
+************************* [Workings] *******************************************
+    This is NOT needed, but I have, because of new Pre-events, added it to the
+    files for completeness and documentation.
 
     Can be deleted to save space if you want :-)
 
@@ -47,29 +47,23 @@
 
     You can delete sections you don't need, and is recommended as long as you know
     how to use User Defined events.
-///////////////////////// [History] ////////////////////////////////////////////
+************************* [History] ********************************************
     1.3 - Added in with some documentation
-    1.4 - Changed Pre-events. Now, it uses Execute Script. Will need to set
-          a special string on the creature to now what script to fire.
-          - It means they work correctly, however!
-///////////////////////// [Arguments] //////////////////////////////////////////
+************************* [Arguments] ******************************************
     Arguments: Dependant on event. See seperate event scripts.
-///////////////////////// [On User Defined] //////////////////////////////////*/
+************************* [On User Defined] ***********************************/
 
 //  This contains a lot of useful things.
 //  - Combat starting
 //  - Constant values
 //  - Get/Set spawn in values.
-#include "J_INC_OTHER_AI"
+#include "j_inc_other_ai"
 //  This contains some useful things to get NPC's to attack and so on.
-#include "J_INC_NPC_ATTACK"
+#include "j_inc_npc_attack"
 
 /************************ [UDE Values] *****************************************
     These are uneeded, but here for reference. Use the constants in the file
     "j_inc_constants" like "EVENT_HEARTBEAT_PRE_EVENT" which is classed as 1021.
-    * The normal death event might not fire before the creature has vanished.
-      Use the Pre-event (but with no stopping the death event) if you want a special
-      death event to happen.
 
     Name                Normal-End event -  Pre-Event
     Heartbeat Event     1001                1021
@@ -90,11 +84,9 @@
 void main()
 {
     // Get the user defined number.
-    // * NOTE: YOU MUST USE AI_GetUDENumber(), not GetUserDefinedEventNumber()!
-    int nEvent = AI_GetUDENumber();
-
+    int iEvent = GetUserDefinedEventNumber();
     // Events.
-    switch(nEvent)
+    switch(iEvent)
     {
         // Event Heartbeat
         // Arguments: Basically, none. Nothing activates this script. Fires every 6 seconds.
@@ -324,4 +316,3 @@ void main()
         // End all in-built events. Add more in here, if you wish.
     }
 }
-
