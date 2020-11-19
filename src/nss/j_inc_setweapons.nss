@@ -1,15 +1,23 @@
-/************************ [Include - Set Weapons] ******************************
+/*/////////////////////// [Include - Set Weapons] //////////////////////////////
     Filename: J_Inc_Setweapons
-************************* [Include - Set Weapons] ******************************
+///////////////////////// [Include - Set Weapons] //////////////////////////////
     This holds all the stuff for setting up local objects for weapons we have
     or have not got - normally the best to worst.
-************************* [History] ********************************************
+///////////////////////// [History] ////////////////////////////////////////////
     1.0 - Put in include
     1.3 - Fixed minor things, added arrays of weapons (for deul wielding) and
           heal kits and stuff added.
           Added to OnSpawn.
-************************* [Workings] *******************************************
-    This is included in "j_ai_setweapons" and executed from other places VIA it.
+    1.4 - Removed item checking for wands etc.
+          TO DO:
+        - Perhaps remove healing kit code? Check in the general AI at start of combat?
+        - Perhaps add in the other feats? Maybe not
+        - Have a setting to allow a cirtain weapon type be favoured/be able to
+          override the default settings and set a weapon to use, in the spawn
+          script.
+        - Redo how potions and item spells are setup!
+///////////////////////// [Workings] ///////////////////////////////////////////
+    This is included in "J_AI_SetWeapons" and executed from other places VIA it.
 
     This migth change, but not likely. It could be re-included OnSpawn at least
     for spawning in.
@@ -35,44 +43,22 @@
 
     The lower level ones are taken into account, however! And these are much
     more common.
-************************* [Arguments] ******************************************
+///////////////////////// [Arguments] //////////////////////////////////////////
     Arguments: N/A
-************************* [Include - Set Weapons] *****************************/
+///////////////////////// [Include - Set Weapons] ////////////////////////////*/
 
-#include "j_inc_constants"
+#include "J_INC_CONSTANTS"
 
 /*****Structure******/
-// Things we use throughout, saves time (and Get's) putting them here.
 
-int ProfWizard, ProfDruid, ProfMonk, ProfElf, ProfRogue, ProfSimple,
-    ProfMartial, ProfExotic, ProfShield,
-/*
-int ProfWizard = FALSE;
-int ProfDruid = FALSE;
-int ProfMonk = FALSE;
-int ProfElf = FALSE;
-int ProfRogue = FALSE;
-int ProfSimple = FALSE;
-int ProfMartial = FALSE;
-int ProfExotic = FALSE;
-int ProfShield = FALSE;
-*/
-// If we set have the right two-weapon fighting feats, this is set
-/*int*/ProfTwoWeapons, // = FALSE;
-// This contains our current size.
-/*int*/CreatureSize,
-/*int*/CreatureStrength, // = FALSE;
-// This tracks the current item value (so less Get/Set).
-/*int*/CurrentItemValue, // = FALSE;
-/*int*/CurrentItemIsMighty, // = FALSE;
-/*int*/CurrentItemIsUnlimited, // = FALSE;
-/*int*/CurrentItemSize, // = FALSE;
-/*int*/CurrentItemDamage, // = FALSE;  // Special - Damage is set in the bigger arrays.
-/*int*/CurrentItemType, // = -1; // Set to -1 in loop anyway.
-// I'm scripting, not doing grammer here!
-/*int*/HasArrows, // = FALSE;
-/*int*/HasBolts, // = FALSE;
-/*int*/HasBullets; // = FALSE;
+// Things we use throughout, saves time (and Get's) putting them here.
+// These are boolean proficiencies. They either have them...or not!
+// After those, are other variables like size, strength, and value of the current item.
+int bProfWizard, bProfDruid, bProfMonk, bProfElf, bProfRogue, bProfSimple,
+    bProfMartial, bProfExotic, bProfShield, bProfTwoWeapons, nCreatureSize,
+    nCreatureStrength, nCurrentItemValue, bCurrentItemIsMighty, bCurrentItemIsUnlimited,
+    nCurrentItemSize, nCurrentItemDamage, nCurrentItemType, bGotArrows, bGotBolts,
+    bGotBullets;
 
 // String for setting a value integer to an item
 const string SETWEP_VALUE                       = "VALUE";
@@ -123,16 +109,16 @@ void StoreShield(object oTarget, object oItem);
 // Uses right prefix to store the object to oTarget.
 void SWFinalAIObject(object oTarget, string sName, object oObject);
 // Uses right prefix to store the iInt to oTarget.
-void SWFinalAIInteger(object oTarget, string sName, int iInt);
+void SWFinalAIInteger(object oTarget, string sName, int nInt);
 // Deletes object with Prefix
 void SWDeleteAIObject(object oTarget, string sName);
 // Deletes integer with Prefix
 void SWDeleteAIInteger(object oTarget, string sName);
 
 // Sets the weapon to the array, in the right spot...
-// If iSecondary is TRUE, it uses the weapon size, and creature size to modifiy
-// the value.
-void ArrayOfWeapons(string sArray, object oTarget, object oItem, int iValue, int iSecondary = FALSE);
+// If bSecondary is TRUE, it uses the weapon size, and creature size to modifiy
+// the value, IE: Sets it as the secondary weapon.
+void ArrayOfWeapons(string sArray, object oTarget, object oItem, int nValue, int bSecondary = FALSE);
 // Deletes all the things in an array...set to sArray
 void DeleteDatabase(object oTarget, string sArray);
 // Deletes all things, before we start!
@@ -161,15 +147,8 @@ void DeleteInts(object oTarget);
 int GetState(object oTarget);
 // This is the deletion of the values of weapons.
 void DeleteValueInts(object oTarget, string sArray);
-// This moves the values from iMax to iNumberStart back one in the list.
-void MoveArrayBackOne(string sArray, int iNumberStart, object oTarget, int iMax);
-// Special: Apply EffectCutsceneImmobilize
-void AI_SpecialActionApplyItem(object oTarget);
-// Special: Remove EffectCutsceneImmobilize
-void AI_SpecialActionRemoveItem(object oTarget);
-// Gets a item talent value, no applying of EffectCutsceneImmobilize.
-// - iTalent, 1-21.
-void AI_SetItemTalentValue(int iTalent);
+// This moves the values from nMax to nNumberStart back one in the list.
+void MoveArrayBackOne(string sArray, int nNumberStart, object oTarget, int nMax);
 
 //::///////////////////////////////////////////////
 //:: Name SetWeopens
@@ -192,40 +171,28 @@ void SetWeapons(object oTarget = OBJECT_SELF)
     if(GetSpawnInCondition(AI_FLAG_OTHER_LAG_EQUIP_MOST_DAMAGING, AI_OTHER_MASTER)) return;
 
     // Gets the creature size, stores it...
-    CreatureSize = GetCreatureSize(oTarget);
+    nCreatureSize = GetCreatureSize(oTarget);
     // No need to take off strength. It is pulrey for mighty weapons, we
     // add on this bonus to the value.
-    CreatureStrength = GetAbilityModifier(ABILITY_STRENGTH, oTarget);
-    if(CreatureStrength < i0)
-    {
-        CreatureStrength = i0;
-    }
+    // Thusly, we always make it a minimum of 0.
+    nCreatureStrength = GetAbilityModifier(ABILITY_STRENGTH, oTarget);
+    if(nCreatureStrength < 0) nCreatureStrength = 0;
+
     // Ints, globally set.
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_DRUID, oTarget))
-        ProfDruid = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_ELF, oTarget))
-        ProfElf = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC, oTarget))
-        ProfExotic = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_MARTIAL, oTarget))
-        ProfMartial = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_MONK, oTarget))
-        ProfMonk = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_ROGUE, oTarget))
-        ProfRogue = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_SIMPLE, oTarget))
-        ProfSimple = TRUE;
-    if(GetHasFeat(FEAT_WEAPON_PROFICIENCY_WIZARD, oTarget))
-        ProfWizard = TRUE;
-    if(GetHasFeat(FEAT_SHIELD_PROFICIENCY, oTarget))
-        ProfShield = TRUE;
-    if(GetHasFeat(FEAT_TWO_WEAPON_FIGHTING, oTarget) ||
-       GetHasFeat(FEAT_AMBIDEXTERITY, oTarget) ||
-       GetHasFeat(FEAT_IMPROVED_TWO_WEAPON_FIGHTING, oTarget))
-    {
-        ProfTwoWeapons = TRUE;
-    }
-    // Sorts the inventory, on oTarget, with CreatureSize of creature
+    bProfDruid = GetHasFeat(FEAT_WEAPON_PROFICIENCY_DRUID, oTarget);
+    bProfElf = GetHasFeat(FEAT_WEAPON_PROFICIENCY_ELF, oTarget);
+    bProfExotic = GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC, oTarget);
+    bProfMartial = GetHasFeat(FEAT_WEAPON_PROFICIENCY_MARTIAL, oTarget);
+    bProfMonk = GetHasFeat(FEAT_WEAPON_PROFICIENCY_MONK, oTarget);
+    bProfRogue = GetHasFeat(FEAT_WEAPON_PROFICIENCY_ROGUE, oTarget);
+    bProfSimple = GetHasFeat(FEAT_WEAPON_PROFICIENCY_SIMPLE, oTarget);
+    bProfWizard = GetHasFeat(FEAT_WEAPON_PROFICIENCY_WIZARD, oTarget);
+    bProfShield = GetHasFeat(FEAT_SHIELD_PROFICIENCY, oTarget);
+    bProfTwoWeapons = (GetHasFeat(FEAT_TWO_WEAPON_FIGHTING, oTarget) ||
+                       GetHasFeat(FEAT_AMBIDEXTERITY, oTarget) ||
+                       GetHasFeat(FEAT_IMPROVED_TWO_WEAPON_FIGHTING, oTarget));
+
+    // Sorts the inventory, on oTarget, with nCreatureSize of creature
     SortInventory(oTarget);
 }
 
@@ -246,41 +213,36 @@ void SortInventory(object oTarget)
 {
     // Note to self: Removed potion setting. THis is done each round in AI include
     // because it is probably better that way.
-    int nBase, nWeaponSize, iCnt;
+    int nBase, nWeaponSize, nCnt;
     object oItem, oHighestKit;
-    int iHealingKitsAmount, iItemValue;
-    int iRunningValue = i0; // For kits
+    int nHealingKitsAmount, nItemValue;
+    int nRunningValue = 0; // For kits
 
-    // Onto the slots - if we are checking them!
-    // Slots 4 and 5. (HTH weapons)
-    for(iCnt = INVENTORY_SLOT_RIGHTHAND; // 4
-        iCnt <= INVENTORY_SLOT_LEFTHAND; // 5
-        iCnt++)
+    // Slots 11, 12 and 13. (some ammo slots)
+    for(nCnt = INVENTORY_SLOT_ARROWS; //11
+        nCnt <= INVENTORY_SLOT_BOLTS; //13
+        nCnt++)
     {
-        oItem  = GetItemInSlot(iCnt, oTarget);
+        oItem  = GetItemInSlot(nCnt, oTarget);
         if(GetIsObjectValid(oItem))
         {
-            CurrentItemType = GetBaseItemType(oItem);
-            CurrentItemSize = GetWeaponSize(oItem);
-            CurrentItemDamage = FALSE;// Reset
-            if(CurrentItemSize)// Is over 0
-            {
-                DoEffectsOf(oTarget, oItem);
-            }
+            // Sets ammo counters using nCurrentItemType.
+            nCurrentItemType = GetBaseItemType(oItem);
+            SetAmmoCounters(oTarget);
         }
     }
-    // Slots 11, 12 and 13. (some ammo slots)
-    for(iCnt = INVENTORY_SLOT_ARROWS; //11
-        iCnt <= INVENTORY_SLOT_BOLTS; //13
-        iCnt++)
+    // Slots 4 and 5. (HTH weapons)
+    for(nCnt = INVENTORY_SLOT_RIGHTHAND; // 4
+        nCnt <= INVENTORY_SLOT_LEFTHAND; // 5
+        nCnt++)
     {
-        oItem  = GetItemInSlot(iCnt, oTarget);
+        oItem  = GetItemInSlot(nCnt, oTarget);
         if(GetIsObjectValid(oItem))
         {
-            CurrentItemType = GetBaseItemType(oItem);
-            CurrentItemSize = GetWeaponSize(oItem);
-            CurrentItemDamage = FALSE;// Reset
-            if(CurrentItemSize)
+            nCurrentItemType = GetBaseItemType(oItem);
+            nCurrentItemSize = GetWeaponSize(oItem);
+            nCurrentItemDamage = FALSE;// Reset
+            if(nCurrentItemSize)// Is over 0
             {
                 DoEffectsOf(oTarget, oItem);
             }
@@ -291,24 +253,25 @@ void SortInventory(object oTarget)
     while(GetIsObjectValid(oItem))
     {
         // Added some else statements to speed it up
-        CurrentItemType = GetBaseItemType(oItem);
-        if(CurrentItemType == BASE_ITEM_HEALERSKIT)
+        nCurrentItemType = GetBaseItemType(oItem);
+        if(nCurrentItemType == BASE_ITEM_HEALERSKIT)
         {
-            iHealingKitsAmount++;
-            iItemValue = GetGoldPieceValue(oItem);
+            nHealingKitsAmount++;
+            nItemValue = GetGoldPieceValue(oItem);
             // Stacked kits be worth what they should be seperatly.
-            iItemValue = iItemValue/GetNumStackedItems(oItem);
-            if(iItemValue > iRunningValue)
+            nItemValue = nItemValue/GetNumStackedItems(oItem);
+            if(nItemValue > nRunningValue)
             {
-                iRunningValue = iItemValue;
+                nRunningValue = nItemValue;
                 oHighestKit = oItem;
             }
         }
         // Else, is it a arrow, bolt or bullet?
-        else if(CurrentItemType == BASE_ITEM_ARROW ||
-                CurrentItemType == BASE_ITEM_BOLT ||
-                CurrentItemType == BASE_ITEM_BULLET)
+        else if(nCurrentItemType == BASE_ITEM_ARROW ||
+                nCurrentItemType == BASE_ITEM_BOLT ||
+                nCurrentItemType == BASE_ITEM_BULLET)
         {
+            // Sets ammo counters using nCurrentItemType.
             SetAmmoCounters(oTarget);
         }
         else
@@ -316,9 +279,9 @@ void SortInventory(object oTarget)
         // Likely a weapon, so we check
         {
             // Only need current item size, if it is a weapon!
-            CurrentItemSize = GetWeaponSize(oItem);
-            CurrentItemDamage = FALSE;// Reset
-            if(CurrentItemSize)// Is over 0 (valid weapon)
+            nCurrentItemSize = GetWeaponSize(oItem);
+            nCurrentItemDamage = FALSE;// Reset
+            if(nCurrentItemSize)// Is over 0 (valid weapon)
             {
                 // Do the appropriate enchantment issuse and so on.
                 DoEffectsOf(oTarget, oItem);
@@ -331,64 +294,48 @@ void SortInventory(object oTarget)
     // Set our shield  (if any)
     SetShield(oTarget);
     // Need some, any!
-    if(iHealingKitsAmount > i0)
+    if(nHealingKitsAmount > 0)
     {
         // set healing kits (if any)
         SWFinalAIObject(oTarget, AI_VALID_HEALING_KIT_OBJECT, oHighestKit);
         // Set amount left
-        SWFinalAIInteger(oTarget, AI_VALID_HEALING_KITS, iHealingKitsAmount);
-    }
-    // Added in item setting functions. apply EffectCutsceneImmobilize, remove at end, but
-    // in the middle we do item talents.
-    if(!GetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_ITEMS, AI_OTHER_MASTER, oTarget))
-    {
-        AI_SpecialActionApplyItem(oTarget);
-
-        // Loop talents (not ones we won't set however)
-        for(iCnt = i1; iCnt <= i15; iCnt++)
-        {
-            // Ignore healing ones.
-            if(iCnt != i4 && iCnt != i5)
-            {
-                AI_SetItemTalentValue(iCnt);
-            }
-        }
-
-        AI_SpecialActionRemoveItem(oTarget);
+        SWFinalAIInteger(oTarget, AI_VALID_HEALING_KITS, nHealingKitsAmount);
     }
     // Delete things, FINALLY. really! I mean, this is it, it runs, as it is,
     // and the other things run off it as things are met...!
     DelayCommand(0.1, DeleteInts(oTarget));
 }
 
+// This will take the weapon size, and things, and apply the right base effects.
 void DoEffectsOf(object oTarget, object oItem)
 {
     // 1.3 = changed to switch statement.
+    // 1.4 - Minor bug (WEAPON_SIZE_SMALL, not CREATURE_SIZE_SMALL) fixed.
     // Note: Anything not done BaseEffects of cannot even be used by the character.
-    switch(CurrentItemSize)
+    switch(nCurrentItemSize)
     {
         // Tiny weapons - If we are under large size, and is a dagger or similar
         case WEAPON_SIZE_TINY:
         {
-            if(CreatureSize < CREATURE_SIZE_LARGE) BaseEffects(oTarget, oItem);
+            if(nCreatureSize < CREATURE_SIZE_LARGE) BaseEffects(oTarget, oItem);
         }
         break;
         // Small Weapons - If we are large (not giant) and size is like a shortsword
         case CREATURE_SIZE_SMALL:
         {
-            if(CreatureSize < CREATURE_SIZE_HUGE) BaseEffects(oTarget, oItem);
+            if(nCreatureSize < CREATURE_SIZE_HUGE) BaseEffects(oTarget, oItem);
         }
         break;
         // Medium weapons - If we are over tiny, and size is like a longsword
         case WEAPON_SIZE_MEDIUM:
         {
-            if(CreatureSize > CREATURE_SIZE_TINY) BaseEffects(oTarget, oItem);
+            if(nCreatureSize > CREATURE_SIZE_TINY) BaseEffects(oTarget, oItem);
         }
         break;
         // Large weapons - anything that is over small, and the size is like a spear
         case WEAPON_SIZE_LARGE:
         {
-            if(CreatureSize > WEAPON_SIZE_SMALL) BaseEffects(oTarget, oItem);
+            if(nCreatureSize > CREATURE_SIZE_SMALL) BaseEffects(oTarget, oItem);
         }
         break;
     }
@@ -409,144 +356,144 @@ void DoEffectsOf(object oTarget, object oItem)
 void BaseEffects(object oTarget, object oItem)
 {
     // Reset value
-    CurrentItemValue = i0;
+    nCurrentItemValue = 0;
     if(GetIsObjectValid(oItem))
     {
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ABILITY_BONUS))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_AC_BONUS))
-            CurrentItemValue += i5;
+            nCurrentItemValue += 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_AC_BONUS_VS_ALIGNMENT_GROUP))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_AC_BONUS_VS_DAMAGE_TYPE))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_AC_BONUS_VS_RACIAL_GROUP))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_AC_BONUS_VS_SPECIFIC_ALIGNMENT))
-            CurrentItemValue += i3;
+            nCurrentItemValue += 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ATTACK_BONUS))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ATTACK_BONUS_VS_ALIGNMENT_GROUP))
-            CurrentItemValue += i3;
+            nCurrentItemValue += 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ATTACK_BONUS_VS_RACIAL_GROUP))
-            CurrentItemValue += i3;
+            nCurrentItemValue += 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ATTACK_BONUS_VS_SPECIFIC_ALIGNMENT))
-            CurrentItemValue += i3;
+            nCurrentItemValue += 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_BASE_ITEM_WEIGHT_REDUCTION))
-            CurrentItemValue += i3;
+            nCurrentItemValue += 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_BONUS_FEAT))
-            CurrentItemValue += i6;
+            nCurrentItemValue += 6;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N))
-            CurrentItemValue += i2;
+            nCurrentItemValue += 2;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_CAST_SPELL))
-            CurrentItemValue += i5;
+            nCurrentItemValue += 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_BONUS))
-            CurrentItemValue += i6;
+            nCurrentItemValue += 6;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_BONUS_VS_RACIAL_GROUP))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_BONUS_VS_SPECIFIC_ALIGNMENT))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_REDUCTION))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_RESISTANCE))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DAMAGE_VULNERABILITY))
-            CurrentItemValue -= i3;
+            nCurrentItemValue -= 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
-            CurrentItemValue += i3;
+            nCurrentItemValue += 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_ABILITY_SCORE))
-            CurrentItemValue -= i4;
+            nCurrentItemValue -= 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_AC))
-            CurrentItemValue -= i4;
+            nCurrentItemValue -= 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_ATTACK_MODIFIER))
-            CurrentItemValue -= i3;
+            nCurrentItemValue -= 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_DAMAGE))
-            CurrentItemValue -= i3;
+            nCurrentItemValue -= 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_ENHANCEMENT_MODIFIER))
-            CurrentItemValue -= i5;
+            nCurrentItemValue -= 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_SAVING_THROWS))
-            CurrentItemValue -= i4;
+            nCurrentItemValue -= 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_SAVING_THROWS_SPECIFIC))
-            CurrentItemValue -= i3;
+            nCurrentItemValue -= 3;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_DECREASED_SKILL_MODIFIER))
-            CurrentItemValue -= i2;
+            nCurrentItemValue -= 2;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ENHANCEMENT_BONUS))
-            CurrentItemValue += i7;
+            nCurrentItemValue += 7;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_ALIGNMENT_GROUP))
-            CurrentItemValue += i6;
+            nCurrentItemValue += 6;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_RACIAL_GROUP))
-            CurrentItemValue += i6;
+            nCurrentItemValue += 6;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_SPECIFIC_ALIGNEMENT))
-            CurrentItemValue += i5;
+            nCurrentItemValue += 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_EXTRA_MELEE_DAMAGE_TYPE))
-            CurrentItemValue += i1;
+            nCurrentItemValue += 1;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_EXTRA_RANGED_DAMAGE_TYPE))
-            CurrentItemValue += i1;
+            nCurrentItemValue += 1;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_FREEDOM_OF_MOVEMENT))
-            CurrentItemValue += i5;
+            nCurrentItemValue += 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_HASTE))
-            CurrentItemValue += i12;
+            nCurrentItemValue += 12;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_HOLY_AVENGER))
-            CurrentItemValue += i10;
+            nCurrentItemValue += 10;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_IMMUNITY_DAMAGE_TYPE))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS))
-            CurrentItemValue += i10;
+            nCurrentItemValue += 10;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_IMMUNITY_SPELL_SCHOOL))
-            CurrentItemValue += i12;
+            nCurrentItemValue += 12;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_IMPROVED_EVASION))
-            CurrentItemValue += i10;
+            nCurrentItemValue += 10;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_KEEN))
-            CurrentItemValue += i7;
+            nCurrentItemValue += 7;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_LIGHT))
-            CurrentItemValue += i1;
+            nCurrentItemValue += 1;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_MASSIVE_CRITICALS))
-            CurrentItemValue += i2;
+            nCurrentItemValue += 2;
 //        if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_MIND_BLANK))
-//            CurrentItemValue += i4;// Do not think It exsists.
+//            nCurrentItemValue += 4;// Do not think It exsists.
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_MONSTER_DAMAGE))
-            CurrentItemValue += i1;
+            nCurrentItemValue += 1;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_NO_DAMAGE))
-            CurrentItemValue -= i10;// EEEKK! Bad bad bad!!
+            nCurrentItemValue -= 10;// EEEKK! Bad bad bad!!
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ON_HIT_PROPERTIES))
-            CurrentItemValue += i8;// Includes all vorpal and so on!
+            nCurrentItemValue += 8;// Includes all vorpal and so on!
 //        if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_ON_MONSTER_HIT))
-//            CurrentItemValue += i8;// Can't be on a weapon
+//            nCurrentItemValue += 8;// Can't be on a weapon
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_POISON))
-            CurrentItemValue += i5;
+            nCurrentItemValue += 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_REGENERATION))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_REGENERATION_VAMPIRIC))
-            CurrentItemValue += i6;
+            nCurrentItemValue += 6;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_SAVING_THROW_BONUS))
-            CurrentItemValue += i5;
+            nCurrentItemValue += 5;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC))
-            CurrentItemValue += i4;
+            nCurrentItemValue += 4;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_SKILL_BONUS))
-            CurrentItemValue += i2;
+            nCurrentItemValue += 2;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_SPELL_RESISTANCE))
-            CurrentItemValue += i7;
+            nCurrentItemValue += 7;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_TRUE_SEEING))
-            CurrentItemValue += i11;
+            nCurrentItemValue += 11;
         if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_TURN_RESISTANCE))
-            CurrentItemValue += i8;
+            nCurrentItemValue += 8;
 //        if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_VORPAL))
-//            CurrentItemValue += i8;// Removed as Bioware will remove this constant. Doesn't exsist.
+//            nCurrentItemValue += 8;// Removed as Bioware will remove this constant. Doesn't exsist.
 //        if(GetItemHasItemProperty(oItem, ITEM_PROPERTY_WOUNDING))
-//            CurrentItemValue += i8;// Removed as Bioware will remove this constant. Doesn't exsist.
+//            nCurrentItemValue += 8;// Removed as Bioware will remove this constant. Doesn't exsist.
         // Special cases
         // Set is unlimited to TRUE or FALSE, add 10 if TRUE.
-        CurrentItemIsUnlimited = GetItemHasItemProperty(oItem, ITEM_PROPERTY_UNLIMITED_AMMUNITION);
-        if(CurrentItemIsUnlimited) CurrentItemValue += i10;
+        bCurrentItemIsUnlimited = GetItemHasItemProperty(oItem, ITEM_PROPERTY_UNLIMITED_AMMUNITION);
+        if(bCurrentItemIsUnlimited) nCurrentItemValue += 10;
         // Same as above, for mighty
-        CurrentItemIsMighty = GetItemHasItemProperty(oItem, ITEM_PROPERTY_MIGHTY);
-        if(CurrentItemIsMighty) CurrentItemValue += i3;
+        bCurrentItemIsMighty = GetItemHasItemProperty(oItem, ITEM_PROPERTY_MIGHTY);
+        if(bCurrentItemIsMighty) nCurrentItemValue += 3;
 
-        switch (CurrentItemSize)
+        switch (nCurrentItemSize)
         {
             case WEAPON_SIZE_INVALID:// Invalid Size, stop
             {
@@ -595,29 +542,29 @@ void BaseEffects(object oTarget, object oItem)
 void BaseLargeWeapons(object oTarget, object oItem)
 {
     // No need for weopen size...we know we can use it!
-    switch(CurrentItemType)
+    switch(nCurrentItemType)
     {
         case BASE_ITEM_DIREMACE:
         {
             // This is the only one that needs documenting. All are similar.
-            if(ProfExotic == TRUE)// We are proficient in exotics...
+            if(bProfExotic == TRUE)// We are proficient in exotics...
             {
-                CurrentItemDamage = i16;// Set max damage.
-                CurrentItemValue +=     // We add onto the current value some things...
-                      (CurrentItemDamage + // The damage (maximum) done by it.
+                nCurrentItemDamage = 16;// Set max damage.
+                nCurrentItemValue +=     // We add onto the current value some things...
+                      (nCurrentItemDamage + // The damage (maximum) done by it.
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_DIRE_MACE)) + // Adds 1 if specailised in it
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DIRE_MACE) * i2) +// Adds 2 if can do good criticals in it
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_DIRE_MACE) * i2));     // Adds 2 if we do +2 damage with it
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DIRE_MACE) * 2) +// Adds 2 if can do good criticals in it
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_DIRE_MACE) * 2));     // Adds 2 if we do +2 damage with it
                 // If a very big creature - set as a primary weopen
-                if(CreatureSize >= CREATURE_SIZE_LARGE)//4+
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)//4+
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
                 // If a medium creature - set as a two-handed weopen
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)//=3
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)//=3
                 {
                     // Add 16 more for a "second" weapon.
-                    CurrentItemValue += CurrentItemDamage;
+                    nCurrentItemValue += nCurrentItemDamage;
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
             }
@@ -625,21 +572,21 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_DOUBLEAXE:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i16;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 16;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_DOUBLE_AXE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DOUBLE_AXE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_DOUBLE_AXE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)//4+
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DOUBLE_AXE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_DOUBLE_AXE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)//4+
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)//=3
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)//=3
                 {
                     // Add 16 more for a "second" weapon.
-                    CurrentItemValue += i16;
+                    nCurrentItemValue += 16;
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
             }
@@ -647,20 +594,20 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_TWOBLADEDSWORD:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i16;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 16;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_TWO_BLADED_SWORD)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_TWO_BLADED_SWORD) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_TWO_BLADED_SWORD) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_TWO_BLADED_SWORD) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_TWO_BLADED_SWORD) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
-                    CurrentItemValue += CurrentItemDamage;
+                    nCurrentItemValue += nCurrentItemDamage;
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
             }
@@ -668,18 +615,18 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_GREATAXE:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i12;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 12;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_GREAT_AXE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_GREAT_AXE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_GREAT_AXE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_GREAT_AXE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_GREAT_AXE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -688,18 +635,18 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_GREATSWORD:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i12;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 12;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_GREAT_SWORD)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_GREAT_SWORD) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_GREAT_SWORD) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_GREAT_SWORD) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_GREAT_SWORD) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -708,18 +655,18 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_HALBERD:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_HALBERD)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HALBERD) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_HALBERD) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HALBERD) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_HALBERD) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -728,18 +675,18 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_HEAVYFLAIL:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_HEAVY_FLAIL)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HEAVY_FLAIL) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_HEAVY_FLAIL) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HEAVY_FLAIL) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_HEAVY_FLAIL) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -748,18 +695,18 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_SCYTHE:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SCYTHE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SCYTHE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SCYTHE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SCYTHE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SCYTHE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -768,18 +715,18 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_SHORTSPEAR:
         {
-            if(ProfSimple == TRUE || ProfDruid == TRUE)
+            if(bProfSimple == TRUE || bProfDruid == TRUE)
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SPEAR)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SPEAR) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SPEAR) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SPEAR) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SPEAR) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -790,19 +737,19 @@ void BaseLargeWeapons(object oTarget, object oItem)
         case BASE_ITEM_QUARTERSTAFF:
         case BASE_ITEM_MAGICSTAFF:
         {
-            if(ProfWizard == TRUE || ProfSimple == TRUE || ProfRogue == TRUE ||
-               ProfMonk == TRUE || ProfDruid == TRUE)
+            if(bProfWizard == TRUE || bProfSimple == TRUE || bProfRogue == TRUE ||
+               bProfMonk == TRUE || bProfDruid == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_STAFF)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_STAFF) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_STAFF) * i2));
-                if(CreatureSize >= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_STAFF) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_STAFF) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_MEDIUM)
+                else if(nCreatureSize == CREATURE_SIZE_MEDIUM)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -811,25 +758,25 @@ void BaseLargeWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_LONGBOW:
         {
-            if(CreatureSize >= CREATURE_SIZE_MEDIUM &&
-              (ProfMartial == TRUE || ProfElf == TRUE))
+            if(nCreatureSize >= CREATURE_SIZE_MEDIUM &&
+              (bProfMartial == TRUE || bProfElf == TRUE))
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CurrentItemIsMighty * CreatureStrength) +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (bCurrentItemIsMighty * nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_LONGBOW)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LONGBOW) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_LONGBOW) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LONGBOW) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_LONGBOW) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_TOWERSHIELD:
         {
-            if(ProfShield == TRUE &&
-               CreatureSize >= CREATURE_SIZE_MEDIUM)
+            if(bProfShield == TRUE &&
+               nCreatureSize >= CREATURE_SIZE_MEDIUM)
             {
-                CurrentItemValue += GetItemACValue(oItem);
+                nCurrentItemValue += GetItemACValue(oItem);
                 StoreShield(oTarget, oItem);
             }
         }
@@ -850,22 +797,22 @@ void BaseLargeWeapons(object oTarget, object oItem)
 
 void BaseMediumWeapons(object oTarget, object oItem)
 {
-    switch (CurrentItemType)
+    switch(nCurrentItemType)
     {
         case BASE_ITEM_BASTARDSWORD:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_BASTARD_SWORD)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_BASTARD_SWORD) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_BASTARD_SWORD) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_BASTARD_SWORD) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_BASTARD_SWORD) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -874,18 +821,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_BATTLEAXE:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_BATTLE_AXE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_BATTLE_AXE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_BATTLE_AXE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_BATTLE_AXE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_BATTLE_AXE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -894,18 +841,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_DWARVENWARAXE:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_DWAXE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DWAXE) * i2) +
-                      (GetHasFeat(FEAT_EPIC_WEAPON_FOCUS_DWAXE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DWAXE) * 2) +
+                      (GetHasFeat(FEAT_EPIC_WEAPON_FOCUS_DWAXE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -913,19 +860,19 @@ void BaseMediumWeapons(object oTarget, object oItem)
         }
         case BASE_ITEM_CLUB:
         {
-            if(ProfWizard == TRUE || ProfSimple == TRUE ||
-               ProfMonk == TRUE || ProfDruid == TRUE)
+            if(bProfWizard == TRUE || bProfSimple == TRUE ||
+               bProfMonk == TRUE || bProfDruid == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_CLUB)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_CLUB) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_CLUB) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_CLUB) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_CLUB) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -934,18 +881,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_KATANA:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_KATANA)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_KATANA) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_KATANA) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_KATANA) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_KATANA) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -954,18 +901,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_LIGHTFLAIL:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_LIGHT_FLAIL)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_FLAIL) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_FLAIL) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_FLAIL) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_FLAIL) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -974,18 +921,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_LONGSWORD:
         {
-            if(ProfMartial == TRUE || ProfElf == TRUE)
+            if(bProfMartial == TRUE || bProfElf == TRUE)
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_LONG_SWORD)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LONG_SWORD) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_LONG_SWORD) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LONG_SWORD) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_LONG_SWORD) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -994,18 +941,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_MORNINGSTAR:
         {
-            if(ProfSimple == TRUE || ProfRogue == TRUE) // Primary only
+            if(bProfSimple == TRUE || bProfRogue == TRUE) // Primary only
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_MORNING_STAR)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_MORNING_STAR) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_MORNING_STAR) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_MORNING_STAR) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_MORNING_STAR) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1014,18 +961,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_RAPIER:
         {
-            if(ProfRogue == TRUE || ProfMartial == TRUE || ProfElf == TRUE)
+            if(bProfRogue == TRUE || bProfMartial == TRUE || bProfElf == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_RAPIER)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_RAPIER) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_RAPIER) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_RAPIER) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_RAPIER) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1034,18 +981,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_SCIMITAR:
         {
-            if(ProfMartial == TRUE || ProfDruid == TRUE)
+            if(bProfMartial == TRUE || bProfDruid == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SCIMITAR)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SCIMITAR) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SCIMITAR) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SCIMITAR) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SCIMITAR) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1054,18 +1001,18 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_WARHAMMER:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                        GetHasFeat(FEAT_WEAPON_SPECIALIZATION_WAR_HAMMER) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_WAR_HAMMER) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_WAR_HAMMER) * i2));
-                if(CreatureSize >= CREATURE_SIZE_MEDIUM)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_WAR_HAMMER) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_WAR_HAMMER) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_MEDIUM)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_SMALL)
+                else if(nCreatureSize == CREATURE_SIZE_SMALL)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1074,41 +1021,41 @@ void BaseMediumWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_HEAVYCROSSBOW:
         {
-            if(CreatureSize >= CREATURE_SIZE_SMALL &&
-              (ProfWizard == TRUE || ProfSimple == TRUE ||
-                ProfRogue == TRUE || ProfMonk == TRUE))
+            if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+              (bProfWizard == TRUE || bProfSimple == TRUE ||
+                bProfRogue == TRUE || bProfMonk == TRUE))
             {
-                CurrentItemDamage = i10;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CurrentItemIsMighty * CreatureStrength) +
+                nCurrentItemDamage = 10;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (bCurrentItemIsMighty * nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_HEAVY_CROSSBOW)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HEAVY_CROSSBOW) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_HEAVY_CROSSBOW) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HEAVY_CROSSBOW) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_HEAVY_CROSSBOW) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_SHORTBOW:
         {
-            if(CreatureSize >= CREATURE_SIZE_SMALL &&
-              (ProfRogue == TRUE || ProfMartial == TRUE || ProfElf == TRUE))
+            if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+              (bProfRogue == TRUE || bProfMartial == TRUE || bProfElf == TRUE))
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CurrentItemIsMighty * CreatureStrength) +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (bCurrentItemIsMighty * nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SHORTBOW)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SHORTBOW) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SHORTBOW) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SHORTBOW) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SHORTBOW) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_LARGESHIELD:
         {
-            if(CreatureSize >= CREATURE_SIZE_SMALL &&
-               ProfShield == TRUE)
+            if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+               bProfShield == TRUE)
             {
-                CurrentItemValue += GetItemACValue(oItem);
+                nCurrentItemValue += GetItemACValue(oItem);
                 StoreShield(oTarget, oItem);
             }
         }
@@ -1128,23 +1075,23 @@ void BaseMediumWeapons(object oTarget, object oItem)
 //:://////////////////////////////////////////////
 void BaseSmallWeapons(object oTarget, object oItem)
 {
-    switch (CurrentItemType)
+    switch (nCurrentItemType)
     {
         case BASE_ITEM_HANDAXE:
         {
-            if(ProfMonk == TRUE || ProfMartial == TRUE)
+            if(bProfMonk == TRUE || bProfMartial == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_HAND_AXE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HAND_AXE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_HAND_AXE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_HAND_AXE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_HAND_AXE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_TINY)
+                else if(nCreatureSize == CREATURE_SIZE_TINY)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1153,19 +1100,19 @@ void BaseSmallWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_KAMA:
         {
-            if(ProfMonk == TRUE || ProfExotic == TRUE)
+            if(bProfMonk == TRUE || bProfExotic == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_KAMA)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_KAMA) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_KAMA) * i2));
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_KAMA) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_KAMA) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_TINY)
+                else if(nCreatureSize == CREATURE_SIZE_TINY)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1174,19 +1121,19 @@ void BaseSmallWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_LIGHTHAMMER:
         {
-            if(ProfMartial == TRUE)
+            if(bProfMartial == TRUE)
             {
-                CurrentItemDamage = i4;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 4;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                        GetHasFeat(FEAT_WEAPON_SPECIALIZATION_LIGHT_HAMMER) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_HAMMER) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_HAMMER) * i2));
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_HAMMER) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_HAMMER) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_TINY)
+                else if(nCreatureSize == CREATURE_SIZE_TINY)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1195,19 +1142,19 @@ void BaseSmallWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_LIGHTMACE:
         {
-            if(ProfSimple == TRUE || ProfRogue == TRUE)
+            if(bProfSimple == TRUE || bProfRogue == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_LIGHT_MACE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_MACE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_MACE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_MACE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_MACE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_TINY)
+                else if(nCreatureSize == CREATURE_SIZE_TINY)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1216,19 +1163,19 @@ void BaseSmallWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_SHORTSWORD:
         {
-            if(ProfRogue == TRUE || ProfMartial == TRUE)
+            if(bProfRogue == TRUE || bProfMartial == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SHORT_SWORD)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SHORT_SWORD) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SHORT_SWORD) * i2));
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SHORT_SWORD) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SHORT_SWORD) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_TINY)
+                else if(nCreatureSize == CREATURE_SIZE_TINY)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1237,15 +1184,15 @@ void BaseSmallWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_WHIP:
         {
-            if(ProfExotic == TRUE)
+            if(bProfExotic == TRUE)
             {
-                CurrentItemDamage = i2;// Set max damage.
-                CurrentItemValue += CurrentItemDamage;
+                nCurrentItemDamage = 2;// Set max damage.
+                nCurrentItemValue += nCurrentItemDamage;
                 // We add a special amount, 10, as it is only used as a secondary
                 // weapon, and only in the offhand.
-                CurrentItemValue += i10;
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                nCurrentItemValue += 10;
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
@@ -1254,19 +1201,19 @@ void BaseSmallWeapons(object oTarget, object oItem)
         break;
         case BASE_ITEM_SICKLE:
         {
-            if(ProfSimple == TRUE || ProfDruid == TRUE)
+            if(bProfSimple == TRUE || bProfDruid == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SICKLE)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SICKLE) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SICKLE) * i2));
-                if(CreatureSize >= CREATURE_SIZE_SMALL &&
-                   CreatureSize <= CREATURE_SIZE_LARGE)
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SICKLE) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SICKLE) * 2));
+                if(nCreatureSize >= CREATURE_SIZE_SMALL &&
+                   nCreatureSize <= CREATURE_SIZE_LARGE)
                 {
                     SetPrimaryWeapon(oTarget, oItem);
                 }
-                else if(CreatureSize == CREATURE_SIZE_TINY)
+                else if(nCreatureSize == CREATURE_SIZE_TINY)
                 {
                     SetTwoHandedWeapon(oTarget, oItem);
                 }
@@ -1276,69 +1223,69 @@ void BaseSmallWeapons(object oTarget, object oItem)
         case BASE_ITEM_DART:
         {
             // Ranged weapons below
-            if(CreatureSize <= CREATURE_SIZE_LARGE &&
-              (ProfSimple == TRUE || ProfRogue == TRUE || ProfDruid == TRUE))
+            if(nCreatureSize <= CREATURE_SIZE_LARGE &&
+              (bProfSimple == TRUE || bProfRogue == TRUE || bProfDruid == TRUE))
             {
-                CurrentItemDamage = i4;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CurrentItemIsMighty * CreatureStrength) +
+                nCurrentItemDamage = 4;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (bCurrentItemIsMighty * nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_DART)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DART) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_DART) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DART) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_DART) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_LIGHTCROSSBOW:
         {
-            if(CreatureSize <= CREATURE_SIZE_LARGE &&
-              (ProfWizard == TRUE || ProfSimple == TRUE ||
-               ProfRogue == TRUE || ProfMonk == TRUE))
+            if(nCreatureSize <= CREATURE_SIZE_LARGE &&
+              (bProfWizard == TRUE || bProfSimple == TRUE ||
+               bProfRogue == TRUE || bProfMonk == TRUE))
             {
-                CurrentItemDamage = i8;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CurrentItemIsMighty * CreatureStrength) +
+                nCurrentItemDamage = 8;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (bCurrentItemIsMighty * nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_LIGHT_CROSSBOW)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_CROSSBOW) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_CROSSBOW) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_LIGHT_CROSSBOW) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_LIGHT_CROSSBOW) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_SLING:
         {
-            if(CreatureSize <= CREATURE_SIZE_LARGE &&
-              (ProfSimple == TRUE || ProfMonk == TRUE || ProfDruid == TRUE))
+            if(nCreatureSize <= CREATURE_SIZE_LARGE &&
+              (bProfSimple == TRUE || bProfMonk == TRUE || bProfDruid == TRUE))
             {
-                CurrentItemDamage = i4;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CurrentItemIsMighty * CreatureStrength) +
+                nCurrentItemDamage = 4;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (bCurrentItemIsMighty * nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SLING)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SLING) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SLING) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SLING) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SLING) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_THROWINGAXE:
         {
-            if(CreatureSize <= CREATURE_SIZE_LARGE && ProfMartial == TRUE)
+            if(nCreatureSize <= CREATURE_SIZE_LARGE && bProfMartial == TRUE)
             {
-                CurrentItemDamage = i6;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
-                      (CreatureStrength) +
+                nCurrentItemDamage = 6;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
+                      (nCreatureStrength) +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SLING)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SLING) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SLING) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SLING) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SLING) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_SMALLSHIELD:
         {
-            if(ProfShield)
+            if(bProfShield)
             {
-                CurrentItemValue += GetItemACValue(oItem);
+                nCurrentItemValue += GetItemACValue(oItem);
                 StoreShield(oTarget, oItem);
             }
         }
@@ -1359,32 +1306,32 @@ void BaseSmallWeapons(object oTarget, object oItem)
 
 void BaseTinyWeapons(object oTarget, object oItem)
 {
-    switch (CurrentItemType)
+    switch (nCurrentItemType)
     {
         case BASE_ITEM_DAGGER:
         {
-            if(CreatureSize <= CREATURE_SIZE_MEDIUM &&
-              (ProfWizard == TRUE || ProfSimple == TRUE || ProfRogue == TRUE ||
-               ProfMonk == TRUE || ProfDruid == TRUE))
+            if(nCreatureSize <= CREATURE_SIZE_MEDIUM &&
+              (bProfWizard == TRUE || bProfSimple == TRUE || bProfRogue == TRUE ||
+               bProfMonk == TRUE || bProfDruid == TRUE))
             {
-                CurrentItemDamage = i4;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 4;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_DAGGER)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DAGGER) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_DAGGER) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_DAGGER) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_DAGGER) * 2));
                 SetPrimaryWeapon(oTarget, oItem);
             }
         }
         break;
         case BASE_ITEM_KUKRI:
         {
-            if(CreatureSize <= CREATURE_SIZE_MEDIUM && ProfExotic == TRUE)
+            if(nCreatureSize <= CREATURE_SIZE_MEDIUM && bProfExotic == TRUE)
             {
-                CurrentItemDamage = i4;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 4;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_KUKRI)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_KUKRI) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_KUKRI) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_KUKRI) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_KUKRI) * 2));
                 SetPrimaryWeapon(oTarget, oItem);
             }
         }
@@ -1392,14 +1339,14 @@ void BaseTinyWeapons(object oTarget, object oItem)
         case BASE_ITEM_SHURIKEN:
         {
             // Ranged weapons below
-            if(CreatureSize <= CREATURE_SIZE_MEDIUM &&
-              (ProfMonk == TRUE || ProfExotic == TRUE))
+            if(nCreatureSize <= CREATURE_SIZE_MEDIUM &&
+              (bProfMonk == TRUE || bProfExotic == TRUE))
             {
-                CurrentItemDamage = i3;// Set max damage.
-                CurrentItemValue += (CurrentItemDamage +
+                nCurrentItemDamage = 3;// Set max damage.
+                nCurrentItemValue += (nCurrentItemDamage +
                       (GetHasFeat(FEAT_WEAPON_SPECIALIZATION_SHURIKEN)) +
-                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SHURIKEN) * i2) +
-                      (GetHasFeat(FEAT_WEAPON_FOCUS_SHURIKEN) * i2));
+                      (GetHasFeat(FEAT_IMPROVED_CRITICAL_SHURIKEN) * 2) +
+                      (GetHasFeat(FEAT_WEAPON_FOCUS_SHURIKEN) * 2));
                 StoreRangedWeapon(oTarget, oItem);
             }
         }
@@ -1426,20 +1373,21 @@ void SetPrimaryWeapon(object oTarget, object oItem)
 {
     // We insert the value into an array of all primary weapons, based
     // on value.
-    if(CurrentItemType != BASE_ITEM_WHIP)   // WHIPs are secondary only
-    {
-        ArrayOfWeapons(AI_WEAPON_PRIMARY, oTarget, oItem, CurrentItemValue);
-    }
+    // * Any weapon can be primary
+    ArrayOfWeapons(AI_WEAPON_PRIMARY, oTarget, oItem, nCurrentItemValue);
+
     // We also set up secondary array for all weapons which can be used well
     // in the off hand.
     // This takes some value off for size of weapon...depending on our size!
     // IE to hit is lower, it is a lower value.
-    if(ProfTwoWeapons == TRUE &&
-       // 4 = Light flail, 47 = Morningstar - NOT a valid second weapon.
-       CurrentItemType != BASE_ITEM_LIGHTFLAIL &&
-       CurrentItemType != BASE_ITEM_MORNINGSTAR)
+    if(bProfTwoWeapons == TRUE &&
+       // 4 = Light flail, 47 = Morningstar - NOT a valid second weapon, for
+       //     some bug reason
+       nCurrentItemType != BASE_ITEM_LIGHTFLAIL &&
+       nCurrentItemType != BASE_ITEM_MORNINGSTAR &&
+       nCurrentItemType != BASE_ITEM_WHIP) // Whips are primary only
     {
-        ArrayOfWeapons(AI_WEAPON_SECONDARY, oTarget, oItem, CurrentItemValue, TRUE);
+        ArrayOfWeapons(AI_WEAPON_SECONDARY, oTarget, oItem, nCurrentItemValue, TRUE);
     }
 }
 //::///////////////////////////////////////////////
@@ -1457,7 +1405,7 @@ void SetTwoHandedWeapon(object oTarget, object oItem)
 {
     // We insert the value into an array of all 2 handed weapons, based
     // on value.
-    ArrayOfWeapons(AI_WEAPON_TWO_HANDED, oTarget, oItem, CurrentItemValue);
+    ArrayOfWeapons(AI_WEAPON_TWO_HANDED, oTarget, oItem, nCurrentItemValue);
 }
 
 //::///////////////////////////////////////////////
@@ -1485,31 +1433,31 @@ void StoreRangedWeapon(object oTarget, object oItem)
     nNth++;
     string sNth = IntToString(nNth);
     // Special: If unlimited ammo, we will use regardless of ammo.
-    SetLocalInt(oItem, SETWEP_IS_UNLIMITED, CurrentItemIsUnlimited);
-    SetLocalInt(oItem, SETWEP_VALUE, CurrentItemValue);
+    SetLocalInt(oItem, SETWEP_IS_UNLIMITED, bCurrentItemIsUnlimited);
+    SetLocalInt(oItem, SETWEP_VALUE, nCurrentItemValue);
     SetLocalObject(oTarget, SETWEP_DISTANCE + sNth, oItem);
     SetLocalInt(oTarget, SETWEP_DISTANCE, nNth);
 }
 
 void SetAmmoCounters(object oTarget)
 {
-    switch(CurrentItemType)
+    switch(nCurrentItemType)
     {
         case BASE_ITEM_ARROW:
         {
-            HasArrows = TRUE;
+            bGotArrows = TRUE;
             return;
         }
         break;
         case BASE_ITEM_BOLT:
         {
-            HasBolts = TRUE;
+            bGotBolts = TRUE;
             return;
         }
         break;
         case BASE_ITEM_BULLET:
         {
-            HasBullets = TRUE;
+            bGotBullets = TRUE;
             return;
         }
         break;
@@ -1520,58 +1468,58 @@ void SetRangedWeapon(object oTarget)
 {
     // Special: We set 2 weapons. The second just states there is a second
     // and so we re-set weapons if we get round to using it.
-    int nNth = i1;
+    int nNth = 1;
     string sNth = IntToString(nNth);
     object oItem = GetLocalObject(oTarget, SETWEP_DISTANCE + sNth);
-    int nBase, iHighestValueWeapon, iValue, iUnlimited, iShield,
-        iNextHighestValueWeapon, iHighestUnlimited, iAmmoSlot;
+    int nBase, nHighestValueWeapon, nValue, bUnlimited, bShield, // TRUE if we can use a shield too
+        nNextHighestValueWeapon, bHighestUnlimited, nAmmoSlot;
     object oHighestItem, oNextHighestItem;
 
     while(GetIsObjectValid(oItem))
     {
         nBase = GetBaseItemType(oItem);
-        iValue = GetLocalInt(oItem, SETWEP_VALUE);
-        iUnlimited = GetLocalInt(oItem, SETWEP_IS_UNLIMITED);
+        nValue = GetLocalInt(oItem, SETWEP_VALUE);
+        bUnlimited = GetLocalInt(oItem, SETWEP_IS_UNLIMITED);
         if(nBase == BASE_ITEM_DART || nBase == BASE_ITEM_SHURIKEN ||
            nBase == BASE_ITEM_THROWINGAXE)
         // 31 = Dart, 59 = Shuriken, 63 = Throwing axe
         {
             //iHighestValueWeapon starts as 0, so
-            if(iValue > iHighestValueWeapon ||
-               iHighestValueWeapon == i0)
+            if(nValue > nHighestValueWeapon ||
+               nHighestValueWeapon == 0)
             {
-                iHighestValueWeapon = iValue;
+                nHighestValueWeapon = nValue;
                 oHighestItem = oItem;
-                iShield = TRUE;
+                bShield = TRUE;
                 // We set right hand, because it is a throwing weapon
-                iAmmoSlot = INVENTORY_SLOT_RIGHTHAND;
-                iHighestUnlimited = iUnlimited;
+                nAmmoSlot = INVENTORY_SLOT_RIGHTHAND;
+                bHighestUnlimited = bUnlimited;
             }
-            else if(iValue > iNextHighestValueWeapon ||
-                    iNextHighestValueWeapon == i0)
+            else if(nValue > nNextHighestValueWeapon ||
+                    nNextHighestValueWeapon == 0)
             {
-                iNextHighestValueWeapon = iValue;
+                nNextHighestValueWeapon = nValue;
                 oNextHighestItem = oItem;
             }
         }
         else if(nBase == BASE_ITEM_HEAVYCROSSBOW ||
                 nBase == BASE_ITEM_LIGHTCROSSBOW)// 6 = Heavy, 7 = Light X-bow
         {
-            if(HasBolts == TRUE || iUnlimited == TRUE)
+            if(bGotBolts == TRUE || bUnlimited == TRUE)
             {
-                if(iValue > iHighestValueWeapon ||
-                   iHighestValueWeapon == i0)
+                if(nValue > nHighestValueWeapon ||
+                   nHighestValueWeapon == 0)
                 {
-                    iHighestValueWeapon = iValue;
+                    nHighestValueWeapon = nValue;
                     oHighestItem = oItem;
-                    iAmmoSlot = INVENTORY_SLOT_BOLTS;
-                    iShield = FALSE;
-                    iHighestUnlimited = iUnlimited;
+                    nAmmoSlot = INVENTORY_SLOT_BOLTS;
+                    bShield = FALSE;
+                    bHighestUnlimited = bUnlimited;
                 }
-                else if(iValue > iNextHighestValueWeapon ||
-                        iNextHighestValueWeapon == i0)
+                else if(nValue > nNextHighestValueWeapon ||
+                        nNextHighestValueWeapon == 0)
                 {
-                    iNextHighestValueWeapon = iValue;
+                    nNextHighestValueWeapon = nValue;
                     oNextHighestItem = oItem;
                 }
             }
@@ -1579,42 +1527,42 @@ void SetRangedWeapon(object oTarget)
         else if(nBase == BASE_ITEM_LONGBOW ||
                 nBase == BASE_ITEM_SHORTBOW)// 8 = Long, 11 = Short bow
         {
-            if(HasArrows == TRUE || iUnlimited == TRUE)
+            if(bGotArrows == TRUE || bUnlimited == TRUE)
             {
-                if(iValue > iHighestValueWeapon ||
-                   iHighestValueWeapon == i0)
+                if(nValue > nHighestValueWeapon ||
+                   nHighestValueWeapon == 0)
                 {
-                    iHighestValueWeapon = iValue;
+                    nHighestValueWeapon = nValue;
                     oHighestItem = oItem;
-                    iShield = FALSE;
-                    iAmmoSlot = INVENTORY_SLOT_ARROWS;
-                    iHighestUnlimited = iUnlimited;
+                    bShield = FALSE;
+                    nAmmoSlot = INVENTORY_SLOT_ARROWS;
+                    bHighestUnlimited = bUnlimited;
                 }
-                else if(iValue > iNextHighestValueWeapon ||
-                        iNextHighestValueWeapon == i0)
+                else if(nValue > nNextHighestValueWeapon ||
+                        nNextHighestValueWeapon == 0)
                 {
-                    iNextHighestValueWeapon = iValue;
+                    nNextHighestValueWeapon = nValue;
                     oNextHighestItem = oItem;
                 }
             }
         }
         else if(nBase == BASE_ITEM_SLING)// 61 = Sling
         {
-            if(HasBullets == TRUE || iUnlimited == TRUE)
+            if(bGotBullets == TRUE || bUnlimited == TRUE)
             {
-                if(iValue > iHighestValueWeapon ||
-                   iHighestValueWeapon == i0)
+                if(nValue > nHighestValueWeapon ||
+                   nHighestValueWeapon == 0)
                 {
-                    iHighestValueWeapon = iValue;
+                    nHighestValueWeapon = nValue;
                     oHighestItem = oItem;
-                    iShield = TRUE;
-                    iAmmoSlot = INVENTORY_SLOT_BULLETS;
-                    iHighestUnlimited = iUnlimited;
+                    bShield = TRUE;
+                    nAmmoSlot = INVENTORY_SLOT_BULLETS;
+                    bHighestUnlimited = bUnlimited;
                 }
-                else if(iValue > iNextHighestValueWeapon ||
-                        iNextHighestValueWeapon == i0)
+                else if(nValue > nNextHighestValueWeapon ||
+                        nNextHighestValueWeapon == 0)
                 {
-                    iNextHighestValueWeapon = iValue;
+                    nNextHighestValueWeapon = nValue;
                     oNextHighestItem = oItem;
                 }
             }
@@ -1630,15 +1578,15 @@ void SetRangedWeapon(object oTarget)
     if(GetIsObjectValid(oHighestItem))
     {
         SWFinalAIObject(oTarget, AI_WEAPON_RANGED, oHighestItem);
-        SWFinalAIInteger(oTarget, AI_WEAPON_RANGED_AMMOSLOT, iAmmoSlot);
-        if(iHighestUnlimited)
+        SWFinalAIInteger(oTarget, AI_WEAPON_RANGED_AMMOSLOT, nAmmoSlot);
+        if(bHighestUnlimited)
         {
-            SWFinalAIInteger(oTarget, AI_WEAPON_RANGED_IS_UNLIMITED, iHighestUnlimited);
+            SWFinalAIInteger(oTarget, AI_WEAPON_RANGED_IS_UNLIMITED, bHighestUnlimited);
         }
         // Can a shield be used with it? Default is 0, we only set non 0 values.
-        if(iShield)
+        if(bShield)
         {
-            SWFinalAIInteger(oTarget, AI_WEAPON_RANGED_SHIELD, iShield);
+            SWFinalAIInteger(oTarget, AI_WEAPON_RANGED_SHIELD, bShield);
         }
         // No setting if not valid!
         if(GetIsObjectValid(oNextHighestItem))
@@ -1665,31 +1613,31 @@ void StoreShield(object oTarget, object oItem)
     nNth++;
     string sNth = IntToString(nNth);
     // Set the value, so we can use the top values again.
-    SetLocalInt(oItem, SETWEP_VALUE, CurrentItemValue);
+    SetLocalInt(oItem, SETWEP_VALUE, nCurrentItemValue);
     SetLocalObject(oTarget, SETWEP_SHIELD + sNth, oItem);
     SetLocalInt(oTarget, SETWEP_SHIELD, nNth);
 }
 
 void SetShield(object oTarget)
 {
-    int nNth = i1;
+    int nNth = 1;
     string sNth = IntToString(nNth);
     object oItem = GetLocalObject(oTarget, SETWEP_SHIELD + sNth);
-    int iHighestValueShield, iValue, iNextHighestValueShield;
+    int nHighestValueShield, nValue, nNextHighestValueShield;
     object oHighestShield, oNextHighestShield;
 
     while(GetIsObjectValid(oItem))
     {
-        iValue = GetLocalInt(oItem, SETWEP_VALUE);
-        if(iValue > iHighestValueShield)
+        nValue = GetLocalInt(oItem, SETWEP_VALUE);
+        if(nValue > nHighestValueShield)
         {
             oHighestShield = oItem;
-            iHighestValueShield = iValue;
+            nHighestValueShield = nValue;
         }
-        else if(iValue > iNextHighestValueShield)
+        else if(nValue > nNextHighestValueShield)
         {
             oNextHighestShield = oItem;
-            iNextHighestValueShield = iValue;
+            nNextHighestValueShield = nValue;
         }
         DeleteLocalInt(oItem, SETWEP_VALUE);
         DeleteLocalObject(oTarget, SETWEP_SHIELD + sNth);
@@ -1823,104 +1771,109 @@ void DeleteInts(object oTarget)
 //:: Created By: Yrean
 //:: Modified By: Jasperre
 //:://////////////////////////////////////////////
-void ArrayOfWeapons(string sArray, object oTarget, object oItem, int iValue, int iSecondary = FALSE)
+// Sets the weapon to the array, in the right spot...
+// If bSecondary is TRUE, it uses the weapon size, and creature size to modifiy
+// the value, IE: Sets it as the secondary weapon.
+void ArrayOfWeapons(string sArray, object oTarget, object oItem, int nValue, int bSecondary = FALSE)
 {
     // Check for if it is secondary.
     // We add some value based on the creature size against weapon size.
     // - We also may take away some.
-    int iSetValue = iValue;
-    if(iSecondary == TRUE)
+    int nSetValue = nValue;
+    if(bSecondary == TRUE)
     {
         // We take 2 or add 2 for different sizes. Not too much...but enough?
-        iSetValue += ((CreatureSize - CurrentItemSize) * i2);
+        nSetValue += ((nCreatureSize - nCurrentItemSize) * 2);
     }
-    int iOtherItemsValues, i, iBreak;
-    int iMax = GetLocalInt(oTarget, MAXINT_ + sArray);
+    int nOtherItemsValues, nCnt, bBreak;
+    int nMax = GetLocalInt(oTarget, MAXINT_ + sArray);
     string sArrayStore;
     // Special - no max items!
-    if(iMax < i1)
+    if(nMax < 1)
     {
-        sArrayStore = sArray + s1;
-        SetLocalInt(oTarget, sArrayStore, iSetValue);
-        SetLocalInt(oTarget, sArrayStore + WEAP_SIZE, CurrentItemSize);
-        SetLocalInt(oTarget, sArrayStore + WEAP_DAMAGE, CurrentItemDamage);
+        sArrayStore = sArray + "1";
+        SetLocalInt(oTarget, sArrayStore, nSetValue);
+        SetLocalInt(oTarget, sArrayStore + WEAP_SIZE, nCurrentItemSize);
+        SetLocalInt(oTarget, sArrayStore + WEAP_DAMAGE, nCurrentItemDamage);
         SetLocalObject(oTarget, sArrayStore, oItem);
-        iMax++;
-        SetLocalInt(oTarget, MAXINT_ + sArray, iMax);
+        nMax++;
+        SetLocalInt(oTarget, MAXINT_ + sArray, nMax);
     }
     // Else, we will set it in the array.
     else
     {
         // Loop through the items stored already.
-        for(i = i1; (i <= iMax && iBreak != TRUE); i++)
+        for(nCnt = 1; (nCnt <= nMax && bBreak != TRUE); nCnt++)
         {
             // Get the value of the item.
-            iOtherItemsValues = GetLocalInt(oTarget, sArray + IntToString(i));
+            nOtherItemsValues = GetLocalInt(oTarget, sArray + IntToString(nCnt));
             // If imput is greater than stored...move all of them back one.
-            if(iValue > iOtherItemsValues)
+            if(nValue > nOtherItemsValues)
             {
                 // Set weapon size as well.
-                sArrayStore = sArray + IntToString(i);
-                MoveArrayBackOne(sArray, i, oTarget, iMax);
-                SetLocalInt(oTarget, sArrayStore, iSetValue);
-                SetLocalInt(oTarget, sArrayStore + WEAP_SIZE, CurrentItemSize);
-                SetLocalInt(oTarget, sArrayStore + WEAP_DAMAGE, CurrentItemDamage);
+                sArrayStore = sArray + IntToString(nCnt);
+                MoveArrayBackOne(sArray, nCnt, oTarget, nMax);
+                SetLocalInt(oTarget, sArrayStore, nSetValue);
+                SetLocalInt(oTarget, sArrayStore + WEAP_SIZE, nCurrentItemSize);
+                SetLocalInt(oTarget, sArrayStore + WEAP_DAMAGE, nCurrentItemDamage);
                 SetLocalObject(oTarget, sArrayStore, oItem);
-                iMax++;
-                SetLocalInt(oTarget, MAXINT_ + sArray, iMax);
-                iBreak = TRUE;
+                nMax++;
+                SetLocalInt(oTarget, MAXINT_ + sArray, nMax);
+                bBreak = TRUE;
             }
             // If end, we set to the end :-)
-            else if(i == iMax)
+            else if(nCnt == nMax)
             {
                 // Set weapon size as well. Add one to i to be at the end.
-                sArrayStore = sArray + IntToString(i + i1);
-                SetLocalInt(oTarget, sArrayStore, iSetValue);
-                SetLocalInt(oTarget, sArrayStore + WEAP_SIZE, CurrentItemSize);
-                SetLocalInt(oTarget, sArrayStore + WEAP_DAMAGE, CurrentItemDamage);
+                sArrayStore = sArray + IntToString(nCnt + 1);
+                SetLocalInt(oTarget, sArrayStore, nSetValue);
+                SetLocalInt(oTarget, sArrayStore + WEAP_SIZE, nCurrentItemSize);
+                SetLocalInt(oTarget, sArrayStore + WEAP_DAMAGE, nCurrentItemDamage);
                 SetLocalObject(oTarget, sArrayStore, oItem);
-                iMax++;
-                SetLocalInt(oTarget, MAXINT_ + sArray, iMax);
-                iBreak = TRUE;
+                nMax++;
+                SetLocalInt(oTarget, MAXINT_ + sArray, nMax);
+                bBreak = TRUE;
             }
         }
     }
 }
-
-void MoveArrayBackOne(string sArray, int iNumberStart, object oTarget, int iMax)
+// This moves the values from nMax to nNumberStart back one in the list.
+void MoveArrayBackOne(string sArray, int nNumberStart, object oTarget, int nMax)
 {
     // Get the first item...
     object oItemAtNumber;
     string sCurrentName, sNewName;
-    int iItemAtNumberValue, i, iCurrentItemSize, iCurrentItemDamage;
+    int nItemAtNumberValue, nCnt, nCurrentItemSize, nCurrentItemDamage;
     // Move it from the back, back one, then then next...
-    for(i = iMax; i >= iNumberStart; i--)
+    for(nCnt = nMax; nCnt >= nNumberStart; nCnt--)
     {
         // Sets the name up right.
-        sCurrentName = sArray + IntToString(i);
-        sNewName = sArray + IntToString(i + i1);
+        sCurrentName = sArray + IntToString(nCnt);
+        sNewName = sArray + IntToString(nCnt + 1);
+
         //  Set the things up in the right parts.
         oItemAtNumber = GetLocalObject(oTarget, sCurrentName);
-        iItemAtNumberValue = GetLocalInt(oTarget, sCurrentName);
-        iCurrentItemSize = GetLocalInt(oTarget, sCurrentName + WEAP_SIZE);
-        iCurrentItemDamage = GetLocalInt(oTarget, sCurrentName + WEAP_DAMAGE);
-        // To the NEW name - we add one to the i value.
+        nItemAtNumberValue = GetLocalInt(oTarget, sCurrentName);
+        nCurrentItemSize = GetLocalInt(oTarget, sCurrentName + WEAP_SIZE);
+        nCurrentItemDamage = GetLocalInt(oTarget, sCurrentName + WEAP_DAMAGE);
+
+        // To the NEW name - we add one to the nCnt value.
         SetLocalObject(oTarget, sNewName, oItemAtNumber);
-        SetLocalInt(oTarget, sNewName, iItemAtNumberValue);
-        SetLocalInt(oTarget, sNewName + WEAP_SIZE, iCurrentItemSize);
-        SetLocalInt(oTarget, sNewName + WEAP_DAMAGE, iCurrentItemSize);
+        SetLocalInt(oTarget, sNewName, nItemAtNumberValue);
+        SetLocalInt(oTarget, sNewName + WEAP_SIZE, nCurrentItemSize);
+        SetLocalInt(oTarget, sNewName + WEAP_DAMAGE, nCurrentItemSize);
     }
 }
 void DeleteDatabase(object oTarget, string sArray)
 {
-    int iMax = GetLocalInt(oTarget, MAXINT_ + sArray);
-    int i;
+    int nMax = GetLocalInt(oTarget, MAXINT_ + sArray);
+    int nCnt;
     string sNewName;
-    if(iMax)
+    if(nMax > 0)
     {
-        for(i = i1; i <= iMax; i++)
+        for(nCnt = 1; nCnt <= nMax; nCnt++)
         {
-            sNewName = sArray + IntToString(i);
+            sNewName = sArray + IntToString(nCnt);
             DeleteLocalObject(oTarget, sNewName);// Object
             DeleteLocalInt(oTarget, sNewName);// Value
             DeleteLocalInt(oTarget, sNewName + WEAP_SIZE);// Size
@@ -1932,30 +1885,33 @@ void DeleteDatabase(object oTarget, string sArray)
 }
 void DeleteValueInts(object oTarget, string sArray)
 {
-    int iMax = GetLocalInt(oTarget, MAXINT_ + sArray);
-    int i;
-    if(iMax)
+    int nMax = GetLocalInt(oTarget, MAXINT_ + sArray);
+    int nCnt;
+    if(nMax)
     {
-        for(i = i1; i <= iMax; i++)
+        for(nCnt = 1; nCnt <= nMax; nCnt++)
         {
-            DeleteLocalInt(oTarget, sArray + IntToString(i));
+            DeleteLocalInt(oTarget, sArray + IntToString(nCnt));
         }
     }
     // Note: We keep the size...
 }
-
+// Uses right prefix to store the object to oTarget.
 void SWFinalAIObject(object oTarget, string sName, object oObject)
 {
     SetLocalObject(oTarget, AI_OBJECT + sName, oObject);
 }
-void SWFinalAIInteger(object oTarget, string sName, int iInt)
+// Uses right prefix to store the iInt to oTarget.
+void SWFinalAIInteger(object oTarget, string sName, int nInt)
 {
-    SetLocalInt(oTarget, AI_INTEGER + sName, iInt);
+    SetLocalInt(oTarget, AI_INTEGER + sName, nInt);
 }
+// Deletes object with Prefix
 void SWDeleteAIObject(object oTarget, string sName)
 {
     DeleteLocalObject(oTarget, AI_OBJECT + sName);
 }
+// Deletes integer with Prefix
 void SWDeleteAIInteger(object oTarget, string sName)
 {
     DeleteLocalInt(oTarget, AI_INTEGER + sName);
@@ -1965,33 +1921,33 @@ void SWDeleteAIInteger(object oTarget, string sName)
 void ResetHealingKits(object oTarget)
 {
     object oItem, oHighestKit;
-    int iHealingKitsAmount, iItemValue;
-    int iRunningValue = i0; // For kits
+    int nHealingKitsAmount, nItemValue;
+    int nRunningValue = 0; // For kits
     // The inventory
     oItem = GetFirstItemInInventory(oTarget);
     while(GetIsObjectValid(oItem))
     {
         if(GetBaseItemType(oItem) == BASE_ITEM_HEALERSKIT)
         {
-            iHealingKitsAmount++;
-            iItemValue = GetGoldPieceValue(oItem);
+            nHealingKitsAmount++;
+            nItemValue = GetGoldPieceValue(oItem);
             // Stacked kits be worth what they should be seperatly.
-            iItemValue = iItemValue/GetNumStackedItems(oItem);
-            if(iItemValue > iRunningValue)
+            nItemValue = nItemValue/GetNumStackedItems(oItem);
+            if(nItemValue > nRunningValue)
             {
-                iRunningValue = iItemValue;
+                nRunningValue = nItemValue;
                 oHighestKit = oItem;
             }
         }
         oItem = GetNextItemInInventory(oTarget);
     }
     // Need some, any!
-    if(iHealingKitsAmount > i0)
+    if(nHealingKitsAmount > 0)
     {
         // set healing kits (if any)
         SWFinalAIObject(oTarget, AI_VALID_HEALING_KIT_OBJECT, oHighestKit);
         // Set amount left
-        SWFinalAIInteger(oTarget, AI_VALID_HEALING_KITS, iHealingKitsAmount);
+        SWFinalAIInteger(oTarget, AI_VALID_HEALING_KITS, nHealingKitsAmount);
     }
 }
 
@@ -2010,34 +1966,11 @@ void DeleteAllPreviousWeapons(object oTarget)
     SWDeleteAIObject(oTarget, AI_WEAPON_SHIELD_2);
 }
 
-// Special: Apply EffectCutsceneImmobilize
-void AI_SpecialActionApplyItem(object oTarget)
+// Debug: To compile this script full, uncomment all of the below.
+/* - Add two "/"'s at the start of this line
+void main()
 {
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectCutsceneImmobilize(), oTarget);
+    return;
 }
-// Special: Remove EffectCutsceneImmobilize
-void AI_SpecialActionRemoveItem(object oTarget)
-{
-    effect eCheck = GetFirstEffect(oTarget);
-    while(GetIsEffectValid(eCheck))
-    {
-        if(GetEffectType(eCheck) == EFFECT_TYPE_CUTSCENEIMMOBILIZE &&
-           GetEffectSpellId(eCheck) == iM1) RemoveEffect(oTarget, eCheck);
-        eCheck = GetNextEffect(oTarget);
-    }
-}
-// Gets a item talent value
-// - iTalent, 1-21.
-void AI_SetItemTalentValue(int iTalent)
-{
-    // We are already EffectCutsceneImmobilized
+//*/
 
-    // Simply get the best.
-    talent tCheck = GetCreatureTalentBest(iTalent, i20);
-    int iValue = GetIdFromTalent(tCheck);
-
-    // Set to value.
-    SetAIConstant(ITEM_TALENT_VALUE + IntToString(iTalent), iValue);
-}
-
-//void main(){ SetWeapons(); }
