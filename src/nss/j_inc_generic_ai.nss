@@ -13011,7 +13011,8 @@ void AI_TargetingArrayDistanceStore(string sOriginalArrayName, string sNewArrayN
        GetSpawnInCondition(AI_FLAG_TARGETING_FILTER_FOR_PC_TARGETS, AI_TARGETING_FLEE_MASTER))
     {
         // Check for the nearest seen, enemy PC.
-        bFilterPC = GetIsObjectValid(GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, OBJECT_SELF, 1, CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN));
+        bFilterPC = GetIsObjectValid(GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, 1, CREATURE_TYPE_IS_ALIVE, TRUE, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN));
+        //bFilterPC = GetIsObjectValid(GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, OBJECT_SELF, 1, CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN));
     }
     int bTrim;//... constraining size
     if ((bEnemy || sOriginalArrayName == ARRAY_TEMP_ALLIES) && GlobalTotalPeople > 20)
@@ -13029,7 +13030,8 @@ void AI_TargetingArrayDistanceStore(string sOriginalArrayName, string sNewArrayN
     object oTarget = GetLocalObject(OBJECT_SELF, sOriginalArrayName + IntToString(iCnt));
     while(GetIsObjectValid(oTarget))
     {
-        if((!bFilterPC || GetIsPC(oTarget)) && (!bTrim || iCnt <= iMax))
+        //if((!bFilterPC || GetIsPC(oTarget)) && (!bTrim || iCnt <= iMax))
+        if((!bFilterPC || GetIsObjectValid(oTarget)) && (!bTrim || iCnt <= iMax))
         {
             fSetUpRange = GetDistanceToObject(oTarget);
             // We set it to sNewArrayName - highest to lowest.

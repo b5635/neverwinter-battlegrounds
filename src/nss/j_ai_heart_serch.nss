@@ -18,7 +18,9 @@
 
 void main()
 {
-    object oPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
+    // pok - targets non-PCs as well and only alive creatures
+   object oPC = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, 1, CREATURE_TYPE_IS_ALIVE, TRUE);
+    //object oPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
     if(GetIsObjectValid(oPC) && GetIsEnemy(oPC) &&
        GetDistanceToObject(oPC) <
        IntToFloat(GetBoundriedAIInteger(AI_SEARCH_IF_ENEMIES_NEAR_RANGE, i25, i50, i5)))

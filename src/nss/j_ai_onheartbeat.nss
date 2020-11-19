@@ -65,7 +65,7 @@ void main()
 
     // Define the enemy and player to use.
     object oEnemy = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY);
-    object oPlayer = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
+    //object oPlayer = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
 
     // We can skip to the end if we are in combat, or something...
     if(!JumpOutOfHeartBeat() && // We don't stop due to effects.
@@ -96,22 +96,22 @@ void main()
             // We must have animations set, and not be "paused", so doing a
             // longer looping one
             // - Need a valid player.
-            if(GetIsObjectValid(oPlayer))
-            {
+            //if(GetIsObjectValid(oPlayer))
+            //{
                 // Do we have any animations to speak of?
                 // If we have a nearby PC, not in conversation, we do animations.
-                if(!IsInConversation(OBJECT_SELF) &&
-                    GetAIInteger(AI_VALID_ANIMATIONS))
-                {
-                    ExecuteScript(FILE_HEARTBEAT_ANIMATIONS, OBJECT_SELF);
-                }
+            //    if(!IsInConversation(OBJECT_SELF) &&
+            //        GetAIInteger(AI_VALID_ANIMATIONS))
+            //    {
+            //        ExecuteScript(FILE_HEARTBEAT_ANIMATIONS, OBJECT_SELF);
+            //    }
                 // We may search for PC enemies :-) move closer to PC's
-                else if(GetSpawnInCondition(AI_FLAG_OTHER_SEARCH_IF_ENEMIES_NEAR, AI_OTHER_MASTER) &&
-                       !GetLocalTimer(AI_TIMER_SEARCHING) && d4() == i1)
-                {
+           //     else if(GetSpawnInCondition(AI_FLAG_OTHER_SEARCH_IF_ENEMIES_NEAR, AI_OTHER_MASTER) &&
+           //            !GetLocalTimer(AI_TIMER_SEARCHING) && d4() == i1)
+           //     {
                     ExecuteScript(FILE_HEARTBEAT_WALK_TO_PC, OBJECT_SELF);
-                }
-            }
+           //     }
+           // }
         }
     }
     // Fire End-heartbeat-UDE

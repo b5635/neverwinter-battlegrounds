@@ -2178,7 +2178,8 @@ void AISpeakString(string sString)
     {
         // Silent talk = "DebugMode 1" only can see, is the "talk" version of the DM
         // channel.
-        SpeakString(sString, TALKVOLUME_SILENT_TALK);
+        // Was talk before - pok
+        SpeakString(sString, TALKVOLUME_SILENT_SHOUT);
     }
 }
 // Debug: To compile this script full, uncomment all of the below.
