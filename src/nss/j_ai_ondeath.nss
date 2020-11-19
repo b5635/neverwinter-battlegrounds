@@ -21,12 +21,14 @@
 #include "j_inc_constants"
 #include "inc_sessions"
 #include "inc_general"
+//#include "nwnx_object"
 
 void main()
 {
     Gibs(OBJECT_SELF);
 
-    CreateObject(OBJECT_TYPE_PLACEABLE, "_bloodstain", GetLocation(OBJECT_SELF));
+    //object oBloodstain = CreateObject(OBJECT_TYPE_PLACEABLE, "_bloodstain", GetLocation(OBJECT_SELF));
+    //NWNX_Object_SetPlaceableIsStatic(oBloodstain, TRUE);
 
     DelayCommand(IntToFloat(RESPAWN_TIME)-0.5, ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_RESTORATION), GetLocation(OBJECT_SELF)));
 

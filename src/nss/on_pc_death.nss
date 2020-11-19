@@ -1,6 +1,7 @@
 #include "inc_constants"
 #include "inc_sessions"
 #include "inc_general"
+//#include "nwnx_object"
 
 void DoRespawn(object oPC)
 {
@@ -14,7 +15,8 @@ void main()
 {
     object oPC = GetLastPlayerDied();
 
-    CreateObject(OBJECT_TYPE_PLACEABLE, "_bloodstain", GetLocation(oPC));
+    //object oBloodstain = CreateObject(OBJECT_TYPE_PLACEABLE, "_bloodstain", GetLocation(oPC));
+    //NWNX_Object_SetPlaceableIsStatic(oBloodstain, TRUE);
 
     DeleteLocalInt(oPC, "last_attacker_level");
     DeleteLocalString(oPC, "last_attacker_name");
