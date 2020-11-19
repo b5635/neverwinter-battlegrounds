@@ -3921,7 +3921,7 @@
         },
         "Tag": {
           "type": "cexostring",
-          "value": "SCORE"
+          "value": "SCORE_NONE"
         },
         "TemplateResRef": {
           "type": "resref",

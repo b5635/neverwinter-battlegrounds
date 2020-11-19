@@ -144,6 +144,11 @@ void AwardPoints(int nPoints, string sTeam)
     int nCurrentPoints = GetLocalInt(oSession, "points_"+sTeam);
     SetLocalInt(oSession, "points_"+sTeam, nCurrentPoints+nPoints);
 
+    string sScoreName = "Blue: "+IntToString(GetLocalInt(oSession, "points_Blue"))+" Red: "+IntToString(GetLocalInt(oSession, "points_Red"));
+
+    SetName(GetObjectByTag("SCORE_BLUE"), sScoreName);
+    SetName(GetObjectByTag("SCORE_RED"), sScoreName);
+
 // Retrieve it again after adding to the current.
     nCurrentPoints = GetLocalInt(oSession, "points_"+sTeam);
 
